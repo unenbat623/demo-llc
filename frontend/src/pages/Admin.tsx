@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
+import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 import { navigateTo } from './Login';
 import { generateTeamMembers } from '../services/api';
@@ -166,7 +167,7 @@ export default function Admin() {
   const handleGenerateImage = async () => {
     if (!imagePrompt) return;
     setIsGeneratingImage(true);
-    setSubmitStatus({ type: '', message: '' });
+    // cleared status
 
     try {
       // Enhance the prompt to ensure a professional portrait look
@@ -186,10 +187,10 @@ export default function Admin() {
       });
 
       setFormData(prev => ({ ...prev, image: generatedUrl }));
-      setSubmitStatus({ type: 'success', message: 'Зураг амжилттай үүсгэгдлээ!' });
+      toast.success('Зураг амжилттай үүсгэгдлээ!');
     } catch (error) {
       console.error('Image generation error:', error);
-      setSubmitStatus({ type: 'error', message: 'Зураг үүсгэхэд алдаа гарлаа.' });
+      toast.error('Зураг үүсгэхэд алдаа гарлаа.');
     } finally {
       setIsGeneratingImage(false);
     }
@@ -200,13 +201,13 @@ export default function Admin() {
     if (file) {
       // Validate file type
       if (!file.type.startsWith('image/')) {
-        setSubmitStatus({ type: 'error', message: 'Зөвхөн зураг файл сонгоно уу.' });
+        toast.error('Зөвхөн зураг файл сонгоно уу.');
         return;
       }
 
       // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        setSubmitStatus({ type: 'error', message: 'Зурагны хэмжээ 5MB-с ихгүй байх ёстой.' });
+        toast.error('Зурагны хэмжээ 5MB-с ихгүй байх ёстой.');
         return;
       }
 
@@ -245,7 +246,7 @@ export default function Admin() {
           const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
 
           setFormData(prev => ({ ...prev, image: compressedDataUrl }));
-          setSubmitStatus({ type: 'success', message: 'Зураг амжилттай upload хийгдлээ!' });
+          toast.success('Зураг амжилттай upload хийгдлээ!');
         };
         img.src = event.target?.result as string;
       };
@@ -258,7 +259,7 @@ export default function Admin() {
     if (!profileForm.username && !profileForm.password) return;
 
     setIsProfileSubmitting(true);
-    setProfileSubmitStatus({ type: '', message: '' });
+    // cleared status
     try {
       const res = await fetch('http://localhost:5001/api/auth/profile', {
         method: 'PUT',
@@ -269,10 +270,10 @@ export default function Admin() {
         })
       });
       if (!res.ok) throw new Error('Шинэчлэхэд алдаа гарлаа');
-      setProfileSubmitStatus({ type: 'success', message: 'Мэдээлэл шинэчлэгдлээ' });
+      toast.success('Мэдээлэл шинэчлэгдлээ');
       setProfileForm({ username: '', password: '' });
     } catch (err: any) {
-      setProfileSubmitStatus({ type: 'error', message: err.message });
+      toast.error(err.message);
     } finally {
       setIsProfileSubmitting(false);
     }
@@ -289,7 +290,7 @@ export default function Admin() {
       name: '', position: '', image: '', email: '', linkedin: '',
       skills: '', aboutMe: '', experience: '', education: '', projects: '', achievements: ''
     });
-    setSubmitStatus({ type: '', message: '' });
+    // cleared status
     setIsModalOpen(true);
   };
 
@@ -308,7 +309,7 @@ export default function Admin() {
       projects: member.projects?.join(', ') || '',
       achievements: member.achievements?.join(', ') || ''
     });
-    setSubmitStatus({ type: '', message: '' });
+    // cleared status
     setFocusField(focusTarget || null);
     setIsModalOpen(true);
   };
@@ -352,7 +353,7 @@ export default function Admin() {
   const handleSaveMember = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitStatus({ type: '', message: '' });
+    // cleared status
 
     try {
       const payload = {
@@ -393,7 +394,7 @@ export default function Admin() {
       fetchTeamMembers();
       setIsModalOpen(false);
     } catch (error: any) {
-      setSubmitStatus({ type: 'error', message: error.message });
+      toast.error(error.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -401,20 +402,14 @@ export default function Admin() {
 
   const handleGenerateMembers = async () => {
     setIsGeneratingTeam(true);
-    setGenerateStatus({ type: '', message: '' });
+    // cleared status
     try {
       const result = await generateTeamMembers(generateCount);
-      setGenerateStatus({
-        type: 'success',
-        message: `${generateCount} гишүүн амжилттай үүсгэгдлээ`
-      });
+      toast.success(`${generateCount} гишүүн амжилттай үүсгэгдлээ`);
       fetchTeamMembers();
       setTimeout(() => setGenerateStatus({ type: '', message: '' }), 5000);
     } catch (error: any) {
-      setGenerateStatus({
-        type: 'error',
-        message: error.message || 'Үүсгэхэд алдаа гарлаа'
-      });
+      toast.error(error.message || 'Үүсгэхэд алдаа гарлаа');
     } finally {
       setIsGeneratingTeam(false);
     }
@@ -457,7 +452,7 @@ export default function Admin() {
 
   const handleSaveSystemUser = async (e: React.FormEvent) => {
     e.preventDefault();
-    setUserSubmitStatus({ type: '', message: '' });
+    // cleared status
     try {
       const url = editingUserId 
         ? `http://localhost:5001/api/users/${editingUserId}`
@@ -473,18 +468,18 @@ export default function Admin() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Алдаа гарлаа');
       
-      setUserSubmitStatus({ type: 'success', message: editingUserId ? 'Хэрэглэгч шинэчлэгдлээ' : 'Шинэ хэрэглэгч нэмэгдлээ' });
+      toast.success(editingUserId ? 'Хэрэглэгч шинэчлэгдлээ' : 'Шинэ хэрэглэгч нэмэгдлээ');
       fetchSystemUsers();
       setTimeout(() => {
         setIsUserModalOpen(false);
         setEditingUserId(null);
         setUserFormData({ username: '', password: '', role: 'staff' });
-        setUserSubmitStatus({ type: '', message: '' });
+        // cleared status
       }, 1500);
 
       await logAction(editingUserId ? 'UPDATE_USER' : 'CREATE_USER', `${editingUserId ? 'Хэрэглэгч шинэчиллээ' : 'Шинэ хэрэглэгч нэмлээ'}: ${userFormData.username}`, 'Хэрэглэгчийн удирдлага');
     } catch (err: any) {
-      setUserSubmitStatus({ type: 'error', message: err.message });
+      toast.error(err.message);
     }
   };
 
@@ -770,7 +765,7 @@ export default function Admin() {
                     <button
                       onClick={async () => {
                         setIsSettingsSaving(true);
-                        setSettingsStatus({ type: '', message: '' });
+                        // cleared status
                         try {
                           const res = await fetch('http://localhost:5001/api/settings', {
                             method: 'PUT',
@@ -778,10 +773,10 @@ export default function Admin() {
                             body: JSON.stringify(siteSettings)
                           });
                           if (!res.ok) throw new Error('Хадгалахад алдаа гарлаа');
-                          setSettingsStatus({ type: 'success', message: 'Тохиргоо амжилттай хадгалагдлаа' });
+                          toast.success('Тохиргоо амжилттай хадгалагдлаа');
                           setTimeout(() => setSettingsStatus({ type: '', message: '' }), 3000);
                         } catch (err: any) {
-                          setSettingsStatus({ type: 'error', message: err.message });
+                          toast.error(err.message);
                         } finally {
                           setIsSettingsSaving(false);
                         }
