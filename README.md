@@ -1,4 +1,4 @@
-# Tavan Bogd Tech LLC — Static Website
+# Tavan Bogd Tech LLC
  
 > Black & white minimal editorial React website for Tavan Bogd Tech LLC
  
