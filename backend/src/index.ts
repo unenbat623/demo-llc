@@ -163,6 +163,79 @@ app.put('/api/auth/profile', async (req: Request, res: Response) => {
   }
 });
 
+// User Management Routes
+app.get('/api/users', async (req: Request, res: Response) => {
+  try {
+    const users = await User.find({}, '-password').sort({ createdAt: -1 });
+    res.json(users);
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.post('/api/users', async (req: Request, res: Response) => {
+  try {
+    const { username, password, role } = req.body;
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({ message: 'Username already exists' });
+    }
+    const user = new User({ username, password, role });
+    await user.save();
+    res.status(201).json({ message: 'User created successfully', user: { username: user.username, role: user.role, id: user._id } });
+  } catch (err: any) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+app.put('/api/users/:id', async (req: Request, res: Response) => {
+  try {
+    const { username, password, role } = req.body;
+    const updateData: any = {};
+    if (username) updateData.username = username;
+    if (password) updateData.password = password;
+    if (role) updateData.role = role;
+
+    const user = await User.findByIdAndUpdate(req.params.id, updateData, { new: true });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json({ message: 'User updated successfully', user: { username: user.username, role: user.role, id: user._id } });
+  } catch (err: any) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+app.delete('/api/users/:id', async (req: Request, res: Response) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json({ message: 'User deleted successfully' });
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Log Deletion Routes
+app.delete('/api/logs', async (req: Request, res: Response) => {
+  try {
+    await Log.deleteMany({});
+    res.json({ message: 'All logs deleted successfully' });
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.delete('/api/logs/:id', async (req: Request, res: Response) => {
+  try {
+    const deletedLog = await Log.findByIdAndDelete(req.params.id);
+    if (!deletedLog) {
+      return res.status(404).json({ message: 'Log not found' });
+    }
+    res.json({ message: 'Log deleted successfully' });
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 app.post('/api/team/seed', async (req: Request, res: Response) => {
   try {
     const count = await TeamMember.countDocuments();

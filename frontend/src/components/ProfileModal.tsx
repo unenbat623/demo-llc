@@ -116,36 +116,40 @@ export default function ProfileModal({ member, onClose }: ProfileModalProps) {
                                 <Code2 size={18} className="text-black" />
                                 <h4 className="text-xs font-black uppercase tracking-[0.3em] text-gray-400">Ур чадвар</h4>
                             </div>
-                            <div className="flex flex-wrap gap-4">
+                            <div className="flex flex-wrap gap-2 sm:gap-3">
                                 {(member.skills || []).map((skill, i) => {
                                     const getSkillIcon = (sName: string) => {
                                         const s = sName.toLowerCase().trim();
-                                        if (s.includes('graphql')) return '/icons/graphql.svg';
-                                        if (s.includes('mysql')) return '/icons/mysql.svg';
-                                        if (s.includes('postgre')) return '/icons/postgresql.svg';
-                                        if (s.includes('mongo')) return '/icons/mongodb.svg';
-                                        if (s.includes('aws')) return '/icons/aws.svg';
-                                        if (s.includes('c++') || s.includes('cpp')) return '/icons/cpp.svg';
-                                        if (s.includes('react')) return '/icons/react.svg';
-                                        if (s.includes('typescript') || s.includes('ts')) return '/icons/typescript.svg';
-                                        if (s.includes('node')) return '/icons/nodejs.svg';
-                                        if (s.includes('python')) return '/icons/python.svg';
-                                        if (s.includes('docker')) return '/icons/docker.svg';
-                                        if (s.includes('kubernetes') || s.includes('k8s')) return '/icons/kubernetes.svg';
+                                        if (s.includes('graphql')) return 'https://cdn.simpleicons.org/graphql/E10098';
+                                        if (s.includes('mysql')) return 'https://cdn.simpleicons.org/mysql/4479A1';
+                                        if (s.includes('postgre')) return 'https://cdn.simpleicons.org/postgresql/4169E1';
+                                        if (s.includes('mongo')) return 'https://cdn.simpleicons.org/mongodb/47A248';
+                                        if (s.includes('aws')) return 'https://cdn.simpleicons.org/amazonaws/232F3E';
+                                        if (s.includes('c++') || s.includes('cpp')) return 'https://cdn.simpleicons.org/cplusplus/00599C';
+                                        if (s.includes('react')) return 'https://cdn.simpleicons.org/react/61DAFB';
+                                        if (s.includes('typescript') || s.includes('ts')) return 'https://cdn.simpleicons.org/typescript/3178C6';
+                                        if (s.includes('node')) return 'https://cdn.simpleicons.org/nodedotjs/339933';
+                                        if (s.includes('python')) return 'https://cdn.simpleicons.org/python/3776AB';
+                                        if (s.includes('docker')) return 'https://cdn.simpleicons.org/docker/2496ED';
+                                        if (s.includes('kubernetes') || s.includes('k8s')) return 'https://cdn.simpleicons.org/kubernetes/326CE5';
+                                        if (s.includes('figma')) return 'https://cdn.simpleicons.org/figma/F24E1E';
+                                        if (s.includes('javascript') || s.includes('js')) return 'https://cdn.simpleicons.org/javascript/F7DF1E';
+                                        if (s.includes('tailwind')) return 'https://cdn.simpleicons.org/tailwindcss/06B6D4';
+                                        if (s.includes('next')) return 'https://cdn.simpleicons.org/nextdotjs/000000';
                                         return null;
                                     };
                                     const icon = getSkillIcon(skill);
                                     return (
                                         <div
                                             key={i}
-                                            className="flex items-center gap-4 bg-[#0a0c10] border border-white/20 px-6 py-3 rounded-full hover:border-white/40 transition-colors cursor-default group"
+                                            className="flex items-center gap-2 sm:gap-3 bg-[#0a0c10] border border-white/10 px-4 py-2 sm:px-6 sm:py-3 rounded-full hover:border-white/30 transition-all duration-300 cursor-default group"
                                         >
                                             {icon ? (
-                                                <img src={icon} alt={skill} className="w-6 h-6 invert opacity-80 group-hover:opacity-100 transition-opacity" />
+                                                <img src={icon} alt={skill} className="w-4 h-4 sm:w-5 sm:h-5 brightness-150 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all" />
                                             ) : (
-                                                <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+                                                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-gray-600" />
                                             )}
-                                            <span className="text-[13px] font-black text-white uppercase tracking-[0.15em]">{skill}</span>
+                                            <span className="text-[10px] sm:text-[12px] font-black text-white/90 uppercase tracking-widest">{skill}</span>
                                         </div>
                                     );
                                 })}

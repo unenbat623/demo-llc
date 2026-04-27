@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { navigateTo } from './Login';
 import { generateTeamMembers } from '../services/api';
-import { LayoutDashboard, Users, LogOut, Menu, X, Plus, ChevronRight, Activity, Sparkles, Edit2, Trash2, Globe, Save } from 'lucide-react';
+import { LayoutDashboard, Users, LogOut, Menu, X, Plus, ChevronRight, Activity, Sparkles, Edit2, Trash2, Globe, Save, ShieldCheck, UserPlus, UserMinus, Key, Trash } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 
@@ -63,20 +63,30 @@ export default function Admin() {
     memberName: ''
   });
 
+  const [systemUsers, setSystemUsers] = useState<any[]>([]);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [userFormData, setUserFormData] = useState({ username: '', password: '', role: 'staff' });
+  const [editingUserId, setEditingUserId] = useState<string | null>(null);
+  const [userSubmitStatus, setUserSubmitStatus] = useState({ type: '', message: '' });
+
   const getSkillIcon = (skill: string) => {
     const s = skill.toLowerCase().trim();
-    if (s.includes('graphql')) return '/icons/graphql.svg';
-    if (s.includes('mysql')) return '/icons/mysql.svg';
-    if (s.includes('postgre')) return '/icons/postgresql.svg';
-    if (s.includes('mongo')) return '/icons/mongodb.svg';
-    if (s.includes('aws')) return '/icons/aws.svg';
-    if (s.includes('c++') || s.includes('cpp')) return '/icons/cpp.svg';
-    if (s.includes('react')) return '/icons/react.svg';
-    if (s.includes('typescript') || s.includes('ts')) return '/icons/typescript.svg';
-    if (s.includes('node')) return '/icons/nodejs.svg';
-    if (s.includes('python')) return '/icons/python.svg';
-    if (s.includes('docker')) return '/icons/docker.svg';
-    if (s.includes('kubernetes') || s.includes('k8s')) return '/icons/kubernetes.svg';
+    if (s.includes('graphql')) return 'https://cdn.simpleicons.org/graphql/E10098';
+    if (s.includes('mysql')) return 'https://cdn.simpleicons.org/mysql/4479A1';
+    if (s.includes('postgre')) return 'https://cdn.simpleicons.org/postgresql/4169E1';
+    if (s.includes('mongo')) return 'https://cdn.simpleicons.org/mongodb/47A248';
+    if (s.includes('aws')) return 'https://cdn.simpleicons.org/amazonaws/232F3E';
+    if (s.includes('c++') || s.includes('cpp')) return 'https://cdn.simpleicons.org/cplusplus/00599C';
+    if (s.includes('react')) return 'https://cdn.simpleicons.org/react/61DAFB';
+    if (s.includes('typescript') || s.includes('ts')) return 'https://cdn.simpleicons.org/typescript/3178C6';
+    if (s.includes('node')) return 'https://cdn.simpleicons.org/nodedotjs/339933';
+    if (s.includes('python')) return 'https://cdn.simpleicons.org/python/3776AB';
+    if (s.includes('docker')) return 'https://cdn.simpleicons.org/docker/2496ED';
+    if (s.includes('kubernetes') || s.includes('k8s')) return 'https://cdn.simpleicons.org/kubernetes/326CE5';
+    if (s.includes('figma')) return 'https://cdn.simpleicons.org/figma/F24E1E';
+    if (s.includes('javascript') || s.includes('js')) return 'https://cdn.simpleicons.org/javascript/F7DF1E';
+    if (s.includes('tailwind')) return 'https://cdn.simpleicons.org/tailwindcss/06B6D4';
+    if (s.includes('next')) return 'https://cdn.simpleicons.org/nextdotjs/000000';
     return null;
   };
   const fetchTeamMembers = async () => {
@@ -109,6 +119,16 @@ export default function Admin() {
     }
   };
 
+  const fetchSystemUsers = async () => {
+    try {
+      const res = await fetch('http://localhost:5001/api/users');
+      const data = await res.json();
+      setSystemUsers(data);
+    } catch (err) {
+      console.error('Failed to fetch users', err);
+    }
+  };
+
   useEffect(() => {
     if ((activeTab === 'users' || activeTab === 'dashboard') && user) {
       fetchTeamMembers();
@@ -118,6 +138,9 @@ export default function Admin() {
     }
     if (activeTab === 'website' && user?.role === 'admin') {
       fetchSettings();
+    }
+    if ((activeTab === 'system_users') && user) {
+      fetchSystemUsers();
     }
   }, [activeTab, user]);
 
@@ -410,9 +433,77 @@ export default function Admin() {
     navigateTo('/login');
   };
 
+  const handleClearLogs = async () => {
+    if (!window.confirm('Бүх лог мэдээллийг устгахдаа итгэлтэй байна уу?')) return;
+    try {
+      const res = await fetch('http://localhost:5001/api/logs', { method: 'DELETE' });
+      if (!res.ok) throw new Error('Лог устгахад алдаа гарлаа');
+      setLogs([]);
+      await logAction('DELETE_ALL_LOGS', 'Системийн бүх лог мэдээллийг устгалаа', 'Систем');
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDeleteLog = async (id: string) => {
+    try {
+      const res = await fetch(`http://localhost:5001/api/logs/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Лог устгахад алдаа гарлаа');
+      setLogs(logs.filter(l => l._id !== id));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleSaveSystemUser = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setUserSubmitStatus({ type: '', message: '' });
+    try {
+      const url = editingUserId 
+        ? `http://localhost:5001/api/users/${editingUserId}`
+        : 'http://localhost:5001/api/users';
+      const method = editingUserId ? 'PUT' : 'POST';
+      
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userFormData)
+      });
+      
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Алдаа гарлаа');
+      
+      setUserSubmitStatus({ type: 'success', message: editingUserId ? 'Хэрэглэгч шинэчлэгдлээ' : 'Шинэ хэрэглэгч нэмэгдлээ' });
+      fetchSystemUsers();
+      setTimeout(() => {
+        setIsUserModalOpen(false);
+        setEditingUserId(null);
+        setUserFormData({ username: '', password: '', role: 'staff' });
+        setUserSubmitStatus({ type: '', message: '' });
+      }, 1500);
+
+      await logAction(editingUserId ? 'UPDATE_USER' : 'CREATE_USER', `${editingUserId ? 'Хэрэглэгч шинэчиллээ' : 'Шинэ хэрэглэгч нэмлээ'}: ${userFormData.username}`, 'Хэрэглэгчийн удирдлага');
+    } catch (err: any) {
+      setUserSubmitStatus({ type: 'error', message: err.message });
+    }
+  };
+
+  const handleDeleteSystemUser = async (id: string, username: string) => {
+    if (!window.confirm(`"${username}" хэрэглэгчийг устгахдаа итгэлтэй байна уу?`)) return;
+    try {
+      const res = await fetch(`http://localhost:5001/api/users/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Устгахад алдаа гарлаа');
+      setSystemUsers(systemUsers.filter(u => u._id !== id));
+      await logAction('DELETE_USER', `Хэрэглэгч устгалаа: ${username}`, 'Хэрэглэгчийн удирдлага');
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const menuItems = [
     { id: 'dashboard', label: 'Ерөнхий', icon: LayoutDashboard, roles: ['admin', 'staff'] },
     { id: 'users', label: 'Багийн гишүүд', icon: Users, roles: ['admin'] },
+    { id: 'system_users', label: 'Систем хэрэглэгчид', icon: ShieldCheck, roles: ['admin', 'staff'] },
     { id: 'website', label: 'Вэбсайт', icon: Globe, roles: ['admin'] },
     { id: 'logs', label: 'Лог', icon: Activity, roles: ['admin'] },
   ].filter(item => item.roles.includes(user.role));
@@ -1409,12 +1500,13 @@ export default function Admin() {
                             <th className="py-3 px-4">Албан тушаал</th>
                             <th className="py-3 px-4">Үйлдэл</th>
                             <th className="py-3 px-4">Тайлбар</th>
+                            <th className="py-3 px-4 text-right">Устгах</th>
                           </tr>
                         </thead>
                         <tbody>
                           {filteredLogs.length === 0 ? (
                             <tr>
-                              <td colSpan={5} className="py-8 text-center text-gray-500 text-sm">Лог олдсонгүй</td>
+                              <td colSpan={6} className="py-8 text-center text-gray-500 text-sm">Лог олдсонгүй</td>
                             </tr>
                           ) : (
                             filteredLogs.map((log, idx) => (
@@ -1442,20 +1534,170 @@ export default function Admin() {
                                 <td className="py-3 px-4 text-xs text-gray-600 max-w-xs truncate" title={log.description}>
                                   {log.description}
                                 </td>
+                                <td className="py-3 px-4 text-right">
+                                  <button
+                                    onClick={() => handleDeleteLog(log._id)}
+                                    className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                                  >
+                                    <Trash2 size={14} />
+                                  </button>
+                                </td>
                               </motion.tr>
                             ))
                           )}
                         </tbody>
                       </table>
                     </div>
+                    {logs.length > 0 && (
+                      <div className="mt-6 flex justify-end">
+                        <button
+                          onClick={handleClearLogs}
+                          className="flex items-center gap-2 px-6 py-3 border border-red-200 text-red-600 hover:bg-red-50 text-[10px] font-black uppercase tracking-[0.2em] transition-all rounded-sm"
+                        >
+                          <Trash size={14} /> Бүх логийг устгах
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
 
-              {activeTab === 'reports' && user.role === 'admin' && (
+               {activeTab === 'system_users' && (
                 <div className="bg-white p-8 border border-black/10 hover:border-black transition-colors duration-300">
-                  <h3 className="text-sm font-black uppercase tracking-[0.2em] mb-4">Тайлангууд</h3>
-                  <p className="text-gray-600">Системийн тайлан энд харагдана.</p>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                    <div>
+                      <h3 className="text-sm font-black uppercase tracking-[0.2em]">Систем хэрэглэгчид</h3>
+                      <p className="text-gray-600 mt-1">Системд нэвтрэх эрхтэй хэрэглэгчдийг энд удирдана.</p>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setEditingUserId(null);
+                        setUserFormData({ username: '', password: '', role: 'staff' });
+                        setIsUserModalOpen(true);
+                      }}
+                      className="bg-black text-white px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 hover:bg-gray-800 transition-colors rounded-sm"
+                    >
+                      <UserPlus size={14} /> Шинэ хэрэглэгч
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {systemUsers.map((u) => (
+                      <motion.div
+                        key={u._id}
+                        layout
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="p-6 border border-black/5 hover:border-black transition-all duration-300 group"
+                      >
+                        <div className="flex items-center gap-4 mb-4">
+                          <div className={`w-12 h-12 rounded-sm flex items-center justify-center ${u.role === 'admin' ? 'bg-black text-white' : 'bg-gray-100 text-black'}`}>
+                            {u.role === 'admin' ? <ShieldCheck size={20} /> : <Users size={20} />}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-black uppercase tracking-tight truncate">{u.username}</h4>
+                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{u.role}</p>
+                          </div>
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => {
+                              setEditingUserId(u._id);
+                              setUserFormData({ username: u.username, password: '', role: u.role });
+                              setIsUserModalOpen(true);
+                            }}
+                            className="flex-1 py-2 border border-black/5 text-[9px] font-black uppercase tracking-widest hover:border-black transition-colors rounded-sm"
+                          >
+                            Засах
+                          </button>
+                          {user.role === 'admin' && (
+                            <button
+                              onClick={() => handleDeleteSystemUser(u._id, u.username)}
+                              className="px-3 py-2 border border-black/5 text-gray-400 hover:text-red-500 hover:border-red-500 transition-colors rounded-sm"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          )}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  {/* User Modal */}
+                  <AnimatePresence>
+                    {isUserModalOpen && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[210] flex items-center justify-center p-6 bg-black/90 backdrop-blur-md"
+                        onClick={() => setIsUserModalOpen(false)}
+                      >
+                        <motion.div
+                          initial={{ scale: 0.95, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.95, opacity: 0 }}
+                          className="bg-white w-full max-w-md p-8 rounded-sm shadow-2xl relative"
+                          onClick={e => e.stopPropagation()}
+                        >
+                          <button
+                            onClick={() => setIsUserModalOpen(false)}
+                            className="absolute right-6 top-6 text-gray-400 hover:text-black"
+                          >
+                            <X size={20} />
+                          </button>
+                          <h3 className="text-xl font-black uppercase tracking-tighter mb-8">
+                            {editingUserId ? 'Хэрэглэгч засах' : 'Шинэ хэрэглэгч нэмэх'}
+                          </h3>
+
+                          {userSubmitStatus.message && (
+                            <div className={`mb-6 p-4 text-xs font-bold rounded-sm ${userSubmitStatus.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                              {userSubmitStatus.message}
+                            </div>
+                          )}
+
+                          <form onSubmit={handleSaveSystemUser} className="space-y-6">
+                            <Field label="Нэвтрэх нэр">
+                              <input
+                                type="text"
+                                value={userFormData.username}
+                                onChange={e => setUserFormData({ ...userFormData, username: e.target.value })}
+                                required
+                                className={inputClass}
+                              />
+                            </Field>
+                            <Field label={editingUserId ? "Шинэ нууц үг (Заавал биш)" : "Нууц үг"}>
+                              <input
+                                type="password"
+                                value={userFormData.password}
+                                onChange={e => setUserFormData({ ...userFormData, password: e.target.value })}
+                                required={!editingUserId}
+                                className={inputClass}
+                              />
+                            </Field>
+                            {user.role === 'admin' && (
+                              <Field label="Эрх">
+                                <select
+                                  value={userFormData.role}
+                                  onChange={e => setUserFormData({ ...userFormData, role: e.target.value })}
+                                  className={inputClass}
+                                >
+                                  <option value="staff">Staff</option>
+                                  <option value="admin">Admin</option>
+                                </select>
+                              </Field>
+                            )}
+                            <button
+                              type="submit"
+                              className="w-full bg-black text-white py-4 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-gray-800 transition-colors rounded-sm"
+                            >
+                              {editingUserId ? 'Шинэчлэх' : 'Хадгалах'}
+                            </button>
+                          </form>
+                        </motion.div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               )}
 
