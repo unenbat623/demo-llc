@@ -24,7 +24,7 @@ export default function About() {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
               <span className="text-xs font-black uppercase tracking-[0.5em] text-gray-400 mb-5 block">{t('about.subtitle')}</span>
-              <h2 className="text-4xl md:text-5xl font-black text-black uppercase tracking-tighter leading-[0.9] mb-6">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-black uppercase tracking-tighter leading-[0.9] mb-6">
                 {t('about.title')}
               </h2>
               <div className="w-20 h-1.5 bg-black" />
@@ -38,10 +38,10 @@ export default function About() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             >
-              <p className="text-lg text-black font-medium leading-tight tracking-tight mb-6">
+              <p className="text-base sm:text-lg text-black font-medium leading-tight tracking-tight mb-6">
                 {t('about.description1')}
               </p>
-              <p className="text-gray-500 text-lg leading-relaxed max-w-xl">
+              <p className="text-gray-500 text-base sm:text-lg leading-relaxed max-w-xl">
                 {t('about.description2')}
               </p>
             </motion.div>

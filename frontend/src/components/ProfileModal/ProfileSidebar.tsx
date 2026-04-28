@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Linkedin, Twitter, Mail } from 'lucide-react';
 import { TeamMember } from '../../types';
 import { getSkillIcon } from '../../utils/skillIcons';
+import { translateData } from '../../utils/translateData';
 
 interface ProfileSidebarProps {
     member: TeamMember;

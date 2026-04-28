@@ -1,5 +1,6 @@
 import React from 'react';
 import { Field, inputClass, getSkillIcon } from '../../shared/AdminShared';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface BasicInfoSectionProps {
   formData: any;
@@ -8,6 +9,8 @@ interface BasicInfoSectionProps {
 }
 
 const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ formData, handleInputChange, skillsInputRef }) => {
+  const currentSkills = formData.skills.split(',').map((s: string) => s.trim()).filter((s: string) => s !== '');
+
   return (
     <div className="px-8 pt-8 pb-6">
       <div className="flex items-center gap-3 mb-6">
@@ -80,32 +83,40 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ formData, handleInp
           />
         </Field>
         <Field label="Ур чадварууд" hint="Таслалаар тусгаарлах" full>
-          <input
-            ref={skillsInputRef}
-            type="text"
-            name="skills"
-            value={formData.skills}
-            onChange={handleInputChange}
-            placeholder="GraphQL, MySQL, PostgreSQL, MongoDB, C++, AWS"
-            className={inputClass}
-          />
-          <div className="flex flex-wrap gap-2 mt-4">
-            {formData.skills.split(',').map((s: string) => s.trim()).filter((s: string) => s !== '').map((skill: string, idx: number) => {
-              const icon = getSkillIcon(skill);
-              return (
-                <div
-                  key={idx}
-                  className="flex items-center gap-2 bg-gray-100 border border-gray-200 px-3 py-1 rounded-sm"
-                >
-                  {icon ? (
-                    <img src={icon} alt={skill} className="w-3 h-3 opacity-60" />
-                  ) : (
-                    <div className="w-1.5 h-1.5 rounded-full bg-gray-400" />
-                  )}
-                  <span className="text-[9px] font-bold text-gray-600 uppercase tracking-wider">{skill}</span>
-                </div>
-              );
-            })}
+          <div className="relative group">
+            <input
+              ref={skillsInputRef}
+              type="text"
+              name="skills"
+              value={formData.skills}
+              onChange={handleInputChange}
+              placeholder="GraphQL, MySQL, PostgreSQL, MongoDB, C++, AWS"
+              className={`${inputClass} transition-all duration-300 group-hover:border-black/30`}
+            />
+          </div>
+          <div className="flex flex-wrap gap-2 mt-4 min-h-[28px]">
+            <AnimatePresence mode="popLayout">
+              {currentSkills.map((skill: string, idx: number) => {
+                const icon = getSkillIcon(skill);
+                return (
+                  <motion.div
+                    key={skill + idx}
+                    initial={{ opacity: 0, scale: 0.8, x: -10 }}
+                    animate={{ opacity: 1, scale: 1, x: 0 }}
+                    exit={{ opacity: 0, scale: 0.8, x: 10 }}
+                    whileHover={{ scale: 1.05, borderColor: 'rgba(0,0,0,0.2)', backgroundColor: 'rgba(0,0,0,0.03)' }}
+                    className="flex items-center gap-2 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-sm transition-colors cursor-default"
+                  >
+                    {icon ? (
+                      <img src={icon} alt={skill} className="w-3.5 h-3.5 opacity-60 grayscale group-hover:grayscale-0 transition-all" />
+                    ) : (
+                      <div className="w-1.5 h-1.5 rounded-full bg-black/20" />
+                    )}
+                    <span className="text-[9px] font-black text-black/60 uppercase tracking-widest">{skill}</span>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
           </div>
         </Field>
       </div>

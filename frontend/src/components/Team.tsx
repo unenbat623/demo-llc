@@ -40,11 +40,11 @@ export default function Team() {
             <span className="text-xs font-black uppercase tracking-[0.5em] text-gray-400 mb-4 block">
               {t('team.subtitle')}
             </span>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-black leading-[0.8] italic">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tighter text-black leading-[0.8] italic">
               {t('team.title')}
             </h2>
           </div>
-          <p className="text-gray-500 font-medium max-w-md leading-relaxed">
+          <p className="text-gray-500 text-base sm:text-lg font-medium max-w-md leading-relaxed">
             {t('team.description')}
           </p>
         </div>

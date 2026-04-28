@@ -36,9 +36,9 @@ function Router() {
 
   // Main page
   return (
-    <div className="min-h-screen bg-white font-sans selection:bg-black selection:text-white">
+    <div className="min-h-[100dvh] flex flex-col bg-white font-sans selection:bg-black selection:text-white overflow-x-hidden">
       <Navbar />
-      <main>
+      <main className="flex-1">
         <Hero />
         <About />
         <Team />

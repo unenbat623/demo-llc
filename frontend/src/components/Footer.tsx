@@ -8,10 +8,10 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6 lg:px-12">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 mb-20 sm:mb-24">
           <div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tighter leading-[0.9] mb-8 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tighter leading-[0.9] mb-8 sm:mb-12">
               {t('footer.ready')}
             </h2>
-            <p className="text-lg text-gray-400 mb-8 sm:mb-12 max-w-sm">
+            <p className="text-base sm:text-lg text-gray-400 mb-8 sm:mb-12 max-w-sm">
               {t('footer.buildTogether')}
             </p>
             <a

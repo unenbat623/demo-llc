@@ -103,7 +103,7 @@ const TeamBulkImport: React.FC<TeamBulkImportProps> = ({ isOpen, onClose, onImpo
                       <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Урьдчилсан харагдац ({preview.length})</p>
                       <button type="button" onClick={() => setPreview([])} className="text-[10px] font-black uppercase text-red-500 hover:underline">Файл солих</button>
                     </div>
-                    <div className="max-h-60 overflow-y-auto border border-gray-100 rounded-sm">
+                    <div className="max-h-60 overflow-y-auto overflow-x-auto border border-gray-100 rounded-sm">
                       <table className="w-full text-left text-[11px] border-collapse">
                         <thead className="bg-gray-50 sticky top-0">
                           <tr className="border-b border-gray-100">

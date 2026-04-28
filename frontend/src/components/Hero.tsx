@@ -68,7 +68,7 @@ export default function Hero() {
 
             <motion.h1
               variants={itemVariants}
-              className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[0.85] tracking-tighter uppercase mb-8"
+              className="text-4xl sm:text-6xl lg:text-7xl font-black text-white leading-[0.85] tracking-tighter uppercase mb-8"
             >
               {t('hero.brand1')} <br />
               <span className="text-gray-500">{t('hero.brand2')}</span> <br />
@@ -77,7 +77,7 @@ export default function Hero() {
 
             <motion.p
               variants={itemVariants}
-              className="max-w-md text-lg text-gray-300 mb-10 leading-relaxed font-light"
+              className="max-w-md text-base sm:text-lg text-gray-300 mb-10 leading-relaxed font-light"
             >
               {t('hero.description')}
             </motion.p>

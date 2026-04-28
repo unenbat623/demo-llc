@@ -39,7 +39,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           <div className="text-[9px] font-black uppercase tracking-[0.3em] text-gray-500 mt-1">Төв систем</div>
         </div>
       </div>
-      
+
       <nav className="flex-1 space-y-2">
         {menuItems.map((item) => (
           <button
@@ -48,31 +48,28 @@ const Sidebar: React.FC<SidebarProps> = ({
               setActiveTab(item.id);
               setIsSidebarOpen(false);
             }}
-            className={`w-full group flex items-center gap-4 px-4 py-4 rounded-sm transition-all duration-500 relative overflow-hidden ${
-              activeTab === item.id 
-                ? 'bg-white/10 text-white shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]' 
+            className={`w-full group flex items-center gap-4 px-4 py-4 rounded-sm transition-all duration-500 relative overflow-hidden ${activeTab === item.id
+                ? 'bg-white/10 text-white shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]'
                 : 'text-gray-500 hover:text-white hover:bg-white/5'
-            }`}
+              }`}
           >
             {activeTab === item.id && (
-              <motion.div 
+              <motion.div
                 layoutId="active-nav"
                 className="absolute left-0 w-1 h-6 bg-white rounded-full"
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
               />
             )}
-            <item.icon 
-              size={18} 
-              className={`transition-all duration-500 ${
-                activeTab === item.id ? 'scale-110' : 'group-hover:scale-110'
-              }`} 
+            <item.icon
+              size={18}
+              className={`transition-all duration-500 ${activeTab === item.id ? 'scale-110' : 'group-hover:scale-110'
+                }`}
             />
             <span className="text-[11px] font-black uppercase tracking-[0.2em]">{item.label}</span>
-            <ChevronRight 
-              size={14} 
-              className={`ml-auto transition-all duration-500 ${
-                activeTab === item.id ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'
-              }`} 
+            <ChevronRight
+              size={14}
+              className={`ml-auto transition-all duration-500 ${activeTab === item.id ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'
+                }`}
             />
           </button>
         ))}
