@@ -1,7 +1,9 @@
 import { motion } from 'motion/react';
 import { ArrowDownRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function Hero() {
+  const { t } = useTranslation();
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -61,30 +63,30 @@ export default function Hero() {
               variants={itemVariants}
               className="inline-block px-3 py-1 border border-white/30 rounded-sm text-white text-xs font-bold uppercase tracking-[0.3em] mb-8"
             >
-              Дижитал хил хязгаарыг түүчээлэгч
+              {t('hero.tagline')}
             </motion.span>
 
             <motion.h1
               variants={itemVariants}
               className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[0.85] tracking-tighter uppercase mb-8"
             >
-              Таван <br />
-              <span className="text-gray-500">Богд</span> <br />
-              Тек
+              {t('hero.brand1')} <br />
+              <span className="text-gray-500">{t('hero.brand2')}</span> <br />
+              {t('hero.brand3')}
             </motion.h1>
 
             <motion.p
               variants={itemVariants}
               className="max-w-md text-lg text-gray-300 mb-10 leading-relaxed font-light"
             >
-              Нарийн төвөгтэй программ хангамжийн инженерчлэл болон дижитал трансформациар дамжуулан ирээдүйг бүтээнэ. Бид орчин үеийн технологиор бизнесүүдийг чадваржуулдаг.
+              {t('hero.description')}
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex flex-wrap gap-4 sm:gap-6 items-center" >
               <a href="#team" className="group relative overflow-hidden px-6 py-4 md:px-10 md:py-5 bg-white text-black border border-white transition-all duration-500 hover:text-white rounded-sm w-full sm:w-auto inline-block"  >
                 <div className="absolute inset-0 bg-black translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.16, 1, 0.3, 1]" />
                 <div className="relative flex items-center justify-center sm:justify-start space-x-4">
-                  <span className="text-xs font-black uppercase tracking-[0.3em]">Багтай танилцах</span>
+                  <span className="text-xs font-black uppercase tracking-[0.3em]">{t('hero.cta')}</span>
                   <ArrowDownRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform duration-500" />
                 </div>
               </a>

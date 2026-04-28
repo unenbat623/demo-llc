@@ -1,0 +1,101 @@
+{
+  "nav": {
+    "about": "About Us",
+    "team": "Our Team",
+    "home": "Home"
+  },
+  "hero": {
+    "tagline": "Digital Boundary Breakers",
+    "brand1": "Tavan",
+    "brand2": "Bogd",
+    "brand3": "Tech",
+    "title": "Tavan Bogd Tech",
+    "description": "We build the future through sophisticated software engineering and digital transformation. We empower businesses with cutting-edge technology.",
+    "cta": "Meet Our Team"
+  },
+  "about": {
+    "subtitle": "About Us",
+    "title": "Digital Future Architects",
+    "description1": "Tavan Bogd Tech LLC is a leading force in Mongolia's digital transformation. We adapt world-class technology to fit local business needs.",
+    "description2": "We don't just build software - we develop strategic solutions that accelerate business growth. Based on the latest technology and experience, we build the future today.",
+    "stats": {
+      "founded": "Founded",
+      "foundedDetail": "In the Tech Industry",
+      "professionals": "Professionals",
+      "professionalsDetail": "Skilled Workforce",
+      "projects": "Projects",
+      "projectsDetail": "Successfully Delivered",
+      "partners": "Partners",
+      "partnersDetail": "Worldwide"
+    },
+    "vision": "Vision",
+    "visionText": "To be the core of Mongolia's digital transformation and set world-class standards in the technology sector.",
+    "mission": "Mission",
+    "missionText": "To increase business value through innovative solutions and bring positive technological change to society."
+  },
+  "team": {
+    "title": "Our Team",
+    "subtitle": "Industry Leaders in Our Field",
+    "description": "Our team consists of experts in technology, design, and business strategy.",
+    "viewProfile": "View Profile",
+    "closeModal": "Close",
+    "noMembers": "Team members not found.",
+    "loadError": "Error loading team information. Please try again.",
+    "skills": "Skills",
+    "aboutMe": "About Me",
+    "experience": "Experience",
+    "education": "Education",
+    "keyProjects": "Key Projects",
+    "achievements": "Achievements"
+  },
+  "footer": {
+    "company": "Company",
+    "about": "About Us",
+    "contact": "Contact",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "followUs": "Follow Us",
+    "allRights": "All rights reserved",
+    "ready": "Are you ready?",
+    "buildTogether": "Let's build the next generation of digital infrastructure together.",
+    "startConversation": "Start the conversation",
+    "menu": "Menu",
+    "copyright": "© 2026 Tavan Bogd Tech LLC. All rights reserved."
+  },
+  "login": {
+    "title": "Admin Panel",
+    "subtitle": "Tavan Bogd Technology",
+    "username": "Username",
+    "password": "Password",
+    "login": "Sign In",
+    "loading": "Authenticating...",
+    "error": "Login failed",
+    "enterUsername": "Enter your username",
+    "enterPassword": "Enter your password",
+    "testCredentials": "Test Credentials",
+    "backToWebsite": "Back to website"
+  },
+  "admin": {
+    "title": "Admin Panel",
+    "logout": "Logout",
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "settings": "Settings",
+    "logs": "Logs",
+    "welcome": "Welcome"
+  },
+  "common": {
+    "language": "Language",
+    "english": "English",
+    "mongolian": "Mongolian",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back"
+  }
+}

@@ -1,12 +1,14 @@
 import { motion } from 'motion/react';
 import { CalendarDays, Users2, Rocket, Handshake } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function About() {
+  const { t } = useTranslation();
   const stats = [
-    { label: 'Байгуулагдсан', value: '2022', detail: 'Технологийн салбарт', icon: CalendarDays },
-    { label: 'Мэргэжилтэн', value: '45+', detail: 'Чадварлаг боловсон хүчин', icon: Users2 },
-    { label: 'Төслүүд', value: '500+', detail: 'Амжилттай хэрэгжүүлсэн', icon: Rocket },
-    { label: 'Түншүүд', value: '50+', detail: 'Дэлхийн хэмжээний', icon: Handshake },
+    { label: t('about.stats.founded'), value: '2022', detail: t('about.stats.foundedDetail'), icon: CalendarDays },
+    { label: t('about.stats.professionals'), value: '45+', detail: t('about.stats.professionalsDetail'), icon: Users2 },
+    { label: t('about.stats.projects'), value: '500+', detail: t('about.stats.projectsDetail'), icon: Rocket },
+    { label: t('about.stats.partners'), value: '50+', detail: t('about.stats.partnersDetail'), icon: Handshake },
   ];
 
   return (
@@ -21,11 +23,9 @@ export default function About() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              <span className="text-xs font-black uppercase tracking-[0.5em] text-gray-400 mb-5 block">Бидний тухай</span>
+              <span className="text-xs font-black uppercase tracking-[0.5em] text-gray-400 mb-5 block">{t('about.subtitle')}</span>
               <h2 className="text-4xl md:text-5xl font-black text-black uppercase tracking-tighter leading-[0.9] mb-6">
-                Дижитал <br />
-                <span className="text-gray-200">Ирээдүйн</span> <br />
-                Архитектор
+                {t('about.title')}
               </h2>
               <div className="w-20 h-1.5 bg-black" />
             </motion.div>
@@ -39,10 +39,10 @@ export default function About() {
               transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             >
               <p className="text-lg text-black font-medium leading-tight tracking-tight mb-6">
-                Таван Богд Тек LLC нь Монгол улсын дижитал шилжилтийн тэргүүлэгч хүч юм. Бид дэлхийн жишигт нийцсэн технологийг дотоодын бизнесийн онцлогт нийцүүлэн нутагшуулдаг.
+                {t('about.description1')}
               </p>
               <p className="text-gray-500 text-lg leading-relaxed max-w-xl">
-                Бид зөвхөн программ хангамж биш, харин бизнесийн өсөлтийг түргэсгэгч стратегийн шийдлүүдийг боловсруулдаг. Сүүлийн үеийн технологи, туршлага дээр үндэслэн бид ирээдүйг өнөөдөр бүтээж байна.
+                {t('about.description2')}
               </p>
             </motion.div>
           </div>
@@ -79,10 +79,10 @@ export default function About() {
             <div className="relative z-10">
               <h3 className="text-xs font-black uppercase tracking-[0.4em] text-black mb-6 flex items-center">
                 <span className="w-6 h-px bg-black mr-3" />
-                Алсын хараа
+                {t('about.vision')}
               </h3>
               <p className="text-lg text-black font-bold leading-snug tracking-tight">
-                Монгол улсын дижитал шилжилтийн гол цөм нь байж, технологийн салбарт дэлхийн жишиг стандартыг тогтоох.
+                {t('about.visionText')}
               </p>
             </div>
             <div className="absolute -bottom-6 -right-6 text-[80px] font-black text-black/[0.02] leading-none select-none group-hover:text-black/[0.05] transition-colors duration-700">
@@ -100,10 +100,10 @@ export default function About() {
             <div className="relative z-10">
               <h3 className="text-xs font-black uppercase tracking-[0.4em] text-black mb-6 flex items-center">
                 <span className="w-6 h-px bg-black mr-3" />
-                Эрхэм зорилго
+                {t('about.mission')}
               </h3>
               <p className="text-lg text-black font-bold leading-snug tracking-tight">
-                Инновацлаг шийдлээр бизнесүүдийн үнэ цэнийг нэмэгдүүлж, нийгэмд технологийн эерэг өөрчлөлтийг авчрах.
+                {t('about.missionText')}
               </p>
             </div>
             <div className="absolute -bottom-6 -right-6 text-[80px] font-black text-black/[0.02] leading-none select-none group-hover:text-black/[0.05] transition-colors duration-700">

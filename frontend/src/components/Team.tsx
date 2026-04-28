@@ -1,11 +1,13 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { useEffect, useState } from 'react';
 import { Plus } from 'lucide-react';
-import { TeamMember } from '../services/api';
-import { fetchTeam } from '../services/api';
+import { useTranslation } from 'react-i18next';
+import { TeamMember, fetchTeam } from '../services/api';
+import { translateData } from '../utils/translateData';
 import ProfileModal from './ProfileModal';
 
 export default function Team() {
+  const { t, i18n } = useTranslation();
   const [members, setMembers] = useState<TeamMember[]>([]);
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [loading, setLoading] = useState(true);
@@ -18,28 +20,33 @@ export default function Team() {
         const data = await fetchTeam();
         setMembers(data);
         if (data.length === 0) {
-          setError('Багийн гишүүд олдсонгүй.');
+          setError(t('team.noMembers') || 'Team members not found.');
         }
       } catch (err) {
         console.error(err);
-        setError('Багийн мэдээллийг ачаалахад алдаа гарлаа. Дараа дахин оролдоно уу.');
+        setError(t('team.loadError') || 'Error loading team information. Please try again.');
       } finally {
         setLoading(false);
       }
     };
     loadTeam();
-  }, []);
+  }, [t]);
 
   return (
     <section id="team" className="py-24 bg-[#f8f8f8]">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="mb-16 sm:mb-24 text-center md:text-left flex flex-col md:flex-row md:items-end md:justify-between gap-8">
           <div className="max-w-2xl">
-            <span className="text-xs font-black uppercase tracking-[0.5em] text-gray-400 mb-4 block">Бидний хамтын оюун ухаан</span>
+            <span className="text-xs font-black uppercase tracking-[0.5em] text-gray-400 mb-4 block">
+              {t('team.subtitle')}
+            </span>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-black leading-[0.8] italic">
-              Орчин үеийн <br /> <span className="text-gray-200 not-italic">Архитекторууд</span>
+              {t('team.title')}
             </h2>
           </div>
+          <p className="text-gray-500 font-medium max-w-md leading-relaxed">
+            {t('team.description')}
+          </p>
         </div>
 
         {loading ? (
@@ -78,10 +85,10 @@ export default function Team() {
                 <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4 transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 z-20">
                   <div className="bg-white/95 backdrop-blur-xl p-3 sm:p-5 shadow-2xl rounded-sm border border-black/5">
                     <h3 className="text-sm sm:text-lg font-black uppercase tracking-tighter text-black leading-none mb-1.5">
-                      {member.name}
+                      {i18n.language === 'en' ? (member.name_en || member.name) : member.name}
                     </h3>
                     <p className="text-xs font-bold uppercase tracking-[0.3em] text-gray-400">
-                      {member.position}
+                      {i18n.language === 'en' ? (member.position_en || translateData(member.position)) : member.position}
                     </p>
                   </div>
                 </div>

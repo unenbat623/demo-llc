@@ -1,4 +1,5 @@
 import { motion } from 'motion/react';
+import { useTranslation } from 'react-i18next';
 import { Linkedin, Twitter, Mail } from 'lucide-react';
 import { TeamMember } from '../../types';
 import { getSkillIcon } from '../../utils/skillIcons';
@@ -8,6 +9,7 @@ interface ProfileSidebarProps {
 }
 
 export default function ProfileSidebar({ member }: ProfileSidebarProps) {
+    const { t } = useTranslation();
     return (
         <div className="w-full md:w-80 flex-shrink-0 bg-[#0a0c10] flex flex-col relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.03),transparent)] pointer-events-none" />
@@ -38,10 +40,10 @@ export default function ProfileSidebar({ member }: ProfileSidebarProps) {
                     transition={{ delay: 0.3 }}
                 >
                     <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-500 block mb-2">
-                        {member.position}
+                        {t('language') === 'en' ? (member.position_en || translateData(member.position)) : member.position}
                     </span>
                     <h2 className="text-2xl font-black uppercase tracking-tighter text-white leading-tight mb-4">
-                        {member.name}
+                        {t('language') === 'en' ? (member.name_en || member.name) : member.name}
                     </h2>
                 </motion.div>
 
@@ -70,7 +72,7 @@ export default function ProfileSidebar({ member }: ProfileSidebarProps) {
                 {/* Skills */}
                 {member.skills?.length > 0 && (
                     <div className="space-y-4 pt-6 border-t border-white/5">
-                        <p className="text-[9px] font-black uppercase tracking-[0.4em] text-gray-600">Ур чадвар</p>
+                        <p className="text-[9px] font-black uppercase tracking-[0.4em] text-gray-600">{t('team.skills')}</p>
                         <div className="flex flex-wrap gap-2">
                             {member.skills.map((skill, i) => {
                                 const icon = getSkillIcon(skill);

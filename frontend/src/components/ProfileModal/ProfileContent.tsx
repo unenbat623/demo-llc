@@ -1,43 +1,46 @@
 import { motion } from 'motion/react';
+import { useTranslation } from 'react-i18next';
 import { User, Briefcase, GraduationCap, ExternalLink, Trophy } from 'lucide-react';
 import { TeamMember } from '../../types';
+import { translateData } from '../../utils/translateData';
 
 interface ProfileContentProps {
     member: TeamMember;
 }
 
 export default function ProfileContent({ member }: ProfileContentProps) {
+    const { t } = useTranslation();
     const timelineItems = [
         {
             id: 'about',
             icon: User,
-            label: 'Миний тухай',
+            label: t('team.aboutMe'),
             content: (
                 <p className="text-black text-[15px] font-medium leading-relaxed italic tracking-tight border-l-2 border-black pl-5 hover:text-gray-600 transition-all duration-500 cursor-default">
-                    "{member.aboutMe}"
+                    "{t('language') === 'en' ? (member.aboutMe_en || translateData(member.aboutMe)) : member.aboutMe}"
                 </p>
             ),
         },
         {
             id: 'experience',
             icon: Briefcase,
-            label: 'Туршлага',
+            label: t('team.experience'),
             content: (
                 <p className="text-gray-600 text-[15px] leading-relaxed font-medium hover:text-black transition-colors duration-500 cursor-default">
-                    {member.experience}
+                    {t('language') === 'en' ? (member.experience_en || translateData(member.experience)) : member.experience}
                 </p>
             ),
         },
         ...(member.education?.length ? [{
             id: 'education',
             icon: GraduationCap,
-            label: 'Боловсрол',
+            label: t('team.education'),
             content: (
                 <ul className="space-y-3">
-                    {member.education.map((edu, i) => (
+                    {(t('language') === 'en' && member.education_en?.length ? member.education_en : member.education).map((edu, i) => (
                         <li key={i} className="text-sm font-bold text-black uppercase tracking-wider leading-tight flex items-center gap-3 hover:text-gray-500 transition-colors duration-500 cursor-default group">
                             <span className="w-1 h-1 bg-black flex-shrink-0 rounded-full group-hover:scale-150 transition-transform duration-500" />
-                            {edu}
+                            {t('language') === 'en' ? (member.education_en?.[i] || translateData(edu)) : edu}
                         </li>
                     ))}
                 </ul>
@@ -46,16 +49,16 @@ export default function ProfileContent({ member }: ProfileContentProps) {
         ...(member.projects?.length ? [{
             id: 'projects',
             icon: ExternalLink,
-            label: 'Гол төслүүд',
+            label: t('team.keyProjects'),
             content: (
                 <div className="grid grid-cols-1 gap-2">
-                    {member.projects.map((project, i) => (
+                    {(t('language') === 'en' && member.projects_en?.length ? member.projects_en : member.projects).map((project, i) => (
                         <motion.div
                             key={i}
                             whileHover={{ x: 4 }}
                             className="px-4 py-3 border border-gray-100 hover:border-black/20 hover:bg-black/5 text-black transition-all duration-300 rounded-sm cursor-default flex items-center justify-between group"
                         >
-                            <span className="text-xs font-black uppercase tracking-widest">{project}</span>
+                            <span className="text-xs font-black uppercase tracking-widest">{t('language') === 'en' ? (member.projects_en?.[i] || project) : project}</span>
                             <ExternalLink size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                         </motion.div>
                     ))}
@@ -65,10 +68,10 @@ export default function ProfileContent({ member }: ProfileContentProps) {
         ...(member.achievements?.length ? [{
             id: 'achievements',
             icon: Trophy,
-            label: 'Амжилт',
+            label: t('team.achievements'),
             content: (
                 <div className="flex flex-col gap-2">
-                    {member.achievements.map((ach, i) => (
+                    {(t('language') === 'en' && member.achievements_en?.length ? member.achievements_en : member.achievements).map((ach, i) => (
                         <motion.div
                             key={i}
                             whileHover={{ scale: 1.01 }}
@@ -77,7 +80,7 @@ export default function ProfileContent({ member }: ProfileContentProps) {
                             <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center">
                                 <Trophy size={10} className="text-white" />
                             </div>
-                            {ach}
+                            {t('language') === 'en' ? (member.achievements_en?.[i] || ach) : ach}
                         </motion.div>
                     ))}
                 </div>
