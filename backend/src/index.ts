@@ -103,6 +103,32 @@ app.post('/api/team/generate', async (req: Request, res: Response) => {
   }
 });
 
+app.post('/api/team/bulk-import', async (req: Request, res: Response) => {
+  try {
+    const members = req.body;
+    if (!Array.isArray(members)) {
+      return res.status(400).json({ message: 'Data must be an array' });
+    }
+    
+    const formattedData = members.map((item: any) => ({
+      ...item,
+      skills: typeof item.skills === 'string' ? item.skills.split(',').map((s: string) => s.trim()).filter((s: string) => s) : (item.skills || []),
+      education: typeof item.education === 'string' ? item.education.split(',').map((s: string) => s.trim()).filter((s: string) => s) : (item.education || []),
+      projects: typeof item.projects === 'string' ? item.projects.split(',').map((s: string) => s.trim()).filter((s: string) => s) : (item.projects || []),
+      achievements: typeof item.achievements === 'string' ? item.achievements.split(',').map((s: string) => s.trim()).filter((s: string) => s) : (item.achievements || []),
+      social: {
+        email: item.email,
+        linkedin: item.linkedin || '#'
+      }
+    }));
+
+    const result = await TeamMember.insertMany(formattedData);
+    res.status(201).json({ success: true, count: result.length });
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // ── Logs ──────────────────────────────────────────────────────
 app.get('/api/logs', async (req: Request, res: Response) => {
   try {

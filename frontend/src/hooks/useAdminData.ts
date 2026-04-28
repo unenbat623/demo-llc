@@ -372,6 +372,6 @@ export const useAdminData = (user: any, activeTab: string) => {
     handleAutoTranslate, handleInputChange, openAddModal, openEditModal, handleDeleteMember,
     confirmDelete, handleSaveMember, handleGenerateMembers, handleClearLogs, handleDeleteLog,
     handleSaveSystemUser, handleDeleteSystemUser, handleSaveSettings,
-    chartData, filteredLogs, filteredTeamMembers, isTranslating
+    chartData, filteredLogs, filteredTeamMembers, isTranslating, fetchTeamMembers
   };
 };

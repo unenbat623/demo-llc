@@ -22,6 +22,7 @@ import ProfileTab from '../components/admin/tabs/ProfileTab';
 import MemberModal from '../components/admin/modals/MemberModal';
 import UserModal from '../components/admin/modals/UserModal';
 import DeleteConfirmModal from '../components/admin/modals/DeleteConfirmModal';
+import TeamBulkImport from '../components/admin/modals/TeamBulkImport';
 
 export default function Admin() {
   const { user, logout } = useAuth();
@@ -39,8 +40,10 @@ export default function Admin() {
     setEditingUserId, userSubmitStatus, handleGenerateImage, handleFileUpload, handleProfileUpdate,
     handleAutoTranslate, handleInputChange, openAddModal, openEditModal, handleDeleteMember,
     confirmDelete, handleSaveMember, handleGenerateMembers, handleClearLogs, handleDeleteLog,
-    handleSaveSystemUser, handleDeleteSystemUser, handleSaveSettings, chartData, filteredLogs, filteredTeamMembers, isTranslating
+    handleSaveSystemUser, handleDeleteSystemUser, handleSaveSettings, chartData, filteredLogs, filteredTeamMembers, isTranslating, fetchTeamMembers
   } = useAdminData(user, activeTab);
+
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
   const menuItems = [
     { id: 'dashboard', label: 'Ерөнхий', icon: LayoutDashboard, roles: ['admin', 'staff'] },
@@ -102,6 +105,7 @@ export default function Admin() {
                   handleGenerateMembers={handleGenerateMembers} openAddModal={openAddModal} 
                   generateStatus={generateStatus} filteredTeamMembers={filteredTeamMembers} 
                   openEditModal={openEditModal} confirmDelete={confirmDelete} 
+                  openImportModal={() => setIsImportModalOpen(true)}
                 />
               )}
               {activeTab === 'logs' && user.role === 'admin' && (
@@ -139,6 +143,11 @@ export default function Admin() {
               isUserModalOpen={isUserModalOpen} setIsUserModalOpen={setIsUserModalOpen} editingUserId={editingUserId} 
               userSubmitStatus={userSubmitStatus} handleSaveSystemUser={handleSaveSystemUser} 
               userFormData={userFormData} setUserFormData={setUserFormData} user={user} 
+            />
+            <TeamBulkImport 
+              isOpen={isImportModalOpen} 
+              onClose={() => setIsImportModalOpen(false)} 
+              onImportDone={() => fetchTeamMembers()} 
             />
             <DeleteConfirmModal 
               deleteConfirm={deleteConfirm} setDeleteConfirm={setDeleteConfirm} handleDeleteMember={handleDeleteMember} 

@@ -15,6 +15,7 @@ interface TeamTabProps {
   filteredTeamMembers: any[];
   openEditModal: (member: any, focusTarget?: string) => void;
   confirmDelete: (member: any) => void;
+  openImportModal: () => void;
 }
 
 const TeamTab: React.FC<TeamTabProps> = ({
@@ -28,7 +29,8 @@ const TeamTab: React.FC<TeamTabProps> = ({
   generateStatus,
   filteredTeamMembers,
   openEditModal,
-  confirmDelete
+  confirmDelete,
+  openImportModal
 }) => {
   return (
     <div className="bg-white p-8 border border-black/10 hover:border-black transition-colors duration-300">
@@ -69,6 +71,12 @@ const TeamTab: React.FC<TeamTabProps> = ({
                   <Sparkles size={14} className={isGeneratingTeam ? 'animate-pulse' : ''} />
                 </button>
               </div>
+              <button
+                onClick={openImportModal}
+                className="bg-green-600 text-white px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 hover:bg-green-700 transition-colors rounded-sm"
+              >
+                <Sparkles size={14} /> <span className="hidden xs:inline">Import</span>
+              </button>
               <button
                 onClick={openAddModal}
                 className="bg-black text-white px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 hover:bg-gray-800 transition-colors rounded-sm"

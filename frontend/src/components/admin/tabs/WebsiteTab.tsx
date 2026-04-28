@@ -19,14 +19,14 @@ const WebsiteTab: React.FC<WebsiteTabProps> = ({
   settingsStatus
 }) => {
   return (
-    <div className="bg-white p-8 border border-black/10 hover:border-black transition-colors duration-300">
+    <form onSubmit={(e) => { e.preventDefault(); handleSaveSettings(); }} className="bg-white p-8 border border-black/10 hover:border-black transition-colors duration-300">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h3 className="text-sm font-black uppercase tracking-[0.2em]">Вэбсайт тохиргоо</h3>
           <p className="text-gray-600 mt-1">Вэбсайтын ерөнхий мэдээллийг эндээс удирдана.</p>
         </div>
         <button
-          onClick={handleSaveSettings}
+          type="submit"
           disabled={isSettingsSaving}
           className="group relative overflow-hidden bg-black rounded-sm text-white px-8 py-3 transition-all duration-500"
         >
@@ -176,7 +176,7 @@ const WebsiteTab: React.FC<WebsiteTabProps> = ({
           </Field>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 
