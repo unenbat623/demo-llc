@@ -29,6 +29,20 @@ const MemberModal: React.FC<MemberModalProps> = ({
   submitStatus, handleSaveMember, formData, handleInputChange, setFormData,
   imageInputMode, setImageInputMode, handleFileUpload, isSubmitting
 }) => {
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isModalOpen) return;
+      if (e.key === 'Enter' && !isSubmitting && e.target instanceof HTMLElement && e.target.tagName !== 'TEXTAREA') {
+        handleSaveMember(e as any);
+      }
+      if (e.key === 'Escape') {
+        setIsModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isModalOpen, isSubmitting, handleSaveMember, setIsModalOpen]);
+
   return (
     <AnimatePresence>
       {isModalOpen && (

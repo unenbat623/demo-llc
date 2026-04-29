@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
-import { Trash2, Trash } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer, CartesianGrid, Cell } from 'recharts';
+import { Trash2, Trash, ListFilter, Activity, BarChart3, Clock } from 'lucide-react';
 
 interface LogsTabProps {
   chartData: any[];
@@ -22,121 +22,107 @@ const LogsTab: React.FC<LogsTabProps> = ({
   handleClearLogs,
   logs
 }) => {
+  const COLORS = ['#000000', '#4B5563', '#9CA3AF', '#D1D5DB'];
+
   return (
-    <div className="space-y-8">
-      {/* Chart Section */}
-      <div className="bg-white p-8 border border-black/10 hover:border-black transition-colors duration-300">
-        <div className="flex items-center gap-3 mb-6">
-          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">01</span>
-          <div className="flex-1 h-px bg-black/8" />
-          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">Статистик</span>
+    <div className="space-y-6">
+      {/* Analytics Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="lg:col-span-8 bg-white p-6 border border-black/5 rounded-sm">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xs font-black uppercase tracking-widest flex items-center gap-2">
+              <BarChart3 size={14} /> Статистик
+            </h3>
+          </div>
+          <div className="h-48 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={chartData}>
+                <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="#f3f4f6" />
+                <XAxis dataKey="name" tick={{ fontSize: 8, fill: '#9ca3af', fontWeight: 900 }} tickLine={false} axisLine={false} />
+                <YAxis tick={{ fontSize: 8, fill: '#9ca3af', fontWeight: 900 }} tickLine={false} axisLine={false} />
+                <RechartsTooltip contentStyle={{ fontSize: '10px', fontWeight: '900' }} />
+                <Bar dataKey="value" radius={[2, 2, 0, 0]}>
+                  {chartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
-        <h3 className="text-sm font-black uppercase tracking-[0.2em] mb-6">Үйлдэл (Албан тушаалаар)</h3>
-        <div className="h-64 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
-              <XAxis dataKey="name" tick={{ fontSize: 10, fill: '#6B7280' }} tickLine={false} axisLine={false} />
-              <YAxis tick={{ fontSize: 10, fill: '#6B7280' }} tickLine={false} axisLine={false} />
-              <RechartsTooltip
-                cursor={{ fill: '#F3F4F6' }}
-                contentStyle={{ borderRadius: '2px', border: '1px solid #E5E7EB', boxShadow: 'none', fontSize: '12px', fontWeight: 'bold' }}
-              />
-              <Bar dataKey="value" fill="#000000" radius={[2, 2, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+
+        <div className="lg:col-span-4 bg-black text-white p-6 rounded-sm flex flex-col justify-between">
+          <div>
+            <h4 className="text-[9px] font-black uppercase tracking-widest text-gray-500 mb-1">Нийт лог</h4>
+            <p className="text-4xl font-black tracking-tighter">{logs.length}</p>
+          </div>
+          <button 
+            onClick={handleClearLogs}
+            className="w-full py-2.5 border border-white/20 hover:bg-white hover:text-black transition-all text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 mt-4"
+          >
+            <Trash size={12} /> Устгах
+          </button>
         </div>
       </div>
 
-      {/* Table Section */}
-      <div className="bg-white p-8 border border-black/10 hover:border-black transition-colors duration-300">
-        <div className="flex items-center gap-3 mb-6">
-          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">02</span>
-          <div className="flex-1 h-px bg-black/8" />
-          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">Лог Жагсаалт</span>
-        </div>
-
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <h3 className="text-sm font-black uppercase tracking-[0.2em]">Бүх лог</h3>
-          <select
-            value={logFilter}
-            onChange={(e) => setLogFilter(e.target.value)}
-            className="px-4 py-2 bg-gray-50 border-0 border-b-2 border-gray-200 focus:border-black focus:outline-none transition-colors duration-200 text-xs font-bold uppercase tracking-wider rounded-none cursor-pointer"
-          >
-            <option value="">Бүх үйлдэл</option>
-            <option value="CREATE">CREATE</option>
-            <option value="UPDATE">UPDATE</option>
-            <option value="DELETE">DELETE</option>
-          </select>
+      {/* Logs Table Section */}
+      <div className="bg-white border border-black/5 rounded-sm overflow-hidden">
+        <div className="p-4 border-b border-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <h3 className="text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
+            <Activity size={14} /> Түүх
+          </h3>
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-sm border border-black/5">
+            <ListFilter size={12} className="text-gray-400" />
+            <select
+              value={logFilter}
+              onChange={(e) => setLogFilter(e.target.value)}
+              className="bg-transparent focus:outline-none text-[9px] font-black uppercase tracking-widest cursor-pointer"
+            >
+              <option value="">Бүх үйлдэл</option>
+              <option value="CREATE">CREATE</option>
+              <option value="UPDATE">UPDATE</option>
+              <option value="DELETE">DELETE</option>
+            </select>
+          </div>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-black/10 text-[10px] font-black uppercase tracking-wider text-gray-400">
+              <tr className="bg-gray-50/50 border-b border-black/5 text-[9px] font-black uppercase tracking-widest text-gray-400">
                 <th className="py-3 px-4">Огноо</th>
                 <th className="py-3 px-4">Хэрэглэгч</th>
-                <th className="py-3 px-4">Албан тушаал</th>
                 <th className="py-3 px-4">Үйлдэл</th>
                 <th className="py-3 px-4">Тайлбар</th>
-                <th className="py-3 px-4 text-right">Устгах</th>
+                <th className="py-3 px-4 text-right">#</th>
               </tr>
             </thead>
             <tbody>
-              {filteredLogs.length === 0 ? (
-                <tr>
-                  <td colSpan={6} className="py-8 text-center text-gray-500 text-sm">Лог олдсонгүй</td>
+              {filteredLogs.map((log, idx) => (
+                <tr key={log._id || idx} className="border-b border-black/5 hover:bg-gray-50 transition-colors group">
+                  <td className="py-2.5 px-4">
+                    <div className="text-[10px] font-bold text-gray-700">{new Date(log.createdAt).toLocaleDateString()}</div>
+                    <div className="text-[8px] font-black text-gray-300 uppercase">{new Date(log.createdAt).toLocaleTimeString()}</div>
+                  </td>
+                  <td className="py-2.5 px-4 text-[10px] font-black uppercase">{log.username}</td>
+                  <td className="py-2.5 px-4">
+                    <span className={`inline-block px-2 py-0.5 text-[8px] font-black uppercase tracking-widest rounded-sm ${
+                      log.action === 'CREATE' ? 'bg-green-100 text-green-700' :
+                      log.action === 'UPDATE' ? 'bg-blue-100 text-blue-700' :
+                      log.action === 'DELETE' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-700'
+                    }`}>{log.action}</span>
+                  </td>
+                  <td className="py-2.5 px-4 text-[10px] text-gray-600 truncate max-w-xs">{log.description}</td>
+                  <td className="py-2.5 px-4 text-right">
+                    <button onClick={() => handleDeleteLog(log._id)} className="p-1.5 text-gray-300 hover:text-red-500 transition-all opacity-0 group-hover:opacity-100">
+                      <Trash2 size={14} />
+                    </button>
+                  </td>
                 </tr>
-              ) : (
-                filteredLogs.map((log, idx) => (
-                  <motion.tr
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.05 }}
-                    key={idx}
-                    className="border-b border-black/5 hover:bg-gray-50 transition-colors"
-                  >
-                    <td className="py-3 px-4 text-xs text-gray-500 whitespace-nowrap">
-                      {new Date(log.createdAt).toLocaleString()}
-                    </td>
-                    <td className="py-3 px-4 text-xs font-bold">{log.username}</td>
-                    <td className="py-3 px-4 text-xs text-gray-600">{log.position}</td>
-                    <td className="py-3 px-4">
-                      <span className={`inline-block px-2 py-1 text-[10px] font-black uppercase tracking-[0.2em] rounded-sm ${log.action === 'CREATE' ? 'bg-green-100 text-green-700' :
-                          log.action === 'UPDATE' ? 'bg-blue-100 text-blue-700' :
-                            log.action === 'DELETE' ? 'bg-red-100 text-red-700' :
-                              'bg-gray-100 text-gray-700'
-                        }`}>
-                        {log.action}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 text-xs text-gray-600 max-w-xs truncate" title={log.description}>
-                      {log.description}
-                    </td>
-                    <td className="py-3 px-4 text-right">
-                      <button
-                        onClick={() => handleDeleteLog(log._id)}
-                        className="p-2 text-gray-400 hover:text-red-500 transition-colors"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    </td>
-                  </motion.tr>
-                ))
-              )}
+              ))}
             </tbody>
           </table>
         </div>
-        {logs.length > 0 && (
-          <div className="mt-6 flex justify-end">
-            <button
-              onClick={handleClearLogs}
-              className="flex items-center gap-2 px-6 py-3 border border-red-200 text-red-600 hover:bg-red-50 text-[10px] font-black uppercase tracking-[0.2em] transition-all rounded-sm"
-            >
-              <Trash size={14} /> Бүх логийг устгах
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

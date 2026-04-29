@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Trash2 } from 'lucide-react';
 
@@ -13,6 +13,19 @@ const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({
   setDeleteConfirm,
   handleDeleteMember
 }) => {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (deleteConfirm.isOpen && e.key === 'Enter') {
+        handleDeleteMember();
+      }
+      if (deleteConfirm.isOpen && e.key === 'Escape') {
+        setDeleteConfirm({ isOpen: false, memberId: null, memberName: '' });
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [deleteConfirm.isOpen, handleDeleteMember, setDeleteConfirm]);
+
   return (
     <AnimatePresence>
       {deleteConfirm.isOpen && (

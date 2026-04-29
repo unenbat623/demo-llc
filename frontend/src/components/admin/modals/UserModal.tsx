@@ -24,6 +24,20 @@ const UserModal: React.FC<UserModalProps> = ({
   setUserFormData,
   user
 }) => {
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isUserModalOpen) return;
+      if (e.key === 'Enter' && e.target instanceof HTMLElement && e.target.tagName !== 'TEXTAREA') {
+        handleSaveSystemUser(e as any);
+      }
+      if (e.key === 'Escape') {
+        setIsUserModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isUserModalOpen, handleSaveSystemUser, setIsUserModalOpen]);
+
   return (
     <AnimatePresence>
       {isUserModalOpen && (
