@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { CalendarDays, Users2, Rocket, Handshake } from 'lucide-react';
+import { CalendarDays, Users2, Rocket, Handshake, Target, Compass } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '../context/SettingsContext';
 
@@ -45,33 +45,41 @@ export default function About() {
   ] : [];
 
   return (
-    <section id="about" className="py-20 bg-white overflow-hidden">
+    <section id="about" className="py-20 bg-white overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        {/* Top Section: Heading and Description */}
-        <div className="grid lg:grid-cols-12 gap-12 items-start mb-20">
-          <div className="lg:col-span-6">
+        {/* Top Section */}
+        <div className="grid lg:grid-cols-12 gap-12 items-start mb-16">
+          <div className="lg:col-span-7">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.8 }}
             >
-              <span className="text-xs font-black uppercase tracking-[0.5em] text-gray-400 mb-5 block">{t('about.subtitle')}</span>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-black uppercase tracking-tighter leading-[0.9] mb-6">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Компанийн тухай</span>
+                <div className="w-8 h-px bg-black/10" />
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-black uppercase tracking-tight leading-tight mb-8">
                 {t_site('aboutTitle')}
               </h2>
-              <div className="w-20 h-1.5 bg-black" />
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-black rounded-sm flex items-center justify-center text-white">
+                  <Rocket size={24} />
+                </div>
+                <div className="text-[10px] font-black uppercase tracking-[0.2em] text-black">Innovation First</div>
+              </div>
             </motion.div>
           </div>
 
-          <div className="lg:col-span-6 lg:pt-12">
+          <div className="lg:col-span-5 lg:pt-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <p className="text-gray-500 text-base sm:text-lg leading-relaxed max-w-xl whitespace-pre-wrap">
+              <p className="text-black/60 text-base leading-relaxed max-w-xl font-medium tracking-tight whitespace-pre-wrap">
                 {t_site('aboutDescription')}
               </p>
             </motion.div>
@@ -79,67 +87,55 @@ export default function About() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-black/5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border border-black/5 bg-gray-50/50">
           {stats.map((stat, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="py-10 lg:py-12 group border-b border-black/5 sm:border-r last:border-b-0 sm:even:border-r-0 lg:even:border-r lg:last:border-r-0 lg:px-8 first:pl-0 last:pr-0"
+              className="p-8 group border-b sm:border-r border-black/5 last:border-b-0 lg:last:border-r-0 hover:bg-white transition-colors duration-300"
             >
-              <div className="flex items-center gap-3 mb-2 group-hover:translate-x-2 transition-transform duration-500">
-                <stat.icon size={20} strokeWidth={2.5} className="text-black" />
-                <div className="text-3xl font-black text-black tracking-tighter">{stat.value}</div>
-              </div>
-              <div className="text-xs font-black uppercase tracking-[0.2em] text-black mb-0.5">{stat.label}</div>
-              <div className="text-xs font-medium uppercase tracking-[0.1em] text-gray-400">{stat.detail}</div>
+              <div className="text-2xl font-black text-black tracking-tighter mb-2">{stat.value}</div>
+              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-black mb-1">{stat.label}</h4>
+              <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400">{stat.detail}</p>
             </motion.div>
           ))}
         </div>
 
-        <div className="mt-16 grid md:grid-cols-2 gap-px bg-black/5 border border-black/5">
+        {/* Vision & Mission */}
+        <div className="mt-16 grid md:grid-cols-2 gap-8">
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="bg-white p-10 sm:p-12 relative overflow-hidden group"
+            transition={{ duration: 0.6 }}
+            className="p-8 border border-black/5 rounded-sm relative group"
           >
-            <div className="relative z-10">
-              <h3 className="text-xs font-black uppercase tracking-[0.4em] text-black mb-6 flex items-center">
-                <span className="w-6 h-px bg-black mr-3" />
-                {t_site('visionTitle')}
-              </h3>
-              <p className="text-lg text-black font-bold leading-snug tracking-tight whitespace-pre-wrap">
-                {t_site('visionText')}
-              </p>
+            <div className="flex items-center gap-3 mb-6">
+              <Target size={18} className="text-black" />
+              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-black">{t_site('visionTitle')}</h3>
             </div>
-            <div className="absolute -bottom-6 -right-6 text-[80px] font-black text-black/[0.02] leading-none select-none group-hover:text-black/[0.05] transition-colors duration-700">
-              01
-            </div>
+            <p className="text-lg font-black text-black leading-snug tracking-tight whitespace-pre-wrap">
+              {t_site('visionText')}
+            </p>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="bg-[#f8f8f8] p-10 sm:p-12 relative overflow-hidden group"
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="p-8 border border-black/5 rounded-sm relative group"
           >
-            <div className="relative z-10">
-              <h3 className="text-xs font-black uppercase tracking-[0.4em] text-black mb-6 flex items-center">
-                <span className="w-6 h-px bg-black mr-3" />
-                {t_site('missionTitle')}
-              </h3>
-              <p className="text-lg text-black font-bold leading-snug tracking-tight whitespace-pre-wrap">
-                {t_site('missionText')}
-              </p>
+            <div className="flex items-center gap-3 mb-6">
+              <Compass size={18} className="text-black" />
+              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-black">{t_site('missionTitle')}</h3>
             </div>
-            <div className="absolute -bottom-6 -right-6 text-[80px] font-black text-black/[0.02] leading-none select-none group-hover:text-black/[0.05] transition-colors duration-700">
-              02
-            </div>
+            <p className="text-lg font-black text-black leading-snug tracking-tight whitespace-pre-wrap">
+              {t_site('missionText')}
+            </p>
           </motion.div>
         </div>
       </div>

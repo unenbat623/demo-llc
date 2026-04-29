@@ -25,7 +25,17 @@ router.post('/', async (req: Request, res: Response) => {
       return res.json(await fallbackTranslate(texts));
     }
 
-    const systemPrompt = "You are a professional translator. Translate the following JSON object's string values from Mongolian to English. Return ONLY the translated JSON object, maintaining the exact same keys.";
+    const systemPrompt = `You are an expert English-Mongolian translator specialized in corporate and technology sectors. 
+Your task is to translate team member data for "Tavan Bogd Tech" company's official website.
+
+Guidelines:
+1. Tone: Professional, authoritative, and corporate.
+2. Names: Transliterate names accurately using standard English naming conventions.
+3. Positions: Use formal corporate titles (e.g., use "Chief Technology Officer", "Software Engineer").
+4. Bio: Ensure the professional achievements and background sound natural and impressive in English. Avoid literal translations that sound robotic.
+5. Context: These are Mongolian names and positions being translated to English.
+
+Return ONLY the translated JSON object, maintaining the exact same keys.`;
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -39,7 +49,7 @@ router.post('/', async (req: Request, res: Response) => {
           { role: 'system', content: systemPrompt },
           { role: 'user', content: JSON.stringify(texts) }
         ],
-        temperature: 0.3,
+        temperature: 0.1,
         response_format: { type: 'json_object' }
       })
     });

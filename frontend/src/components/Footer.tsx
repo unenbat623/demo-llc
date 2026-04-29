@@ -1,93 +1,113 @@
-import { ArrowDownRight, Linkedin, Facebook, Twitter, Instagram } from 'lucide-react';
+import { ArrowDownRight, Linkedin, Facebook, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '../context/SettingsContext';
 
 export default function Footer() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { settings, t_site } = useSettings();
+  
   return (
-    <footer className="bg-black text-white py-20 pb-10">
-      <div className="max-w-6xl mx-auto px-6 lg:px-12">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 mb-20 sm:mb-24">
-          <div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tighter leading-[0.9] mb-8 sm:mb-12">
+    <footer className="bg-black text-white pt-20 pb-10 overflow-hidden relative">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+        <div className="grid lg:grid-cols-12 gap-12 mb-16">
+          {/* Left Column */}
+          <div className="lg:col-span-7">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight leading-tight mb-8 italic">
               {t('footer.ready')}
             </h2>
-            <p className="text-base sm:text-lg text-gray-400 mb-8 sm:mb-12 max-w-sm">
+            <p className="text-base text-gray-400 mb-12 max-w-xl font-medium leading-relaxed tracking-tight">
               {t('footer.buildTogether')}
             </p>
-            <a
-              href={`mailto:${settings?.contactEmail || 'contact@tavanbogd.tech'}`}
-              className="inline-flex items-center space-x-4 sm:space-x-6 text-xl font-black uppercase tracking-tighter group relative pb-4"
-            >
-              <span className="relative z-10">{t('footer.startConversation')}</span>
-              <ArrowDownRight className="w-6 h-6 sm:w-8 sm:h-8 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform duration-500 relative z-10" />
-              <div className="absolute bottom-0 left-0 w-full h-1 bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
-            </a>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
-            <div>
-              <h4 className="text-xs font-black uppercase tracking-[0.4em] text-gray-500 mb-6 sm:mb-8">{t('footer.menu')}</h4>
-              <ul className="space-y-4">
-                {[
-                  { name: t('nav.about'), href: '#about' },
-                  { name: t('nav.team'), href: '#team' },
-                ].map((link) => (
-                  <li key={link.name}>
-                    <a href={link.href} className="text-xs font-bold uppercase tracking-widest hover:text-gray-400 transition-colors">
-                      {link.name}
+          {/* Right Column */}
+          <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-10">
+            <div className="space-y-8">
+              <div>
+                <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-600 mb-6">{t('footer.menu')}</h4>
+                <ul className="space-y-3">
+                  {[
+                    { name: t('nav.about'), href: '#about' },
+                    { name: t('nav.team'), href: '#team' },
+                    { name: 'Admin Terminal', href: '/admin' },
+                  ].map((link) => (
+                    <li key={link.name}>
+                      <a href={link.href} className="text-xs font-black uppercase tracking-[0.2em] text-gray-400 hover:text-white transition-colors flex items-center gap-2 group">
+                        <div className="w-0 h-px bg-white group-hover:w-3 transition-all" />
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-600 mb-6">Social Connect</h4>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    { id: 'linkedin', icon: Linkedin, url: settings?.linkedin },
+                    { id: 'facebook', icon: Facebook, url: settings?.facebook },
+                    { id: 'twitter', icon: Twitter, url: settings?.twitter },
+                    { id: 'instagram', icon: Instagram, url: settings?.instagram },
+                  ].filter(s => s.url && s.url !== '#').map((social) => (
+                    <a 
+                      key={social.id} 
+                      href={social.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="w-9 h-9 border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300 rounded-sm"
+                    >
+                      <social.icon size={16} />
                     </a>
-                  </li>
-                ))}
-              </ul>
+                  ))}
+                </div>
+              </div>
             </div>
+
             <div>
-              <h4 className="text-xs font-black uppercase tracking-[0.4em] text-gray-500 mb-6 sm:mb-8">{t('footer.contact')}</h4>
-              <div className="flex flex-col space-y-4">
-                {settings?.linkedin && settings.linkedin !== '#' && (
-                  <a href={settings.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-3 text-xs font-bold uppercase tracking-widest hover:text-gray-400 transition-all group">
-                    <span className="p-2 border border-white/10 group-hover:border-white/40 transition-colors rounded-sm">
-                      <Linkedin size={16} />
-                    </span>
-                    <span>LinkedIn</span>
-                  </a>
-                )}
-                {settings?.facebook && settings.facebook !== '#' && (
-                  <a href={settings.facebook} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-3 text-xs font-bold uppercase tracking-widest hover:text-gray-400 transition-all group">
-                    <span className="p-2 border border-white/10 group-hover:border-white/40 transition-colors rounded-sm">
-                      <Facebook size={16} />
-                    </span>
-                    <span>Facebook</span>
-                  </a>
-                )}
-                {settings?.twitter && settings.twitter !== '#' && (
-                  <a href={settings.twitter} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-3 text-xs font-bold uppercase tracking-widest hover:text-gray-400 transition-all group">
-                    <span className="p-2 border border-white/10 group-hover:border-white/40 transition-colors rounded-sm">
-                      <Twitter size={16} />
-                    </span>
-                    <span>Twitter</span>
-                  </a>
-                )}
-                {settings?.instagram && settings.instagram !== '#' && (
-                  <a href={settings.instagram} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-3 text-xs font-bold uppercase tracking-widest hover:text-gray-400 transition-all group">
-                    <span className="p-2 border border-white/10 group-hover:border-white/40 transition-colors rounded-sm">
-                      <Instagram size={16} />
-                    </span>
-                    <span>Instagram</span>
-                  </a>
-                )}
+              <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-600 mb-6">Office Details</h4>
+              <div className="space-y-6">
+                <div className="flex gap-3">
+                  <Mail size={14} className="text-gray-500 shrink-0" />
+                  <div className="text-[10px] font-bold uppercase tracking-widest leading-relaxed">
+                    {settings?.contactEmail}
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <Phone size={14} className="text-gray-500 shrink-0" />
+                  <div className="text-[10px] font-bold uppercase tracking-widest leading-relaxed">
+                    {settings?.contactPhone}
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <MapPin size={14} className="text-gray-500 shrink-0" />
+                  <div className="text-[10px] font-bold uppercase tracking-widest leading-relaxed">
+                    {i18n.language === 'en' ? settings?.address_en : settings?.address}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
-          <div className="text-lg font-black tracking-tighter uppercase">
-            {settings?.navbarLogo || 'TAVAN BOGD TECH'}
+        {/* Bottom Bar */}
+        <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 border border-white/20 flex items-center justify-center rotate-45">
+              <div className="-rotate-45 w-1.5 h-1.5 bg-white" />
+            </div>
+            <div className="text-xl font-black tracking-tighter uppercase leading-none">
+              {settings?.navbarLogo || 'TAVAN BOGD TECH'}
+            </div>
           </div>
-          <div className="text-xs font-bold uppercase tracking-[0.2em] text-gray-500 max-w-xs sm:max-w-none">
-            {t_site('footerText')}
+          
+          <div className="flex flex-col md:items-end gap-1">
+            <div className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500">
+              {t_site('footerText')}
+            </div>
+            <div className="text-[8px] font-medium uppercase tracking-[0.1em] text-gray-700">
+              © {new Date().getFullYear()} Tavan Bogd Tech.
+            </div>
           </div>
         </div>
       </div>

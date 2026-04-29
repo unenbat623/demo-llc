@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { LayoutDashboard, LogOut, ChevronRight, LucideIcon } from 'lucide-react';
+import { LayoutDashboard, LogOut, ChevronRight, LucideIcon, Settings, User } from 'lucide-react';
 
 interface MenuItem {
   id: string;
@@ -27,20 +27,23 @@ const Sidebar: React.FC<SidebarProps> = ({
   handleLogout,
 }) => {
   return (
-    <div className="flex flex-col h-full bg-black text-white p-6">
-      <a href="/" title="Вэбсайт руу буцах" className="mb-12 mt-4 flex items-center gap-4 hover:opacity-80 transition-opacity">
-        <div className="w-10 h-10 bg-white flex items-center justify-center transform rotate-45">
-          <div className="-rotate-45">
-            <LayoutDashboard size={20} className="text-black" />
+    <div className="flex flex-col h-full bg-black text-white p-6 relative overflow-hidden">
+      {/* Logo Section */}
+      <a href="/" title="Вэбсайт руу буцах" className="mb-10 mt-2 flex items-center gap-4 group relative z-10">
+        <div className="w-9 h-9 border-2 border-white flex items-center justify-center transform rotate-45 group-hover:rotate-[225deg] transition-transform duration-700">
+          <div className="-rotate-45 group-hover:-rotate-[225deg] transition-transform duration-700">
+            <LayoutDashboard size={18} className="text-white" />
           </div>
         </div>
         <div>
-          <h2 className="text-xl font-black tracking-tighter uppercase leading-none">Админ</h2>
-          <div className="text-[9px] font-black uppercase tracking-[0.3em] text-gray-500 mt-1">Төв систем</div>
+          <h2 className="text-lg font-black tracking-tighter uppercase leading-none">ADMIN</h2>
+          <span className="text-[7px] font-black uppercase tracking-[0.4em] text-gray-500 mt-0.5 block">Terminal v1.0</span>
         </div>
       </a>
 
-      <nav className="flex-1 space-y-2">
+      {/* Navigation */}
+      <nav className="flex-1 space-y-1 relative z-10">
+        <p className="text-[8px] font-black uppercase tracking-[0.3em] text-gray-600 mb-4 ml-2">Main Menu</p>
         {menuItems.map((item) => (
           <button
             key={item.id}
@@ -48,49 +51,55 @@ const Sidebar: React.FC<SidebarProps> = ({
               setActiveTab(item.id);
               setIsSidebarOpen(false);
             }}
-            className={`w-full group flex items-center gap-4 px-4 py-4 rounded-sm transition-all duration-500 relative overflow-hidden ${activeTab === item.id
-                ? 'bg-white/10 text-white shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]'
-                : 'text-gray-500 hover:text-white hover:bg-white/5'
+            className={`w-full group flex items-center gap-4 px-4 py-3 rounded-sm transition-all duration-300 ${activeTab === item.id
+              ? 'bg-white text-black shadow-lg'
+              : 'text-gray-500 hover:text-white hover:bg-white/5'
               }`}
           >
+            <item.icon size={16} />
+            <span className="text-[9px] font-black uppercase tracking-[0.2em]">{item.label}</span>
             {activeTab === item.id && (
-              <motion.div
-                layoutId="active-nav"
-                className="absolute left-0 w-1 h-6 bg-white rounded-full"
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              />
+              <motion.div layoutId="active-indicator" className="ml-auto w-1 h-1 bg-black rounded-full" />
             )}
-            <item.icon
-              size={18}
-              className={`transition-all duration-500 ${activeTab === item.id ? 'scale-110' : 'group-hover:scale-110'
-                }`}
-            />
-            <span className="text-[11px] font-black uppercase tracking-[0.2em]">{item.label}</span>
-            <ChevronRight
-              size={14}
-              className={`ml-auto transition-all duration-500 ${activeTab === item.id ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'
-                }`}
-            />
           </button>
         ))}
+
+        <div className="pt-6">
+          <p className="text-[8px] font-black uppercase tracking-[0.3em] text-gray-600 mb-4 ml-2">Account</p>
+          <button
+            onClick={() => {
+              setActiveTab('settings');
+              setIsSidebarOpen(false);
+            }}
+            className={`w-full group flex items-center gap-4 px-4 py-3 rounded-sm transition-all duration-300 ${activeTab === 'settings'
+              ? 'bg-white text-black shadow-lg'
+              : 'text-gray-500 hover:text-white hover:bg-white/5'
+              }`}
+          >
+            <Settings size={16} />
+            <span className="text-[9px] font-black uppercase tracking-[0.2em]">Профайл</span>
+          </button>
+        </div>
       </nav>
 
-      <div className="mt-auto pt-8 border-t border-white/10">
-        <div className="flex items-center gap-4 px-4 py-4 mb-4 bg-white/5 rounded-sm">
-          <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[10px] font-black">
-            {user?.username?.[0]?.toUpperCase() || 'U'}
+      {/* Footer / User Profile */}
+      <div className="mt-auto pt-6 border-t border-white/10 relative z-10">
+        <div className="flex items-center gap-3 px-2 py-3 mb-4 bg-white/5 rounded-sm">
+          <div className="w-8 h-8 bg-white/10 rounded-sm flex items-center justify-center text-[11px] font-black border border-white/5">
+            {user?.username?.[0]?.toUpperCase()}
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-[10px] font-black uppercase tracking-wider truncate">{user?.username}</p>
-            <p className="text-[8px] font-black uppercase tracking-[0.2em] text-gray-500">{user?.role}</p>
+            <p className="text-[7px] font-black uppercase tracking-[0.3em] text-gray-500">{user?.role}</p>
           </div>
         </div>
+
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-4 px-4 py-4 text-gray-500 hover:text-red-500 hover:bg-red-500/5 transition-all duration-300 rounded-sm group"
+          className="w-full flex items-center gap-4 px-4 py-3 text-gray-500 hover:text-red-500 hover:bg-red-500/5 transition-all duration-300 rounded-sm group"
         >
-          <LogOut size={18} className="group-hover:-translate-x-1 transition-transform" />
-          <span className="text-[11px] font-black uppercase tracking-[0.2em]">Гарах</span>
+          <LogOut size={16} className="group-hover:-translate-x-1 transition-transform" />
+          <span className="text-[9px] font-black uppercase tracking-[0.2em]">Гарах</span>
         </button>
       </div>
     </div>
