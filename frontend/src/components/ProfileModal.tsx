@@ -15,7 +15,7 @@ export default function ProfileModal({ member, onClose }: ProfileModalProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/90 backdrop-blur-md"
+            className="fixed inset-0 z-[100] flex items-center justify-center p-0 sm:p-6 bg-black/90 backdrop-blur-md"
             onClick={onClose}
         >
             <motion.div
@@ -23,9 +23,9 @@ export default function ProfileModal({ member, onClose }: ProfileModalProps) {
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 30 }}
                 transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-                className="bg-white w-full max-w-5xl rounded-lg relative shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] border border-white/20 flex flex-col md:flex-row overflow-hidden"
+                className="bg-white w-full h-full sm:h-auto max-w-5xl sm:rounded-lg relative shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] border border-white/20 flex flex-col md:flex-row overflow-hidden"
                 onClick={(e) => e.stopPropagation()}
-                style={{ maxHeight: '90vh' }}
+                style={{ maxHeight: '100dvh' }}
             >
                 {/* Close button */}
                 <button

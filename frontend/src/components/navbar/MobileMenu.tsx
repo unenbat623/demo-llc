@@ -20,7 +20,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, setIsOpen, navLinks }) 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-60 bg-black flex flex-col justify-between p-8 sm:p-12 overflow-hidden"
+          className="fixed inset-0 z-60 bg-black flex flex-col p-8 sm:p-12 overflow-y-auto overflow-x-hidden"
         >
           <div className="mt-20 sm:mt-24 space-y-12">
             <div className="flex items-center justify-between">
@@ -65,7 +65,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, setIsOpen, navLinks }) 
                 <a href="#" className="hover:text-white transition-colors">TW</a>
                 <a href="#" className="hover:text-white transition-colors">IG</a>
               </div>
-              <div className="text-xs font-black uppercase tracking-[0.2em] text-gray-800">
+              <div className="text-xs font-black uppercase tracking-[0.2em] text-gray-800 pb-12 sm:pb-0">
                 © 2026 TBT
               </div>
             </div>

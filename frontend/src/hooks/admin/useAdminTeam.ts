@@ -1,0 +1,241 @@
+import React, { useState, useMemo } from 'react';
+import { toast } from 'react-toastify';
+import { API_URL } from '../../services/api';
+import { TeamMember } from '../../types/admin';
+
+
+export const useAdminTeam = (logAction: Function) => {
+  const [formData, setFormData] = useState({
+    name: '', name_en: '', position: '', position_en: '', image: '', email: '', linkedin: '',
+    skills: '', aboutMe: '', aboutMe_en: '', experience: '', experience_en: '',
+    education: '', education_en: '', projects: '', projects_en: '', achievements: '', achievements_en: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
+
+  const [imageInputMode, setImageInputMode] = useState<'url' | 'file'>('url');
+
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingMemberId, setEditingMemberId] = useState<string | null>(null);
+
+  const [teamSearch, setTeamSearch] = useState('');
+
+  const [deleteConfirm, setDeleteConfirm] = useState<{ isOpen: boolean; memberId: string | null; memberName: string }>({
+    isOpen: false, memberId: null, memberName: ''
+  });
+
+  const [selectedTeamMembers, setSelectedTeamMembers] = useState<string[]>([]);
+  const [isTranslating, setIsTranslating] = useState(false);
+
+  const fetchTeamMembers = async () => {
+    try {
+      const res = await fetch(`${API_URL}/team`);
+      const data = await res.json();
+      setTeamMembers(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const openAddModal = () => {
+    setEditingMemberId(null);
+    setFormData({
+      name: '', name_en: '', position: '', position_en: '', image: '', email: '', linkedin: '',
+      skills: '', aboutMe: '', aboutMe_en: '', experience: '', experience_en: '',
+      education: '', education_en: '', projects: '', projects_en: '', achievements: '', achievements_en: ''
+    });
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (member: TeamMember, _focusTarget?: string) => {
+    setEditingMemberId(member._id);
+    setFormData({
+      name: member.name || '', name_en: member.name_en || '', position: member.position || '',
+      position_en: member.position_en || '', image: member.image || '', email: member.social?.email || '',
+      linkedin: member.social?.linkedin || '', skills: member.skills?.join(', ') || '',
+      aboutMe: member.aboutMe || '', aboutMe_en: member.aboutMe_en || '', experience: member.experience || '',
+      experience_en: member.experience_en || '', education: member.education?.join(', ') || '',
+      education_en: member.education_en?.join(', ') || '', projects: member.projects?.join(', ') || '',
+      projects_en: member.projects_en?.join(', ') || '', achievements: member.achievements?.join(', ') || '',
+      achievements_en: member.achievements_en?.join(', ') || ''
+    });
+    setIsModalOpen(true);
+  };
+
+  const confirmDelete = (member: TeamMember) => {
+    setDeleteConfirm({ isOpen: true, memberId: member._id, memberName: member.name });
+  };
+
+  const handleDeleteMember = async () => {
+    if (!deleteConfirm.memberId) return;
+    try {
+      const id = deleteConfirm.memberId;
+      const member = teamMembers.find((m) => m._id === id);
+      const res = await fetch(`${API_URL}/team/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Устгахад алдаа гарлаа');
+      if (member) await logAction('DELETE', `Гишүүнийг устгалаа: ${member.name}`, member.position);
+      fetchTeamMembers();
+      setDeleteConfirm({ isOpen: false, memberId: null, memberName: '' });
+      setSelectedTeamMembers((prev) => prev.filter((selectedId) => selectedId !== id));
+      toast.success('Амжилттай устгалаа');
+    } catch (err: any) {
+      toast.error(err.message);
+    }
+  };
+
+  const handleBulkDeleteTeamMembers = async () => {
+    if (selectedTeamMembers.length === 0) return;
+    if (!window.confirm(`Та сонгосон ${selectedTeamMembers.length} гишүүнийг устгахдаа итгэлтэй байна уу?`)) return;
+
+    try {
+      const res = await fetch(`${API_URL}/team/bulk-delete`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: selectedTeamMembers })
+      });
+      if (!res.ok) throw new Error('Бөөнөөр устгахад алдаа гарлаа');
+      await logAction('DELETE', `Олон гишүүн устгалаа (${selectedTeamMembers.length})`, 'Admin');
+      fetchTeamMembers();
+      setSelectedTeamMembers([]);
+      toast.success(`${selectedTeamMembers.length} гишүүнийг амжилттай устгалаа`);
+    } catch (err: any) {
+      toast.error(err.message);
+    }
+  };
+
+  const handleSaveMember = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      const isUpdate = !!editingMemberId;
+      const url = isUpdate ? `${API_URL}/team/${editingMemberId}` : `${API_URL}/team`;
+      const method = isUpdate ? 'PUT' : 'POST';
+
+      const payload = {
+        ...formData,
+        social: { email: formData.email, linkedin: formData.linkedin },
+        skills: formData.skills.split(',').map((s) => s.trim()).filter(Boolean),
+        education: formData.education.split('\n').filter(Boolean),
+        education_en: formData.education_en.split('\n').filter(Boolean),
+        projects: formData.projects.split('\n').filter(Boolean),
+        projects_en: formData.projects_en.split('\n').filter(Boolean),
+        achievements: formData.achievements.split('\n').filter(Boolean),
+        achievements_en: formData.achievements_en.split('\n').filter(Boolean)
+      };
+
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error('Хадгалахад алдаа гарлаа');
+      
+      await logAction(isUpdate ? 'UPDATE' : 'CREATE', `${isUpdate ? 'Гишүүний мэдээлэл заслаа' : 'Шинэ гишүүн нэмлээ'}: ${formData.name}`, formData.position);
+      
+      setSubmitStatus({ type: 'success', message: 'Амжилттай хадгалагдлаа' });
+      fetchTeamMembers();
+      setTimeout(() => {
+        setIsModalOpen(false);
+        setSubmitStatus({ type: '', message: '' });
+      }, 1000);
+    } catch (err: any) {
+      setSubmitStatus({ type: 'error', message: err.message });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+
+
+  const handleAutoTranslate = async () => {
+    setIsTranslating(true);
+    const fieldsToTranslate = {
+      name_en: formData.name && !formData.name_en ? formData.name : null,
+      position_en: formData.position && !formData.position_en ? formData.position : null,
+      aboutMe_en: formData.aboutMe && !formData.aboutMe_en ? formData.aboutMe : null,
+      experience_en: formData.experience && !formData.experience_en ? formData.experience : null,
+      education_en: formData.education && !formData.education_en ? formData.education : null,
+      projects_en: formData.projects && !formData.projects_en ? formData.projects : null,
+      achievements_en: formData.achievements && !formData.achievements_en ? formData.achievements : null
+    };
+
+    const payload: Record<string, string> = {};
+    Object.entries(fieldsToTranslate).forEach(([key, val]) => {
+      if (val) payload[key] = val;
+    });
+
+    if (Object.keys(payload).length === 0) {
+      toast.info('Орчуулах мэдээлэл алга байна');
+      setIsTranslating(false);
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_URL}/translate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ texts: payload })
+      });
+      if (!res.ok) throw new Error('Орчуулахад алдаа гарлаа');
+      const data = await res.json();
+      setFormData((prev) => ({ ...prev, ...data }));
+      toast.success('Мэдээлэл амжилттай орчуулагдлаа (OpenAI)');
+    } catch (err) {
+      toast.error('Орчуулахад алдаа гарлаа');
+    } finally {
+      setIsTranslating(false);
+    }
+  };
+
+
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (!file.type.startsWith('image/')) { toast.error('Зөвхөн зураг файл сонгоно уу.'); return; }
+      if (file.size > 5 * 1024 * 1024) { toast.error('Зурагны хэмжээ 5MB-с ихгүй байх ёстой.'); return; }
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          const maxSize = 2048;
+          let { width, height } = img;
+          if (width > height) { if (width > maxSize) { height = (height * maxSize) / width; width = maxSize; } }
+          else { if (height > maxSize) { width = (width * maxSize) / height; height = maxSize; } }
+          canvas.width = width; canvas.height = height;
+          ctx?.drawImage(img, 0, 0, width, height);
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 1.0);
+          setFormData((prev) => ({ ...prev, image: compressedDataUrl }));
+          toast.success('Зураг амжилттай upload хийгдлээ!');
+        };
+        img.src = event.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const filteredTeamMembers = useMemo(() => {
+    return teamMembers.filter((m) =>
+      (m.name || '').toLowerCase().includes(teamSearch.toLowerCase()) ||
+      (m.position || '').toLowerCase().includes(teamSearch.toLowerCase())
+    );
+  }, [teamMembers, teamSearch]);
+
+  return {
+    teamMembers, formData, setFormData, isSubmitting, submitStatus, imageInputMode, setImageInputMode,
+    isModalOpen, setIsModalOpen, editingMemberId,
+    teamSearch, setTeamSearch,
+    deleteConfirm, setDeleteConfirm, selectedTeamMembers, setSelectedTeamMembers,
+    isTranslating, fetchTeamMembers, handleInputChange, openAddModal, openEditModal, confirmDelete,
+    handleDeleteMember, handleBulkDeleteTeamMembers, handleSaveMember,
+    handleAutoTranslate, handleFileUpload, filteredTeamMembers
+  };
+};

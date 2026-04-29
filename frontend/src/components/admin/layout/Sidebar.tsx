@@ -28,7 +28,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   return (
     <div className="flex flex-col h-full bg-black text-white p-6">
-      <div className="mb-12 mt-4 flex items-center gap-4">
+      <a href="/" title="Вэбсайт руу буцах" className="mb-12 mt-4 flex items-center gap-4 hover:opacity-80 transition-opacity">
         <div className="w-10 h-10 bg-white flex items-center justify-center transform rotate-45">
           <div className="-rotate-45">
             <LayoutDashboard size={20} className="text-black" />
@@ -38,7 +38,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           <h2 className="text-xl font-black tracking-tighter uppercase leading-none">Админ</h2>
           <div className="text-[9px] font-black uppercase tracking-[0.3em] text-gray-500 mt-1">Төв систем</div>
         </div>
-      </div>
+      </a>
 
       <nav className="flex-1 space-y-2">
         {menuItems.map((item) => (

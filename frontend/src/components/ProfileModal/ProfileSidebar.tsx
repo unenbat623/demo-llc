@@ -10,7 +10,7 @@ interface ProfileSidebarProps {
 }
 
 export default function ProfileSidebar({ member }: ProfileSidebarProps) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     return (
         <div className="w-full md:w-80 flex-shrink-0 bg-[#0a0c10] flex flex-col relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.03),transparent)] pointer-events-none" />
@@ -19,7 +19,7 @@ export default function ProfileSidebar({ member }: ProfileSidebarProps) {
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="relative w-full aspect-[3/4] overflow-hidden"
+                className="relative w-full aspect-square md:aspect-[3/4] overflow-hidden"
             >
                 <motion.img
                     initial={{ scale: 1.1, filter: 'grayscale(100%)' }}
@@ -41,10 +41,10 @@ export default function ProfileSidebar({ member }: ProfileSidebarProps) {
                     transition={{ delay: 0.3 }}
                 >
                     <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-500 block mb-2">
-                        {t('language') === 'en' ? (member.position_en || translateData(member.position)) : member.position}
+                        {i18n.language === 'en' ? (member.position_en || translateData(member.position)) : member.position}
                     </span>
                     <h2 className="text-2xl font-black uppercase tracking-tighter text-white leading-tight mb-4">
-                        {t('language') === 'en' ? (member.name_en || member.name) : member.name}
+                        {i18n.language === 'en' ? (member.name_en || member.name) : member.name}
                     </h2>
                 </motion.div>
 
@@ -92,6 +92,7 @@ export default function ProfileSidebar({ member }: ProfileSidebarProps) {
                                         ) : (
                                             <span className="text-[10px] font-black text-white/30 uppercase">{skill.slice(0, 2)}</span>
                                         )}
+
                                     </motion.div>
                                 );
                             })}

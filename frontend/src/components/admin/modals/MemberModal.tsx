@@ -17,22 +17,17 @@ interface MemberModalProps {
   handleSaveMember: (e: React.FormEvent) => void;
   formData: any;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  skillsInputRef: React.RefObject<HTMLInputElement>;
-  imageInputMode: 'url' | 'generate' | 'file';
-  setImageInputMode: (mode: 'url' | 'generate' | 'file') => void;
+  setFormData: (updater: (prev: any) => any) => void;
+  imageInputMode: 'url' | 'file';
+  setImageInputMode: (mode: 'url' | 'file') => void;
   handleFileUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  imagePrompt: string;
-  setImagePrompt: (s: string) => void;
-  handleGenerateImage: () => void;
-  isGeneratingImage: boolean;
   isSubmitting: boolean;
 }
 
 const MemberModal: React.FC<MemberModalProps> = ({
   isModalOpen, setIsModalOpen, editingMemberId, handleAutoTranslate, isTranslating,
-  submitStatus, handleSaveMember, formData, handleInputChange, skillsInputRef,
-  imageInputMode, setImageInputMode, handleFileUpload, imagePrompt, setImagePrompt,
-  handleGenerateImage, isGeneratingImage, isSubmitting
+  submitStatus, handleSaveMember, formData, handleInputChange, setFormData,
+  imageInputMode, setImageInputMode, handleFileUpload, isSubmitting
 }) => {
   return (
     <AnimatePresence>
@@ -97,14 +92,12 @@ const MemberModal: React.FC<MemberModalProps> = ({
 
             <div className="overflow-y-auto flex-1 custom-scrollbar">
               <form onSubmit={handleSaveMember}>
-                <BasicInfoSection formData={formData} handleInputChange={handleInputChange} skillsInputRef={skillsInputRef} />
+                <BasicInfoSection formData={formData} handleInputChange={handleInputChange} setFormData={setFormData} />
                 <ImageSection 
                   imageInputMode={imageInputMode} setImageInputMode={setImageInputMode} formData={formData} 
                   handleInputChange={handleInputChange} handleFileUpload={handleFileUpload} 
-                  imagePrompt={imagePrompt} setImagePrompt={setImagePrompt} 
-                  handleGenerateImage={handleGenerateImage} isGeneratingImage={isGeneratingImage} 
                 />
-                <DetailedInfoSection formData={formData} handleInputChange={handleInputChange} />
+                <DetailedInfoSection formData={formData} handleInputChange={handleInputChange} setFormData={setFormData} />
 
                 <div className="px-8 py-6 border-t border-black/8 bg-gray-50/80 flex items-center justify-between gap-4 flex-shrink-0">
                   <button type="button" onClick={() => setIsModalOpen(false)} className="text-[10px] font-black uppercase tracking-[0.25em] text-gray-400 hover:text-black transition-colors px-4 py-3">Цуцлах</button>

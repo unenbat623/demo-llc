@@ -1,8 +1,10 @@
 import { ArrowDownRight, Linkedin, Facebook, Twitter, Instagram } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useSettings } from '../context/SettingsContext';
 
 export default function Footer() {
   const { t } = useTranslation();
+  const { settings, t_site } = useSettings();
   return (
     <footer className="bg-black text-white py-20 pb-10">
       <div className="max-w-6xl mx-auto px-6 lg:px-12">
@@ -15,7 +17,7 @@ export default function Footer() {
               {t('footer.buildTogether')}
             </p>
             <a
-              href="mailto:contact@tavanbogd.tech"
+              href={`mailto:${settings?.contactEmail || 'contact@tavanbogd.tech'}`}
               className="inline-flex items-center space-x-4 sm:space-x-6 text-xl font-black uppercase tracking-tighter group relative pb-4"
             >
               <span className="relative z-10">{t('footer.startConversation')}</span>
@@ -43,30 +45,38 @@ export default function Footer() {
             <div>
               <h4 className="text-xs font-black uppercase tracking-[0.4em] text-gray-500 mb-6 sm:mb-8">{t('footer.contact')}</h4>
               <div className="flex flex-col space-y-4">
-                <a href="#" className="flex items-center space-x-3 text-xs font-bold uppercase tracking-widest hover:text-gray-400 transition-all group">
-                  <span className="p-2 border border-white/10 group-hover:border-white/40 transition-colors rounded-sm">
-                    <Linkedin size={16} />
-                  </span>
-                  <span>LinkedIn</span>
-                </a>
-                <a href="#" className="flex items-center space-x-3 text-xs font-bold uppercase tracking-widest hover:text-gray-400 transition-all group">
-                  <span className="p-2 border border-white/10 group-hover:border-white/40 transition-colors rounded-sm">
-                    <Facebook size={16} />
-                  </span>
-                  <span>Facebook</span>
-                </a>
-                <a href="#" className="flex items-center space-x-3 text-xs font-bold uppercase tracking-widest hover:text-gray-400 transition-all group">
-                  <span className="p-2 border border-white/10 group-hover:border-white/40 transition-colors rounded-sm">
-                    <Twitter size={16} />
-                  </span>
-                  <span>Twitter</span>
-                </a>
-                <a href="#" className="flex items-center space-x-3 text-xs font-bold uppercase tracking-widest hover:text-gray-400 transition-all group">
-                  <span className="p-2 border border-white/10 group-hover:border-white/40 transition-colors rounded-sm">
-                    <Instagram size={16} />
-                  </span>
-                  <span>Instagram</span>
-                </a>
+                {settings?.linkedin && settings.linkedin !== '#' && (
+                  <a href={settings.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-3 text-xs font-bold uppercase tracking-widest hover:text-gray-400 transition-all group">
+                    <span className="p-2 border border-white/10 group-hover:border-white/40 transition-colors rounded-sm">
+                      <Linkedin size={16} />
+                    </span>
+                    <span>LinkedIn</span>
+                  </a>
+                )}
+                {settings?.facebook && settings.facebook !== '#' && (
+                  <a href={settings.facebook} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-3 text-xs font-bold uppercase tracking-widest hover:text-gray-400 transition-all group">
+                    <span className="p-2 border border-white/10 group-hover:border-white/40 transition-colors rounded-sm">
+                      <Facebook size={16} />
+                    </span>
+                    <span>Facebook</span>
+                  </a>
+                )}
+                {settings?.twitter && settings.twitter !== '#' && (
+                  <a href={settings.twitter} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-3 text-xs font-bold uppercase tracking-widest hover:text-gray-400 transition-all group">
+                    <span className="p-2 border border-white/10 group-hover:border-white/40 transition-colors rounded-sm">
+                      <Twitter size={16} />
+                    </span>
+                    <span>Twitter</span>
+                  </a>
+                )}
+                {settings?.instagram && settings.instagram !== '#' && (
+                  <a href={settings.instagram} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-3 text-xs font-bold uppercase tracking-widest hover:text-gray-400 transition-all group">
+                    <span className="p-2 border border-white/10 group-hover:border-white/40 transition-colors rounded-sm">
+                      <Instagram size={16} />
+                    </span>
+                    <span>Instagram</span>
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -74,10 +84,10 @@ export default function Footer() {
 
         <div className="pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
           <div className="text-lg font-black tracking-tighter uppercase">
-            {t('hero.brand1')} <span className="text-gray-500">{t('hero.brand2')} {t('hero.brand3')}</span>
+            {settings?.navbarLogo || 'TAVAN BOGD TECH'}
           </div>
           <div className="text-xs font-bold uppercase tracking-[0.2em] text-gray-500 max-w-xs sm:max-w-none">
-            {t('footer.copyright')}
+            {t_site('footerText')}
           </div>
         </div>
       </div>

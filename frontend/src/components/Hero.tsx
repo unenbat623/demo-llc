@@ -1,9 +1,11 @@
 import { motion } from 'motion/react';
 import { ArrowDownRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useSettings } from '../context/SettingsContext';
 
 export default function Hero() {
   const { t } = useTranslation();
+  const { settings, t_site } = useSettings();
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -34,9 +36,10 @@ export default function Hero() {
           muted
           playsInline
           className="w-full h-full object-cover opacity-30 grayscale"
+          key={settings?.heroBgUrl}
         >
           <source
-            src="https://cdn.pixabay.com/video/2021/04/12/70850-536961444_large.mp4"
+            src={settings?.heroBgUrl || "https://cdn.pixabay.com/video/2021/04/12/70850-536961444_large.mp4"}
             type="video/mp4"
           />
         </video>
@@ -63,30 +66,28 @@ export default function Hero() {
               variants={itemVariants}
               className="inline-block px-3 py-1 border border-white/30 rounded-sm text-white text-xs font-bold uppercase tracking-[0.3em] mb-8"
             >
-              {t('hero.tagline')}
+              {t_site('siteTitle')}
             </motion.span>
 
             <motion.h1
               variants={itemVariants}
-              className="text-4xl sm:text-6xl lg:text-7xl font-black text-white leading-[0.85] tracking-tighter uppercase mb-8"
+              className="text-4xl sm:text-6xl lg:text-7xl font-black text-white leading-[0.95] sm:leading-[0.85] tracking-tighter uppercase mb-8"
             >
-              {t('hero.brand1')} <br />
-              <span className="text-gray-500">{t('hero.brand2')}</span> <br />
-              {t('hero.brand3')}
+              {t_site('heroTitle')}
             </motion.h1>
 
             <motion.p
               variants={itemVariants}
               className="max-w-md text-base sm:text-lg text-gray-300 mb-10 leading-relaxed font-light"
             >
-              {t('hero.description')}
+              {t_site('heroDescription')}
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex flex-wrap gap-4 sm:gap-6 items-center" >
               <a href="#team" className="group relative overflow-hidden px-6 py-4 md:px-10 md:py-5 bg-white text-black border border-white transition-all duration-500 hover:text-white rounded-sm w-full sm:w-auto inline-block"  >
                 <div className="absolute inset-0 bg-black translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.16, 1, 0.3, 1]" />
                 <div className="relative flex items-center justify-center sm:justify-start space-x-4">
-                  <span className="text-xs font-black uppercase tracking-[0.3em]">{t('hero.cta')}</span>
+                  <span className="text-xs font-black uppercase tracking-[0.3em]">{t_site('ctaText')}</span>
                   <ArrowDownRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform duration-500" />
                 </div>
               </a>
@@ -102,7 +103,7 @@ export default function Hero() {
             <div className="aspect-4/5 relative overflow-hidden group">
               <div className="absolute inset-0 bg-white/5 backdrop-blur-3xl z-10 opacity-0 group-hover:opacity-10 transition-opacity duration-700" />
               <img
-                src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200"
+                src={settings?.heroImageUrl || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200"}
                 alt="Digital Network"
                 className="w-full h-full object-cover grayscale brightness-75 group-hover:scale-110 transition-transform duration-1000"
                 referrerPolicy="no-referrer"

@@ -4,16 +4,21 @@ export const Field = ({
   label,
   hint,
   children,
+  icon,
   full = false,
 }: {
   label: string;
   hint?: string;
   children: React.ReactNode;
+  icon?: React.ReactNode;
   full?: boolean;
 }) => (
   <div className={full ? 'col-span-1 sm:col-span-2' : ''}>
     <div className="flex items-baseline justify-between mb-2">
-      <label className="text-[10px] font-black uppercase tracking-[0.25em] text-gray-400">{label}</label>
+      <div className="flex items-center gap-2">
+        {icon}
+        <label className="text-[10px] font-black uppercase tracking-[0.25em] text-gray-400">{label}</label>
+      </div>
       {hint && <span className="text-[10px] text-gray-400">{hint}</span>}
     </div>
     {children}

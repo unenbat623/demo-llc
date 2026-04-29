@@ -3,6 +3,7 @@ import { parseTeamExcel, TeamMemberImport } from '../../../utils/parseTeamExcel'
 import { motion, AnimatePresence } from 'motion/react';
 import { X, FileSpreadsheet, Check, AlertCircle } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { API_URL } from '../../../services/api';
 
 interface TeamBulkImportProps {
   isOpen: boolean;
@@ -36,7 +37,7 @@ const TeamBulkImport: React.FC<TeamBulkImportProps> = ({ isOpen, onClose, onImpo
     if (preview.length === 0) return;
     setIsUploading(true);
     try {
-      const res = await fetch('http://localhost:5001/api/team/bulk-import', {
+      const res = await fetch(`${API_URL}/team/bulk-import`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(preview),

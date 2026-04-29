@@ -42,7 +42,7 @@ const LogsTab: React.FC<LogsTabProps> = ({
                 cursor={{ fill: '#F3F4F6' }}
                 contentStyle={{ borderRadius: '2px', border: '1px solid #E5E7EB', boxShadow: 'none', fontSize: '12px', fontWeight: 'bold' }}
               />
-              <Bar dataKey="count" fill="#000000" radius={[2, 2, 0, 0]} />
+              <Bar dataKey="value" fill="#000000" radius={[2, 2, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

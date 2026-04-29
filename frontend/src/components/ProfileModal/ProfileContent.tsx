@@ -9,7 +9,7 @@ interface ProfileContentProps {
 }
 
 export default function ProfileContent({ member }: ProfileContentProps) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const timelineItems = [
         {
             id: 'about',
@@ -17,7 +17,7 @@ export default function ProfileContent({ member }: ProfileContentProps) {
             label: t('team.aboutMe'),
             content: (
                 <p className="text-black text-[15px] font-medium leading-relaxed italic tracking-tight border-l-2 border-black pl-5 hover:text-gray-600 transition-all duration-500 cursor-default">
-                    "{t('language') === 'en' ? (member.aboutMe_en || translateData(member.aboutMe)) : member.aboutMe}"
+                    "{i18n.language === 'en' ? (member.aboutMe_en || translateData(member.aboutMe)) : member.aboutMe}"
                 </p>
             ),
         },
@@ -27,7 +27,7 @@ export default function ProfileContent({ member }: ProfileContentProps) {
             label: t('team.experience'),
             content: (
                 <p className="text-gray-600 text-[15px] leading-relaxed font-medium hover:text-black transition-colors duration-500 cursor-default">
-                    {t('language') === 'en' ? (member.experience_en || translateData(member.experience)) : member.experience}
+                    {i18n.language === 'en' ? (member.experience_en || translateData(member.experience)) : member.experience}
                 </p>
             ),
         },
@@ -37,10 +37,10 @@ export default function ProfileContent({ member }: ProfileContentProps) {
             label: t('team.education'),
             content: (
                 <ul className="space-y-3">
-                    {(t('language') === 'en' && member.education_en?.length ? member.education_en : member.education).map((edu, i) => (
+                    {(i18n.language === 'en' && member.education_en?.length ? member.education_en : member.education).map((edu, i) => (
                         <li key={i} className="text-sm font-bold text-black uppercase tracking-wider leading-tight flex items-center gap-3 hover:text-gray-500 transition-colors duration-500 cursor-default group">
                             <span className="w-1 h-1 bg-black flex-shrink-0 rounded-full group-hover:scale-150 transition-transform duration-500" />
-                            {t('language') === 'en' ? (member.education_en?.[i] || translateData(edu)) : edu}
+                            {i18n.language === 'en' ? (member.education_en?.[i] || translateData(edu)) : edu}
                         </li>
                     ))}
                 </ul>
@@ -52,13 +52,13 @@ export default function ProfileContent({ member }: ProfileContentProps) {
             label: t('team.keyProjects'),
             content: (
                 <div className="grid grid-cols-1 gap-2">
-                    {(t('language') === 'en' && member.projects_en?.length ? member.projects_en : member.projects).map((project, i) => (
+                    {(i18n.language === 'en' && member.projects_en?.length ? member.projects_en : member.projects).map((project, i) => (
                         <motion.div
                             key={i}
                             whileHover={{ x: 4 }}
                             className="px-4 py-3 border border-gray-100 hover:border-black/20 hover:bg-black/5 text-black transition-all duration-300 rounded-sm cursor-default flex items-center justify-between group"
                         >
-                            <span className="text-xs font-black uppercase tracking-widest">{t('language') === 'en' ? (member.projects_en?.[i] || project) : project}</span>
+                            <span className="text-xs font-black uppercase tracking-widest">{i18n.language === 'en' ? (member.projects_en?.[i] || project) : project}</span>
                             <ExternalLink size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                         </motion.div>
                     ))}
@@ -71,7 +71,7 @@ export default function ProfileContent({ member }: ProfileContentProps) {
             label: t('team.achievements'),
             content: (
                 <div className="flex flex-col gap-2">
-                    {(t('language') === 'en' && member.achievements_en?.length ? member.achievements_en : member.achievements).map((ach, i) => (
+                    {(i18n.language === 'en' && member.achievements_en?.length ? member.achievements_en : member.achievements).map((ach, i) => (
                         <motion.div
                             key={i}
                             whileHover={{ scale: 1.01 }}
@@ -80,7 +80,7 @@ export default function ProfileContent({ member }: ProfileContentProps) {
                             <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center">
                                 <Trophy size={10} className="text-white" />
                             </div>
-                            {t('language') === 'en' ? (member.achievements_en?.[i] || ach) : ach}
+                            {i18n.language === 'en' ? (member.achievements_en?.[i] || ach) : ach}
                         </motion.div>
                     ))}
                 </div>
@@ -103,18 +103,18 @@ export default function ProfileContent({ member }: ProfileContentProps) {
 
     return (
         <div className="flex-1 bg-white relative overflow-hidden">
-            <div className="absolute inset-0 overflow-y-auto p-10 md:p-14 custom-scrollbar">
+            <div className="absolute inset-0 overflow-y-auto p-6 sm:p-10 md:p-14 custom-scrollbar">
                 <motion.div
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="relative pl-10"
+                    className="relative pl-8 sm:pl-10"
                 >
                     <motion.div
                         initial={{ scaleY: 0 }}
                         animate={{ scaleY: 1 }}
                         transition={{ duration: 1, ease: 'easeInOut' }}
-                        className="absolute left-3.5 top-2 bottom-2 w-px bg-gray-100 origin-top"
+                        className="absolute left-2.5 sm:left-3.5 top-2 bottom-2 w-px bg-gray-100 origin-top"
                     />
 
                     {timelineItems.map((item, index) => (
@@ -123,12 +123,12 @@ export default function ProfileContent({ member }: ProfileContentProps) {
                             variants={itemVariants}
                             className={`relative ${index < timelineItems.length - 1 ? 'mb-12' : ''}`}
                         >
-                            <div className="absolute -left-10 top-0.5 flex flex-col items-center">
+                            <div className="absolute -left-8 sm:-left-10 top-0.5 flex flex-col items-center">
                                 <motion.div
-                                    whileHover={{ scale: 1.2, backgroundColor: '#000' }}
-                                    className="w-7 h-7 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center flex-shrink-0 shadow-sm transition-colors duration-300"
+                                    whileHover={{ scale: 1.1 }}
+                                    className="w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center flex-shrink-0 shadow-sm transition-all duration-300 hover:border-black"
                                 >
-                                    <item.icon size={12} className="text-black group-hover:text-white transition-colors" />
+                                    <item.icon size={10} className="sm:size-12 text-gray-500 hover:text-black transition-colors" />
                                 </motion.div>
                             </div>
 

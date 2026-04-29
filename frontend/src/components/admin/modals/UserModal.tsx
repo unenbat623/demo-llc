@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X } from 'lucide-react';
+import { X, User, Lock, Shield, UserPlus, Save, Users } from 'lucide-react';
 import { Field, inputClass } from '../shared/AdminShared';
 
 interface UserModalProps {
@@ -31,70 +31,118 @@ const UserModal: React.FC<UserModalProps> = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[210] flex items-center justify-center p-6 bg-black/90 backdrop-blur-md"
+          className="fixed inset-0 z-[210] flex items-center justify-center p-4 sm:p-6 bg-black/90 backdrop-blur-md"
           onClick={() => setIsUserModalOpen(false)}
         >
           <motion.div
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.95, opacity: 0 }}
-            className="bg-white w-full max-w-md p-8 rounded-sm shadow-2xl relative"
+            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className="bg-white w-full max-w-lg rounded-sm shadow-2xl relative overflow-hidden"
             onClick={e => e.stopPropagation()}
           >
-            <button
-              onClick={() => setIsUserModalOpen(false)}
-              className="absolute right-6 top-6 text-gray-400 hover:text-black"
-            >
-              <X size={20} />
-            </button>
-            <h3 className="text-xl font-black uppercase tracking-tighter mb-8">
-              {editingUserId ? 'Хэрэглэгч засах' : 'Шинэ хэрэглэгч нэмэх'}
-            </h3>
+            {/* Modal Decorative Side Bar */}
+            <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-black" />
 
-            {userSubmitStatus.message && (
-              <div className={`mb-6 p-4 text-xs font-bold rounded-sm ${userSubmitStatus.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
-                {userSubmitStatus.message}
+            <div className="p-8 sm:p-10">
+              <div className="flex justify-between items-start mb-10">
+                <div>
+                  <div className="flex items-center gap-3 mb-2">
+                    <UserPlus size={18} className="text-black" />
+                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Хандалтын удирдлага</span>
+                  </div>
+                  <h3 className="text-2xl font-black uppercase tracking-tighter">
+                    {editingUserId ? 'Хэрэглэгч засах' : 'Шинэ хэрэглэгч'}
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setIsUserModalOpen(false)}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                >
+                  <X size={24} />
+                </button>
               </div>
-            )}
 
-            <form onSubmit={handleSaveSystemUser} className="space-y-6">
-              <Field label="Нэвтрэх нэр">
-                <input
-                  type="text"
-                  value={userFormData.username}
-                  onChange={e => setUserFormData({ ...userFormData, username: e.target.value })}
-                  required
-                  className={inputClass}
-                />
-              </Field>
-              <Field label={editingUserId ? "Шинэ нууц үг (Заавал биш)" : "Нууц үг"}>
-                <input
-                  type="password"
-                  value={userFormData.password}
-                  onChange={e => setUserFormData({ ...userFormData, password: e.target.value })}
-                  required={!editingUserId}
-                  className={inputClass}
-                />
-              </Field>
-              {user.role === 'admin' && (
-                <Field label="Эрх">
-                  <select
-                    value={userFormData.role}
-                    onChange={e => setUserFormData({ ...userFormData, role: e.target.value })}
-                    className={inputClass}
-                  >
-                    <option value="staff">Staff</option>
-                    <option value="admin">Admin</option>
-                  </select>
-                </Field>
+              {userSubmitStatus.message && (
+                <motion.div
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className={`mb-8 p-4 text-[11px] font-bold rounded-sm border flex items-center gap-3 uppercase tracking-wider ${
+                    userSubmitStatus.type === 'success' ? 'bg-green-50 text-green-700 border-green-100' : 'bg-red-50 text-red-700 border-red-100'
+                  }`}
+                >
+                  <div className={`w-2 h-2 rounded-full ${userSubmitStatus.type === 'success' ? 'bg-green-500' : 'bg-red-500'}`} />
+                  {userSubmitStatus.message}
+                </motion.div>
               )}
-              <button
-                type="submit"
-                className="w-full bg-black text-white py-4 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-gray-800 transition-colors rounded-sm"
-              >
-                {editingUserId ? 'Шинэчлэх' : 'Хадгалах'}
-              </button>
-            </form>
+
+              <form onSubmit={handleSaveSystemUser} className="space-y-8">
+                <div className="space-y-6">
+                  <Field label="Нэвтрэх нэр" icon={<User size={14} className="text-gray-400" />}>
+                    <input
+                      type="text"
+                      value={userFormData.username}
+                      onChange={e => setUserFormData({ ...userFormData, username: e.target.value })}
+                      required
+                      placeholder="Жишээ: admin_tavanbogd"
+                      className={`${inputClass} !bg-gray-50/50 focus:!bg-white transition-colors`}
+                    />
+                  </Field>
+
+                  <Field label={editingUserId ? "Шинэ нууц үг (Заавал биш)" : "Нууц үг"} icon={<Lock size={14} className="text-gray-400" />}>
+                    <input
+                      type="password"
+                      value={userFormData.password}
+                      onChange={e => setUserFormData({ ...userFormData, password: e.target.value })}
+                      required={!editingUserId}
+                      placeholder="••••••••"
+                      className={`${inputClass} !bg-gray-50/50 focus:!bg-white transition-colors`}
+                    />
+                  </Field>
+
+                  {user.role === 'admin' && (
+                    <Field label="Хандалтын түвшин (Role)" icon={<Shield size={14} className="text-gray-400" />}>
+                      <div className="grid grid-cols-2 gap-4">
+                        <button
+                          type="button"
+                          onClick={() => setUserFormData({ ...userFormData, role: 'staff' })}
+                          className={`flex items-center justify-center gap-3 py-4 border rounded-sm transition-all duration-300 ${
+                            userFormData.role === 'staff' ? 'border-black bg-black text-white shadow-lg' : 'border-black/5 bg-gray-50 text-gray-400 hover:border-black/20'
+                          }`}
+                        >
+                          <Users size={16} />
+                          <span className="text-[10px] font-black uppercase tracking-widest">Staff</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setUserFormData({ ...userFormData, role: 'admin' })}
+                          className={`flex items-center justify-center gap-3 py-4 border rounded-sm transition-all duration-300 ${
+                            userFormData.role === 'admin' ? 'border-black bg-black text-white shadow-lg' : 'border-black/5 bg-gray-50 text-gray-400 hover:border-black/20'
+                          }`}
+                        >
+                          <Shield size={16} />
+                          <span className="text-[10px] font-black uppercase tracking-widest">Admin</span>
+                        </button>
+                      </div>
+                    </Field>
+                  )}
+                </div>
+
+                <div className="pt-4">
+                  <button
+                    type="submit"
+                    className="group relative w-full overflow-hidden bg-black text-white py-5 flex items-center justify-center gap-3 transition-all duration-500 rounded-sm"
+                  >
+                    <div className="absolute inset-0 bg-gray-800 -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-[0.16,1,0.3,1]" />
+                    <span className="relative flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.3em]">
+                      <Save size={18} />
+                      {editingUserId ? 'Шинэчлэлтийг хадгалах' : 'Хэрэглэгч үүсгэх'}
+                    </span>
+                  </button>
+                </div>
+              </form>
+            </div>
           </motion.div>
         </motion.div>
       )}

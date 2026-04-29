@@ -84,13 +84,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         </button>
       </form>
 
-      <div className="mt-10 pt-8 border-t border-white/5 flex flex-col items-center gap-4">
-        <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-600">{t('login.testCredentials')}</p>
-        <div className="flex gap-4">
-          <div className="px-3 py-1.5 bg-white/5 border border-white/5 text-[10px] text-gray-400 font-bold tracking-wider">ADMIN / ADMIN</div>
-          <div className="px-3 py-1.5 bg-white/5 border border-white/5 text-[10px] text-gray-400 font-bold tracking-wider">STAFF / STAFF</div>
-        </div>
-      </div>
+
     </div>
   );
 };

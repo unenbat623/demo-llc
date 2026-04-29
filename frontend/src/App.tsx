@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import Login from './pages/Login';
 import Admin from './pages/Admin';
 import { AuthProvider } from './context/AuthContext';
+import { SettingsProvider } from './context/SettingsContext';
 
 function Router() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
@@ -50,8 +51,10 @@ function Router() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <Router />
-    </AuthProvider>
+    <SettingsProvider>
+      <AuthProvider>
+        <Router />
+      </AuthProvider>
+    </SettingsProvider>
   );
 }
