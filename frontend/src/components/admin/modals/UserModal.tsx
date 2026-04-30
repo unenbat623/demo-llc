@@ -55,7 +55,7 @@ const UserModal: React.FC<UserModalProps> = ({
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="bg-white w-full max-w-lg rounded-sm shadow-2xl relative overflow-hidden"
+            className="bg-white w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-sm shadow-2xl relative custom-scrollbar"
             onClick={e => e.stopPropagation()}
           >
             {/* Modal Decorative Side Bar */}

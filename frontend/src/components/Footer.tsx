@@ -5,7 +5,7 @@ import { useSettings } from '../context/SettingsContext';
 export default function Footer() {
   const { t, i18n } = useTranslation();
   const { settings, t_site } = useSettings();
-  
+
   return (
     <footer className="text-white pt-20 pb-10 overflow-hidden relative" style={{ backgroundColor: 'var(--color-primary, #000)' }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
@@ -29,7 +29,6 @@ export default function Footer() {
                   {[
                     { name: t('nav.about'), href: '#about' },
                     { name: t('nav.team'), href: '#team' },
-                    { name: 'Admin Terminal', href: '/admin' },
                   ].map((link) => (
                     <li key={link.name}>
                       <a href={link.href} className="text-xs font-black uppercase tracking-[0.2em] text-gray-400 hover:text-white transition-colors flex items-center gap-2 group">
@@ -50,11 +49,11 @@ export default function Footer() {
                     { id: 'twitter', icon: Twitter, url: settings?.twitter },
                     { id: 'instagram', icon: Instagram, url: settings?.instagram },
                   ].filter(s => s.url && s.url !== '#').map((social) => (
-                    <a 
-                      key={social.id} 
-                      href={social.url} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
+                    <a
+                      key={social.id}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="w-9 h-9 border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300 rounded-sm"
                     >
                       <social.icon size={16} />
@@ -100,7 +99,7 @@ export default function Footer() {
               {settings?.navbarLogo || 'TAVAN BOGD TECH'}
             </div>
           </div>
-          
+
           <div className="flex flex-col md:items-end gap-1">
             <div className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500">
               {t_site('footerText')}

@@ -10,13 +10,13 @@ export const useAdminSettings = (user: any, logAction: Function) => {
     ctaText: '', ctaText_en: '', heroBgUrl: '', heroImageUrl: '',
     aboutTitle: '', aboutTitle_en: '', aboutDescription: '', aboutDescription_en: '', 
     
-    // Stats
+
     stats1Value: '', stats1Label: '', stats1Label_en: '', stats1Detail: '', stats1Detail_en: '',
     stats2Value: '', stats2Label: '', stats2Label_en: '', stats2Detail: '', stats2Detail_en: '',
     stats3Value: '', stats3Label: '', stats3Label_en: '', stats3Detail: '', stats3Detail_en: '',
     stats4Value: '', stats4Label: '', stats4Label_en: '', stats4Detail: '', stats4Detail_en: '',
 
-    // Vision & Mission
+
     visionTitle: '', visionTitle_en: '', visionText: '', visionText_en: '',
     missionTitle: '', missionTitle_en: '', missionText: '', missionText_en: '',
 
@@ -42,8 +42,8 @@ export const useAdminSettings = (user: any, logAction: Function) => {
       const data = await res.json();
       
       if (user?.role === 'client') {
-        // Client data comes in a wrapper { settings: { ... } }
-        // Merge with initial state to avoid undefined fields
+
+
         setSiteSettings(prev => ({ ...prev, ...(data.settings || {}) }));
       } else {
         setSiteSettings(data);

@@ -4,16 +4,16 @@ import { navigateTo } from './Login';
 import { LayoutDashboard, Users, Menu } from 'lucide-react';
 import { motion } from 'motion/react';
 
-// Hooks
+
 import { useAdminData } from '../hooks/useAdminData';
 
-// Components
+
 import Sidebar from '../components/admin/layout/Sidebar';
 import AdminHeader from '../components/admin/layout/AdminHeader';
 import SidebarOverlay from '../components/admin/layout/SidebarOverlay';
 import AdminContent from '../components/admin/layout/AdminContent';
 
-// Modals
+
 import MemberModal from '../components/admin/modals/MemberModal';
 import UserModal from '../components/admin/modals/UserModal';
 import ConfirmModal from '../components/admin/modals/ConfirmModal';
@@ -25,7 +25,8 @@ export default function Admin() {
   const { t } = useTranslation();
   const { user, logout } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState(user?.role === 'admin' ? 'dashboard' : 'website');
+  const initialTab = (user?.role === 'admin' || user?.permissions?.includes('dashboard')) ? 'dashboard' : 'website';
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
   const [confirmModal, setConfirmModal] = useState({
@@ -48,11 +49,11 @@ export default function Admin() {
     { id: 'website', label: t('admin.website'), icon: Menu },
     { id: 'logs', label: t('admin.logs'), icon: Menu },
   ].filter(item => {
-    if (user?.role === 'admin') return true;
-    if (user?.role === 'client' || user?.role === 'staff') {
-      return ['users', 'website'].includes(item.id);
-    }
-    return user?.permissions?.includes(item.id) || user?.permissions?.includes('all');
+    if (user?.role === 'admin' || user?.permissions?.includes('all')) return true;
+    
+
+
+    return user?.permissions?.includes(item.id);
   });
 
   const handleLogout = () => {

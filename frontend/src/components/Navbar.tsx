@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettings } from '../context/SettingsContext';
 
-// Components
+
 import NavLogo from './navbar/NavLogo';
 import DesktopMenu from './navbar/DesktopMenu';
 import MobileMenu from './navbar/MobileMenu';

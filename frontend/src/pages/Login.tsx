@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 
-// Components
+
 import LoginHeader from '../components/login/LoginHeader';
 import LoginForm from '../components/login/LoginForm';
 
@@ -25,7 +25,7 @@ export default function Login() {
       await login(username, password);
       navigateTo('/admin');
     } catch (err) {
-      // Error handled by context
+
     }
   };
 

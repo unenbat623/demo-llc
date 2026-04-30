@@ -42,7 +42,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, setIsOpen, navLinks }) 
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 * i }}
                   onClick={() => setIsOpen(false)}
-                  className="text-4xl sm:text-6xl md:text-7xl font-black text-white uppercase tracking-tighter hover:italic transition-all duration-300 flex items-center group py-2"
+                  className="text-3xl sm:text-5xl md:text-7xl font-black text-white uppercase tracking-tighter hover:italic transition-all duration-300 flex items-center group py-2"
                 >
                   <span className="group-hover:translate-x-4 transition-transform duration-500">{item.name}</span>
                   <ArrowRight className="ml-6 opacity-0 -translate-x-10 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 hidden sm:block" size={48} />

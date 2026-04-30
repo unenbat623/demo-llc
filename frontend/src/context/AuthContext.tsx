@@ -26,7 +26,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Load user from localStorage on mount
+
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {

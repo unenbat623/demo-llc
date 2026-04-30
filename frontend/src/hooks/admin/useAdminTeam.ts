@@ -21,7 +21,7 @@ export const useAdminTeam = (user: any, logAction: Function, openConfirm: (t: st
   const [teamSearch, setTeamSearch] = useState('');
   const [selectedTeamMembers, setSelectedTeamMembers] = useState<string[]>([]);
 
-  // Sub-hooks
+
   const { handleFileUpload } = useTeamFileUpload(setFormData);
   const { isTranslating, handleAutoTranslate } = useTeamTranslation(formData, setFormData);
 

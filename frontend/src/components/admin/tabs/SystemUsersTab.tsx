@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Shield, UserPlus, Trash2, Edit2, ShieldCheck, User } from 'lucide-react';
+import { Shield, UserPlus, Trash2, Edit2, ShieldCheck } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface SystemUsersTabProps {
   systemUsers: any[];
@@ -19,23 +20,31 @@ const SystemUsersTab: React.FC<SystemUsersTabProps> = ({
   setIsUserModalOpen,
   handleDeleteSystemUser
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-3">
           <Shield size={16} />
-          <h3 className="text-xs font-black uppercase tracking-widest">Систем хэрэглэгчид</h3>
+          <h3 className="text-xs font-black uppercase tracking-widest">{t('admin.systemUsers')}</h3>
         </div>
         {(user.permissions?.includes('system_users') || user.permissions?.includes('all') || user.role === 'admin') && (
           <button
             onClick={() => {
               setEditingUserId(null);
-              setUserFormData({ username: '', password: '', roleName: 'Шинэ ажилтан', permissions: ['dashboard'] });
+              setUserFormData({ 
+                username: '', 
+                password: '', 
+                role: 'staff',
+                roleName: 'Шинэ ажилтан', 
+                permissions: ['dashboard'] 
+              });
               setIsUserModalOpen(true);
             }}
             className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-gray-800 transition-colors"
           >
-            <UserPlus size={14} /> Нэмэх
+            <UserPlus size={14} /> {t('common.add') || 'Нэмэх'}
           </button>
         )}
       </div>
@@ -57,17 +66,25 @@ const SystemUsersTab: React.FC<SystemUsersTabProps> = ({
                 <p className="text-[11px] font-black uppercase tracking-tight">{u.username}</p>
                 <div className="flex items-center gap-1 mt-0.5">
                   <ShieldCheck size={10} className={u.permissions?.includes('all') ? 'text-blue-500' : 'text-gray-400'} />
-                  <span className="text-[9px] font-bold uppercase text-gray-400">{u.roleName || 'Admin'}</span>
+                  <span className="text-[9px] font-bold uppercase text-gray-400">
+                    {u.roleName || (u.role ? t(`roles.${u.role.toLowerCase()}`) : 'Admin')}
+                  </span>
                 </div>
               </div>
             </div>
-            
+
             {(user.permissions?.includes('system_users') || user.permissions?.includes('all') || user.role === 'admin') && u.username !== user.username && (
               <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button
                   onClick={() => {
                     setEditingUserId(u._id);
-                    setUserFormData({ username: u.username, password: '', roleName: u.roleName, permissions: u.permissions || [] });
+                    setUserFormData({ 
+                      username: u.username, 
+                      password: '', 
+                      role: u.role, 
+                      roleName: u.roleName, 
+                      permissions: u.permissions || [] 
+                    });
                     setIsUserModalOpen(true);
                   }}
                   className="p-1.5 text-gray-400 hover:text-black transition-colors"

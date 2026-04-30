@@ -5,7 +5,7 @@
 export const getSkillIcon = (skillName: string): string | null => {
   const s = skillName.toLowerCase().trim();
   
-  // Databases
+
   if (s.includes('graphql')) return 'https://cdn.simpleicons.org/graphql/E10098';
   if (s.includes('mysql')) return 'https://cdn.simpleicons.org/mysql/4479A1';
   if (s.includes('postgre')) return 'https://cdn.simpleicons.org/postgresql/4169E1';
@@ -13,14 +13,14 @@ export const getSkillIcon = (skillName: string): string | null => {
   if (s.includes('redis')) return 'https://cdn.simpleicons.org/redis/FF4438';
   if (s.includes('firebase')) return 'https://cdn.simpleicons.org/firebase/FFCA28';
 
-  // Cloud & DevOps
+
   if (s.includes('aws')) return 'https://cdn.simpleicons.org/amazonwebservices/232F3E';
   if (s.includes('docker')) return 'https://cdn.simpleicons.org/docker/2496ED';
   if (s.includes('kubernetes') || s.includes('k8s')) return 'https://cdn.simpleicons.org/kubernetes/326CE5';
   if (s.includes('vercel')) return 'https://cdn.simpleicons.org/vercel/000000';
   if (s.includes('netlify')) return 'https://cdn.simpleicons.org/netlify/00C7B7';
 
-  // Backend
+
   if (s.includes('node')) return 'https://cdn.simpleicons.org/nodedotjs/339933';
   if (s.includes('python')) return 'https://cdn.simpleicons.org/python/3776AB';
   if (s.includes('django')) return 'https://cdn.simpleicons.org/django/092E20';
@@ -30,7 +30,7 @@ export const getSkillIcon = (skillName: string): string | null => {
   if (s.includes('go') && s.length <= 2) return 'https://cdn.simpleicons.org/go/00ADD8';
   if (s.includes('rust')) return 'https://cdn.simpleicons.org/rust/000000';
 
-  // Frontend
+
   if (s.includes('react')) return 'https://cdn.simpleicons.org/react/61DAFB';
   if (s.includes('typescript') || s === 'ts') return 'https://cdn.simpleicons.org/typescript/3178C6';
   if (s.includes('javascript') || s === 'js') return 'https://cdn.simpleicons.org/javascript/F7DF1E';
@@ -43,21 +43,21 @@ export const getSkillIcon = (skillName: string): string | null => {
   if (s.includes('css')) return 'https://cdn.simpleicons.org/css3/1572B6';
   if (s.includes('html')) return 'https://cdn.simpleicons.org/html5/E34F26';
 
-  // Mobile
+
   if (s.includes('flutter')) return 'https://cdn.simpleicons.org/flutter/02569B';
   if (s.includes('swift')) return 'https://cdn.simpleicons.org/swift/F05138';
   if (s.includes('kotlin')) return 'https://cdn.simpleicons.org/kotlin/7F52FF';
 
-  // Backend Languages
+
   if (s.includes('java') && !s.includes('script')) return 'https://cdn.simpleicons.org/java/007396';
   if (s.includes('c#') || s.includes('csharp')) return 'https://cdn.simpleicons.org/csharp/239120';
   if (s.includes('c++') || s.includes('cpp')) return 'https://cdn.simpleicons.org/cplusplus/00599C';
 
-  // Game Development
+
   if (s.includes('unity')) return 'https://cdn.simpleicons.org/unity/000000';
   if (s.includes('unreal')) return 'https://cdn.simpleicons.org/unrealengine/000000';
 
-  // Design Tools
+
   if (s.includes('figma')) return 'https://cdn.simpleicons.org/figma/F24E1E';
   if (s.includes('blender')) return 'https://cdn.simpleicons.org/blender/F5792A';
   if (s.includes('adobe')) return 'https://cdn.simpleicons.org/adobe/FF0000';
@@ -65,7 +65,7 @@ export const getSkillIcon = (skillName: string): string | null => {
   if (s.includes('illustrator')) return 'https://cdn.simpleicons.org/adobeillustrator/FF9A00';
   if (s.includes('xd')) return 'https://cdn.simpleicons.org/adobexd/FF61F6';
 
-  // DevTools
+
   if (s.includes('git')) return 'https://cdn.simpleicons.org/git/F05032';
   if (s.includes('github')) return 'https://cdn.simpleicons.org/github/181717';
   if (s.includes('gitlab')) return 'https://cdn.simpleicons.org/gitlab/FC6D26';

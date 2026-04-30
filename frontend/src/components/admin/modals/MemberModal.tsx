@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Sparkles, ChevronRight } from 'lucide-react';
 
-// Components
+
 import BasicInfoSection from './member-modal/BasicInfoSection';
 import ImageSection from './member-modal/ImageSection';
 import DetailedInfoSection from './member-modal/DetailedInfoSection';

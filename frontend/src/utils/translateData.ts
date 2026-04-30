@@ -28,19 +28,19 @@ export const translateData = (text: string | undefined): string => {
   if (!text) return '';
   if (i18n.language === 'mn') return text;
 
-  // Check positions
+
   if (positionMap[text]) return positionMap[text];
 
-  // Check aboutMe
+
   if (aboutMeMap[text]) return aboutMeMap[text];
 
-  // Check experience (regex for years)
+
   const expMatch = text.match(/(\d+) жилийн туршлагатай хөгжүүлэгч/);
   if (expMatch) {
     return `${expMatch[1]} years of experience. Passionate about building reliable, high-load systems.`;
   }
 
-  // Handle Education
+
   if (text.includes('Компьютерийн ухааны магистр, МУИС')) return 'Master of Computer Science, NUM';
   if (text.includes('Программ хангамжийн инженерчлэл, ШУТИС')) return 'Software Engineering, MUST';
   if (text.includes('Мэдээллийн технологи, МУИС')) return 'Information Technology, NUM';

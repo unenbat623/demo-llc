@@ -50,6 +50,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
               id="username" type="text" onFocus={() => setIsFocused('user')} onBlur={() => setIsFocused(null)}
               className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/5 text-white placeholder:text-gray-700 focus:outline-none focus:border-white/20 focus:bg-white/10 transition-all duration-300 text-sm tracking-wide rounded-sm"
               value={username} onChange={(e) => setUsername(e.target.value)} placeholder="admin" disabled={isLoading} required
+              onKeyDown={(e) => e.key === 'Enter' && handleLogin(e as any)}
             />
           </div>
         </div>
@@ -66,6 +67,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
               id="password" type="password" onFocus={() => setIsFocused('pass')} onBlur={() => setIsFocused(null)}
               className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/5 text-white placeholder:text-gray-700 focus:outline-none focus:border-white/20 focus:bg-white/10 transition-all duration-300 text-sm tracking-wide rounded-sm"
               value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" disabled={isLoading} required
+              onKeyDown={(e) => e.key === 'Enter' && handleLogin(e as any)}
             />
           </div>
         </div>

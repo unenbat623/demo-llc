@@ -10,76 +10,76 @@ interface DesignPresetsProps {
 
 const presets = [
   {
-    id: 'midnight',
-    name: 'Midnight OLED',
-    description: 'Deep blacks and crisp whites',
+    id: 'monochrome',
+    name: 'Modern Monochrome',
+    description: 'Timeless luxury with pure black, white, and silk grays',
     colors: {
       primaryColor: '#000000',
-      secondaryColor: '#121212',
-      accentColor: '#1f1f1f',
+      secondaryColor: '#ffffff',
+      accentColor: '#f8fafc',
+      textColor: '#000000'
+    },
+    preview: ['#000000', '#ffffff', '#f1f5f9']
+  },
+  {
+    id: 'industrial',
+    name: 'Industrial Slate',
+    description: 'Professional tech-focused deep navy and slate blue',
+    colors: {
+      primaryColor: '#0f172a',
+      secondaryColor: '#1e293b',
+      accentColor: '#f8fafc',
       textColor: '#ffffff'
     },
-    preview: ['#000000', '#121212', '#ffffff']
+    preview: ['#0f172a', '#38bdf8', '#f8fafc']
+  },
+  {
+    id: 'emerald',
+    name: 'Emerald Noir',
+    description: 'Deep forest greens with elegant obsidian highlights',
+    colors: {
+      primaryColor: '#064e3b',
+      secondaryColor: '#065f46',
+      accentColor: '#022c22',
+      textColor: '#ecfdf5'
+    },
+    preview: ['#064e3b', '#10b981', '#ecfdf5']
+  },
+  {
+    id: 'bordeaux',
+    name: 'Bordeaux Luxury',
+    description: 'Rich wine tones and deep velvet blacks',
+    colors: {
+      primaryColor: '#450a0a',
+      secondaryColor: '#1a0b0b',
+      accentColor: '#fef2f2',
+      textColor: '#ffffff'
+    },
+    preview: ['#450a0a', '#991b1b', '#fef2f2']
   },
   {
     id: 'alpine',
     name: 'Alpine White',
-    description: 'Minimalist and clean aesthetic',
+    description: 'Minimalist gallery aesthetic with soft shadows',
     colors: {
       primaryColor: '#ffffff',
-      secondaryColor: '#f8f9fa',
-      accentColor: '#e9ecef',
-      textColor: '#000000'
+      secondaryColor: '#f1f5f9',
+      accentColor: '#ffffff',
+      textColor: '#0f172a'
     },
-    preview: ['#ffffff', '#f8f9fa', '#000000']
-  },
-  {
-    id: 'cyberpunk',
-    name: 'Neon Cyber',
-    description: 'Futuristic high-contrast vibes',
-    colors: {
-      primaryColor: '#0b0e14',
-      secondaryColor: '#00ff9f',
-      accentColor: '#1a1b4b',
-      textColor: '#ffffff'
-    },
-    preview: ['#0b0e14', '#00ff9f', '#ff0055']
+    preview: ['#ffffff', '#e2e8f0', '#0f172a']
   },
   {
     id: 'royal',
-    name: 'Royal Luxury',
-    description: 'Premium gold and dark tones',
+    name: 'Royal Excellence',
+    description: 'Premium gold accents over deep charcoal leather',
     colors: {
-      primaryColor: '#1a1a1a',
-      secondaryColor: '#c5a059',
-      accentColor: '#f4e8c1',
+      primaryColor: '#111111',
+      secondaryColor: '#d4af37',
+      accentColor: '#1a1a1a',
       textColor: '#ffffff'
     },
-    preview: ['#1a1a1a', '#c5a059', '#f4e8c1']
-  },
-  {
-    id: 'nordic',
-    name: 'Nordic Frost',
-    description: 'Cool blues and soft grays',
-    colors: {
-      primaryColor: '#2e3440',
-      secondaryColor: '#4c566a',
-      accentColor: '#eceff4',
-      textColor: '#d8dee9'
-    },
-    preview: ['#2e3440', '#88c0d0', '#eceff4']
-  },
-  {
-    id: 'earth',
-    name: 'Earth & Terra',
-    description: 'Warm, natural organic tones',
-    colors: {
-      primaryColor: '#3c2f2f',
-      secondaryColor: '#be9b7b',
-      accentColor: '#fff5e1',
-      textColor: '#3c2f2f'
-    },
-    preview: ['#3c2f2f', '#be9b7b', '#fff5e1']
+    preview: ['#111111', '#d4af37', '#fcfcfc']
   }
 ];
 

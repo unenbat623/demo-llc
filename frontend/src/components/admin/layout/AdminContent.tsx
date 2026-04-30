@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { TeamMember, AdminLog, SystemUser, SiteSettings } from '../../../types/admin';
 
-// Tabs
+
 import DashboardTab from '../tabs/DashboardTab';
 import WebsiteTab from '../tabs/WebsiteTab';
 import TeamTab from '../tabs/TeamTab';
@@ -17,7 +17,7 @@ interface AdminContentProps {
   logs: AdminLog[];
   siteSettings: SiteSettings;
   systemUsers: SystemUser[];
-  // ... many props ...
+
   [key: string]: any;
 }
 
@@ -53,7 +53,7 @@ const AdminContent: React.FC<AdminContentProps> = ({
       <div className="min-h-[70vh]">
         {activeTab === 'dashboard' && <DashboardTab teamMembers={teamMembers} user={user} logs={logs} setActiveTab={rest.setActiveTab} openAddModal={rest.openAddModal} />}
         
-        {activeTab === 'website' && (user.role === 'admin' || user.role === 'client' || user.role === 'staff') && (
+        {activeTab === 'website' && (
           <WebsiteTab 
             siteSettings={siteSettings} setSiteSettings={rest.setSiteSettings} 
             isSettingsSaving={rest.isSettingsSaving} handleSaveSettings={rest.handleSaveSettings} 
@@ -64,7 +64,7 @@ const AdminContent: React.FC<AdminContentProps> = ({
           />
         )}
 
-        {activeTab === 'users' && (user.role === 'admin' || user.role === 'client' || user.role === 'staff') && (
+        {activeTab === 'users' && (
           <TeamTab 
             teamSearch={rest.teamSearch} setTeamSearch={rest.setTeamSearch} openAddModal={rest.openAddModal} 
             filteredTeamMembers={rest.filteredTeamMembers} 
@@ -76,7 +76,7 @@ const AdminContent: React.FC<AdminContentProps> = ({
           />
         )}
 
-        {activeTab === 'logs' && user.role === 'admin' && (
+        {activeTab === 'logs' && (
           <LogsTab 
             chartData={rest.chartData} logFilter={rest.logFilter} setLogFilter={rest.setLogFilter} 
             filteredLogs={rest.filteredLogs} handleDeleteLog={rest.handleDeleteLog} 

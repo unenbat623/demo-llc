@@ -66,20 +66,20 @@ export interface SiteSettings {
   aboutBadge?: string;
   aboutTagline?: string;
 
-  // Team Section
+
   teamBadge?: string;
   teamTitle?: string;
   teamTitle_en?: string;
   teamDescription?: string;
   teamDescription_en?: string;
 
-  // Footer CTA
+
   footerCta?: string;
   footerCta_en?: string;
   footerCtaSub?: string;
   footerCtaSub_en?: string;
   
-  // Stats
+
   stats1Value: string;
   stats1Label: string;
   stats1Label_en: string;
@@ -104,7 +104,7 @@ export interface SiteSettings {
   stats4Detail: string;
   stats4Detail_en: string;
 
-  // Vision & Mission
+
   visionTitle: string;
   visionTitle_en: string;
   visionText: string;
@@ -126,7 +126,7 @@ export interface SiteSettings {
   linkedin: string;
   instagram: string;
 
-  // Colors
+
   primaryColor?: string;
   secondaryColor?: string;
   accentColor?: string;

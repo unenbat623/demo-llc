@@ -13,19 +13,19 @@ import DesignPresets from './DesignPresets';
 const ColorSection: React.FC<ColorSectionProps> = ({ siteSettings, updateField, handleSaveSettings }) => {
 
   const onApplyPreset = (preset: Partial<SiteSettings>) => {
-    // 1. Update local state for immediate UI feedback
+
     Object.entries(preset).forEach(([field, value]) => {
       updateField(field as keyof SiteSettings, value as string);
     });
     
-    // 2. Prepare full settings object for immediate save
+
     const newSettings = { ...siteSettings, ...preset };
     
-    // 3. Save immediately with the new data
+
     handleSaveSettings(undefined, newSettings);
   };
 
-  // Live preview: update CSS variables whenever colors change
+
   useEffect(() => {
     const root = document.documentElement;
     root.style.setProperty('--color-primary', siteSettings.primaryColor || '#000000');

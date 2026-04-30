@@ -40,7 +40,7 @@ function Router() {
     return <GeneratedSite />;
   }
 
-  // Main page
+
   return (
     <div className="min-h-[100dvh] flex flex-col bg-white font-sans selection:bg-black selection:text-white overflow-x-hidden">
       <Navbar />

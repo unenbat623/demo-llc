@@ -29,7 +29,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
     setCurrentPage(1);
   }, [filteredTeamMembers.length, itemsPerPage]);
 
-  // Preload images for the next page
+
   React.useEffect(() => {
     const nextItems = filteredTeamMembers.slice(
       currentPage * itemsPerPage,
