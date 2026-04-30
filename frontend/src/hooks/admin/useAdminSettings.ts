@@ -133,7 +133,7 @@ export const useAdminSettings = (user: any, logAction: Function) => {
     }
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>, field: 'heroBgUrl' | 'heroImageUrl') => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: 'heroBgUrl' | 'heroImageUrl') => {
     const file = e.target.files?.[0];
     if (file) {
       const isVideo = file.type.startsWith('video/');
@@ -149,13 +149,35 @@ export const useAdminSettings = (user: any, logAction: Function) => {
         return;
       }
 
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const dataUrl = event.target?.result as string;
-        setSiteSettings((prev) => ({ ...prev, [field]: dataUrl }));
-        toast.success('Файл амжилттай сонгогдлоа!');
-      };
-      reader.readAsDataURL(file);
+      const toastId = toast.loading('Файл хуулж байна...');
+      try {
+        const formData = new FormData();
+        formData.append('image', file); // Even for video, we use the same endpoint for now or handle accordingly
+
+        const res = await fetch(`${API_URL}/upload/image`, {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!res.ok) throw new Error('Upload failed');
+        const data = await res.json();
+        
+        setSiteSettings((prev) => ({ ...prev, [field]: data.url }));
+        toast.update(toastId, {
+          render: 'Файл амжилттай хуулагдлаа!',
+          type: 'success',
+          isLoading: false,
+          autoClose: 3000
+        });
+      } catch (error) {
+        console.error('Upload error:', error);
+        toast.update(toastId, {
+          render: 'Файл хуулахад алдаа гарлаа.',
+          type: 'error',
+          isLoading: false,
+          autoClose: 3000
+        });
+      }
     }
   };
 

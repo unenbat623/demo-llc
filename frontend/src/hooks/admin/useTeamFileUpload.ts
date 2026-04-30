@@ -1,50 +1,60 @@
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import { API_URL } from '../../services/api';
 
 export const useTeamFileUpload = (setFormData: React.Dispatch<React.SetStateAction<any>>) => {
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      if (!file.type.startsWith('image/')) {
-        toast.error('Зөвхөн зураг файл сонгоно уу.');
-        return;
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      toast.error('Зөвхөн зураг файл сонгоно уу.');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Зурагны хэмжээ 5MB-с ихгүй байх ёстой.');
+      return;
+    }
+
+    setIsUploading(true);
+    const toastId = toast.loading('Зураг хуулж байна...');
+
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+
+      const response = await fetch(`${API_URL}/upload/image`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Upload failed');
       }
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error('Зурагны хэмжээ 5MB-с ихгүй байх ёстой.');
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-          const maxSize = 2048;
-          let { width, height } = img;
-          
-          if (width > height) {
-            if (width > maxSize) {
-              height = (height * maxSize) / width;
-              width = maxSize;
-            }
-          } else {
-            if (height > maxSize) {
-              width = (width * maxSize) / height;
-              height = maxSize;
-            }
-          }
-          
-          canvas.width = width;
-          canvas.height = height;
-          ctx?.drawImage(img, 0, 0, width, height);
-          const compressedDataUrl = canvas.toDataURL('image/jpeg', 1.0);
-          setFormData((prev: any) => ({ ...prev, image: compressedDataUrl }));
-          toast.success('Зураг амжилттай upload хийгдлээ!');
-        };
-        img.src = event.target?.result as string;
-      };
-      reader.readAsDataURL(file);
+
+      const data = await response.json();
+      setFormData((prev: any) => ({ ...prev, image: data.url }));
+      
+      toast.update(toastId, {
+        render: 'Зураг амжилттай хуулагдлаа!',
+        type: 'success',
+        isLoading: false,
+        autoClose: 3000
+      });
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast.update(toastId, {
+        render: 'Зураг хуулахад алдаа гарлаа.',
+        type: 'error',
+        isLoading: false,
+        autoClose: 3000
+      });
+    } finally {
+      setIsUploading(false);
     }
   };
 
-  return { handleFileUpload };
+  return { handleFileUpload, isUploading };
 };

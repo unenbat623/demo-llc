@@ -22,12 +22,13 @@ interface MemberModalProps {
   setImageInputMode: (mode: 'url' | 'file') => void;
   handleFileUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isSubmitting: boolean;
+  isUploading: boolean;
 }
 
 const MemberModal: React.FC<MemberModalProps> = ({
   isModalOpen, setIsModalOpen, editingMemberId, handleAutoTranslate, isTranslating,
   submitStatus, handleSaveMember, formData, handleInputChange, setFormData,
-  imageInputMode, setImageInputMode, handleFileUpload, isSubmitting
+  imageInputMode, setImageInputMode, handleFileUpload, isSubmitting, isUploading
 }) => {
   const [activeModalLang, setActiveModalLang] = React.useState<'mn' | 'en'>('mn');
 
@@ -124,13 +125,14 @@ const MemberModal: React.FC<MemberModalProps> = ({
                 <ImageSection 
                   imageInputMode={imageInputMode} setImageInputMode={setImageInputMode} formData={formData} 
                   handleInputChange={handleInputChange} handleFileUpload={handleFileUpload} 
+                  isUploading={isUploading}
                 />
                 <DetailedInfoSection formData={formData} handleInputChange={handleInputChange} setFormData={setFormData} activeLang={activeModalLang} />
 
                 <div className="px-8 py-6 border-t border-black/8 bg-gray-50/80 flex items-center justify-between gap-4 flex-shrink-0">
                   <button type="button" onClick={() => setIsModalOpen(false)} className="text-[10px] font-black uppercase tracking-[0.25em] text-gray-400 hover:text-black transition-colors px-4 py-3">Цуцлах</button>
                   <button
-                    type="submit" disabled={isSubmitting}
+                    type="submit" disabled={isSubmitting || isUploading}
                     className="group relative overflow-hidden bg-black text-white px-8 py-3.5 flex items-center gap-3 disabled:opacity-50 hover:bg-gray-900 rounded-sm"
                   >
                     {isSubmitting ? <span className="inline-block w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />}

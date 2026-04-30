@@ -22,7 +22,7 @@ export const useAdminTeam = (user: any, logAction: Function, openConfirm: (t: st
   const [selectedTeamMembers, setSelectedTeamMembers] = useState<string[]>([]);
 
 
-  const { handleFileUpload } = useTeamFileUpload(setFormData);
+  const { handleFileUpload, isUploading } = useTeamFileUpload(setFormData);
   const { isTranslating, handleAutoTranslate } = useTeamTranslation(formData, setFormData);
 
   const fetchTeamMembers = async () => {
@@ -180,7 +180,7 @@ export const useAdminTeam = (user: any, logAction: Function, openConfirm: (t: st
     isModalOpen, setIsModalOpen, editingMemberId,
     teamSearch, setTeamSearch,
     selectedTeamMembers, setSelectedTeamMembers,
-    isTranslating, fetchTeamMembers, handleInputChange, openAddModal, openEditModal, confirmDelete,
+    isTranslating, isUploading, fetchTeamMembers, handleInputChange, openAddModal, openEditModal, confirmDelete,
     handleBulkDeleteTeamMembers, handleSaveMember,
     handleAutoTranslate, handleFileUpload, filteredTeamMembers
   };

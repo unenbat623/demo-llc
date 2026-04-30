@@ -8,6 +8,7 @@ interface ImageSectionProps {
   formData: any;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   handleFileUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  isUploading: boolean;
 }
 
 const ImageSection: React.FC<ImageSectionProps> = ({
@@ -16,6 +17,7 @@ const ImageSection: React.FC<ImageSectionProps> = ({
   formData,
   handleInputChange,
   handleFileUpload,
+  isUploading,
 }) => {
   return (
     <div className="px-8 pt-2 pb-6">
@@ -53,12 +55,21 @@ const ImageSection: React.FC<ImageSectionProps> = ({
           className={inputClass}
         />
       ) : (
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileUpload}
-          className="w-full px-4 py-3 bg-gray-50 border-0 border-b-2 border-gray-200 focus:border-black focus:outline-none transition-colors duration-200 text-sm rounded-none file:mr-4 file:py-2 file:px-4 file:rounded-none file:border-0 file:text-[10px] file:font-black file:uppercase file:tracking-[0.2em] file:bg-black file:text-white hover:file:bg-gray-800 cursor-pointer"
-        />
+        <div className="relative group">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileUpload}
+            disabled={isUploading}
+            className="w-full px-4 py-3 bg-gray-50 border-0 border-b-2 border-gray-200 focus:border-black focus:outline-none transition-colors duration-200 text-sm rounded-none file:mr-4 file:py-2 file:px-4 file:rounded-none file:border-0 file:text-[10px] file:font-black file:uppercase file:tracking-[0.2em] file:bg-black file:text-white hover:file:bg-gray-800 cursor-pointer disabled:opacity-50"
+          />
+          {isUploading && (
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+              <div className="w-3.5 h-3.5 border-2 border-black/10 border-t-black rounded-full animate-spin" />
+              <span className="text-[10px] font-black uppercase tracking-widest text-black/40">Uploading</span>
+            </div>
+          )}
+        </div>
       )}
 
       {formData.image && (
