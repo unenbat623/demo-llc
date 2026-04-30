@@ -79,10 +79,12 @@
   "admin": {
     "title": "Админ Панель",
     "logout": "Гарах",
-    "dashboard": "Хяналтын самбар",
-    "users": "Хэрэглэгчид",
-    "settings": "Тохиргоо",
-    "logs": "Логууд",
+    "dashboard": "Ерөнхий",
+    "teamMembers": "Багийн гишүүд",
+    "systemUsers": "Систем хэрэглэгчид",
+    "website": "Вэбсайт",
+    "myWebsite": "Миний вэбсайт",
+    "logs": "Лог",
     "welcome": "Сайн байна уу"
   },
   "common": {
@@ -97,5 +99,10 @@
     "delete": "Устгах",
     "edit": "Засах",
     "back": "Буцах"
+  },
+  "roles": {
+    "admin": "Админ",
+    "client": "Client хандалт",
+    "staff": "Staff хандалт"
   }
 }

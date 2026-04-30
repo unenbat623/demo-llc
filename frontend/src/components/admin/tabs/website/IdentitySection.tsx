@@ -80,7 +80,7 @@ const IdentitySection: React.FC<IdentitySectionProps> = ({
                 className="absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer"
               />
               <div className="absolute inset-0 bg-gray-50 border-2 border-dashed border-gray-200 rounded-sm flex items-center justify-center text-[10px] font-bold text-gray-400 uppercase tracking-widest overflow-hidden px-2">
-                {siteSettings.heroBgUrl.startsWith('data:') ? 'Файл сонгогдсон' : 'Файл сонгох'}
+                {(siteSettings.heroBgUrl || '').startsWith('data:') ? 'Файл сонгогдсон' : 'Файл сонгох'}
               </div>
             </div>
           )}
@@ -97,7 +97,7 @@ const IdentitySection: React.FC<IdentitySectionProps> = ({
           {imgInputMode === 'url' ? (
             <input
               type="text"
-              value={siteSettings.heroImageUrl}
+              value={siteSettings.heroImageUrl || ''}
               onChange={e => updateField('heroImageUrl', e.target.value)}
               className={inputClass}
               placeholder="Image URL"
@@ -111,7 +111,7 @@ const IdentitySection: React.FC<IdentitySectionProps> = ({
                 className="absolute inset-0 w-full h-full opacity-0 z-10 cursor-pointer"
               />
               <div className="absolute inset-0 bg-gray-50 border-2 border-dashed border-gray-200 rounded-sm flex items-center justify-center text-[10px] font-bold text-gray-400 uppercase tracking-widest overflow-hidden px-2">
-                {siteSettings.heroImageUrl.startsWith('data:') ? 'Зураг сонгогдсон' : 'Зураг сонгох'}
+                {(siteSettings.heroImageUrl || '').startsWith('data:') ? 'Зураг сонгогдсон' : 'Зураг сонгох'}
               </div>
             </div>
           )}

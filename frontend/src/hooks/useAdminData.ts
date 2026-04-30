@@ -17,7 +17,7 @@ export const useAdminData = (user: any, activeTab: string, openConfirm: (t: stri
     if ((activeTab === 'logs' || activeTab === 'dashboard') && user?.role === 'admin' && logsHook.logs.length === 0) {
       logsHook.fetchLogs();
     }
-    if (activeTab === 'website' && user?.role === 'admin' && !settingsHook.siteSettings?.heroTitle_mn) {
+    if (activeTab === 'website' && (user?.role === 'admin' || user?.role === 'client' || user?.role === 'staff') && !settingsHook.siteSettings?.heroTitle_mn) {
       settingsHook.fetchSettings();
     }
     if (activeTab === 'system_users' && user && systemUsersHook.systemUsers.length === 0) {

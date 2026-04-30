@@ -11,9 +11,10 @@ interface TeamBulkImportProps {
   isOpen: boolean;
   onClose: () => void;
   onImportDone: () => void;
+  user: any;
 }
 
-const TeamBulkImport: React.FC<TeamBulkImportProps> = ({ isOpen, onClose, onImportDone }) => {
+const TeamBulkImport: React.FC<TeamBulkImportProps> = ({ isOpen, onClose, onImportDone, user }) => {
   const [preview, setPreview] = useState<TeamMemberImport[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [isParsing, setIsParsing] = useState(false);
@@ -39,7 +40,12 @@ const TeamBulkImport: React.FC<TeamBulkImportProps> = ({ isOpen, onClose, onImpo
     if (preview.length === 0) return;
     setIsUploading(true);
     try {
-      const res = await fetch(`${API_URL}/team/bulk-import`, {
+      const isClient = user?.role === 'client' || user?.role === 'staff';
+      const endpoint = isClient 
+        ? `${API_URL}/client/${user.id}/team/bulk-import` 
+        : `${API_URL}/team/bulk-import`;
+
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(preview),

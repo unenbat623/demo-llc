@@ -29,6 +29,8 @@ const MemberModal: React.FC<MemberModalProps> = ({
   submitStatus, handleSaveMember, formData, handleInputChange, setFormData,
   imageInputMode, setImageInputMode, handleFileUpload, isSubmitting
 }) => {
+  const [activeModalLang, setActiveModalLang] = React.useState<'mn' | 'en'>('mn');
+
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isModalOpen) return;
@@ -80,12 +82,24 @@ const MemberModal: React.FC<MemberModalProps> = ({
                 </div>
               </div>
               <div className="flex items-center gap-3">
+                <div className="flex bg-black/5 p-0.5 rounded-sm mr-2">
+                  {(['mn', 'en'] as const).map(lang => (
+                    <button
+                      key={lang}
+                      type="button"
+                      onClick={() => setActiveModalLang(lang)}
+                      className={`px-3 py-1 text-[9px] font-black uppercase tracking-widest transition-all rounded-sm ${activeModalLang === lang ? 'bg-black text-white' : 'text-gray-400 hover:text-black'}`}
+                    >
+                      {lang.toUpperCase()}
+                    </button>
+                  ))}
+                </div>
                 <button
                   type="button" onClick={handleAutoTranslate} disabled={isTranslating}
                   className={`flex items-center gap-2 px-4 py-2 border border-black/10 text-[10px] font-black uppercase tracking-[0.2em] transition-all rounded-sm ${isTranslating ? 'opacity-50 cursor-not-allowed' : 'hover:bg-black hover:text-white'}`}
                 >
                   {isTranslating ? <div className="w-3 h-3 border-2 border-black/20 border-t-black rounded-full animate-spin" /> : <Sparkles size={12} />}
-                  {isTranslating ? 'Орчуулж байна...' : 'Google Translate'}
+                  {isTranslating ? 'Translate' : 'Auto'}
                 </button>
                 <button onClick={() => setIsModalOpen(false)} className="w-9 h-9 flex items-center justify-center border border-black/15 hover:border-black hover:bg-black hover:text-white transition-all group rounded-sm">
                   <X size={16} className="group-hover:rotate-90 transition-transform" />
@@ -106,12 +120,12 @@ const MemberModal: React.FC<MemberModalProps> = ({
 
             <div className="overflow-y-auto flex-1 custom-scrollbar">
               <form onSubmit={handleSaveMember}>
-                <BasicInfoSection formData={formData} handleInputChange={handleInputChange} setFormData={setFormData} />
+                <BasicInfoSection formData={formData} handleInputChange={handleInputChange} setFormData={setFormData} activeLang={activeModalLang} />
                 <ImageSection 
                   imageInputMode={imageInputMode} setImageInputMode={setImageInputMode} formData={formData} 
                   handleInputChange={handleInputChange} handleFileUpload={handleFileUpload} 
                 />
-                <DetailedInfoSection formData={formData} handleInputChange={handleInputChange} setFormData={setFormData} />
+                <DetailedInfoSection formData={formData} handleInputChange={handleInputChange} setFormData={setFormData} activeLang={activeModalLang} />
 
                 <div className="px-8 py-6 border-t border-black/8 bg-gray-50/80 flex items-center justify-between gap-4 flex-shrink-0">
                   <button type="button" onClick={() => setIsModalOpen(false)} className="text-[10px] font-black uppercase tracking-[0.25em] text-gray-400 hover:text-black transition-colors px-4 py-3">Цуцлах</button>

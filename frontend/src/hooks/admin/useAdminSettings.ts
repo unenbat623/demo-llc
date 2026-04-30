@@ -43,7 +43,8 @@ export const useAdminSettings = (user: any, logAction: Function) => {
       
       if (user?.role === 'client') {
         // Client data comes in a wrapper { settings: { ... } }
-        setSiteSettings(data.settings || {});
+        // Merge with initial state to avoid undefined fields
+        setSiteSettings(prev => ({ ...prev, ...(data.settings || {}) }));
       } else {
         setSiteSettings(data);
       }
@@ -52,8 +53,8 @@ export const useAdminSettings = (user: any, logAction: Function) => {
     }
   };
 
-  const handleSaveSettings = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSaveSettings = async (e?: React.FormEvent, overrideSettings?: SiteSettings) => {
+    if (e) e.preventDefault();
     setIsSettingsSaving(true);
     try {
       const endpoint = user?.role === 'client' ? `${API_URL}/client/${user.id}/settings` : `${API_URL}/settings`;
@@ -61,7 +62,7 @@ export const useAdminSettings = (user: any, logAction: Function) => {
       const res = await fetch(endpoint, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(siteSettings)
+        body: JSON.stringify(overrideSettings || siteSettings)
       });
       if (!res.ok) throw new Error('Хадгалахад алдаа гарлаа');
       await logAction('UPDATE', 'Вэбсайтын тохиргоог шинэчиллээ', 'System');

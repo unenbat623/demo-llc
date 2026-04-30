@@ -14,6 +14,8 @@ interface UserModalProps {
   user: any;
 }
 
+import PermissionSelector from './user-modal/PermissionSelector';
+
 const UserModal: React.FC<UserModalProps> = ({
   isUserModalOpen,
   setIsUserModalOpen,
@@ -119,6 +121,7 @@ const UserModal: React.FC<UserModalProps> = ({
                     <div className="flex gap-4 mt-2">
                       {[
                         { id: 'admin', label: 'Админ' },
+                        { id: 'staff', label: 'Ажилтан (Staff)' },
                         { id: 'client', label: 'Харилцагч (Client)' }
                       ].map(type => (
                         <label key={type.id} className={`flex-1 flex items-center justify-center gap-3 p-3 border rounded-sm cursor-pointer transition-all ${userFormData.role === type.id ? 'bg-black text-white border-black' : 'bg-gray-50 text-gray-400 border-black/5 hover:border-black/20'}`}>
@@ -145,36 +148,10 @@ const UserModal: React.FC<UserModalProps> = ({
                     />
                   </Field>
 
-                  <Field label="Хандах эрхүүд (Permissions)" icon={<Shield size={14} className="text-gray-400" />}>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
-                      {[
-                        { id: 'dashboard', label: 'Ерөнхий (Dashboard)' },
-                        { id: 'users', label: 'Багийн гишүүд' },
-                        { id: 'system_users', label: 'Систем хэрэглэгчид' },
-                        { id: 'website', label: 'Вэбсайт тохиргоо' },
-                        { id: 'logs', label: 'Системийн лог' },
-                      ].map(perm => (
-                        <label key={perm.id} className="flex items-center gap-3 p-3 border border-black/5 bg-gray-50 rounded-sm cursor-pointer hover:border-black/20 transition-colors">
-                          <input
-                            type="checkbox"
-                            checked={userFormData.permissions?.includes(perm.id) || false}
-                            onChange={(e) => {
-                              const checked = e.target.checked;
-                              const currentPerms = userFormData.permissions || [];
-                              setUserFormData({
-                                ...userFormData,
-                                permissions: checked 
-                                  ? [...currentPerms, perm.id]
-                                  : currentPerms.filter((p: string) => p !== perm.id)
-                              });
-                            }}
-                            className="w-4 h-4 accent-black"
-                          />
-                          <span className="text-[11px] font-bold uppercase tracking-wider text-gray-700">{perm.label}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </Field>
+                  <PermissionSelector 
+                    permissions={userFormData.permissions || []} 
+                    onChange={(permissions) => setUserFormData({ ...userFormData, permissions })}
+                  />
                 </div>
 
                 <div className="pt-4">

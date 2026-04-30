@@ -19,10 +19,13 @@ import UserModal from '../components/admin/modals/UserModal';
 import ConfirmModal from '../components/admin/modals/ConfirmModal';
 import TeamBulkImport from '../components/admin/modals/TeamBulkImport';
 
+import { useTranslation } from 'react-i18next';
+
 export default function Admin() {
+  const { t } = useTranslation();
   const { user, logout } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState(user?.role === 'admin' ? 'dashboard' : 'website');
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
   const [confirmModal, setConfirmModal] = useState({
@@ -39,15 +42,15 @@ export default function Admin() {
   const adminData = useAdminData(user, activeTab, openConfirm);
 
   const menuItems = [
-    { id: 'dashboard', label: 'Ерөнхий', icon: LayoutDashboard },
-    { id: 'users', label: 'Багийн гишүүд', icon: Users },
-    { id: 'system_users', label: 'Систем хэрэглэгчид', icon: Users },
-    { id: 'website', label: 'Вэбсайт', icon: Menu },
-    { id: 'logs', label: 'Лог', icon: Menu },
+    { id: 'dashboard', label: t('admin.dashboard'), icon: LayoutDashboard },
+    { id: 'users', label: t('admin.teamMembers'), icon: Users },
+    { id: 'system_users', label: t('admin.systemUsers'), icon: Users },
+    { id: 'website', label: t('admin.website'), icon: Menu },
+    { id: 'logs', label: t('admin.logs'), icon: Menu },
   ].filter(item => {
     if (user?.role === 'admin') return true;
-    if (user?.role === 'client') {
-      return ['dashboard', 'users', 'website'].includes(item.id);
+    if (user?.role === 'client' || user?.role === 'staff') {
+      return ['users', 'website'].includes(item.id);
     }
     return user?.permissions?.includes(item.id) || user?.permissions?.includes('all');
   });
@@ -103,6 +106,7 @@ export default function Admin() {
               isOpen={isImportModalOpen} 
               onClose={() => setIsImportModalOpen(false)} 
               onImportDone={() => adminData.fetchTeamMembers()} 
+              user={user}
             />
             <ConfirmModal 
               state={confirmModal} 

@@ -3,7 +3,7 @@ import { Router, Request, Response } from 'express';
 const router = Router();
 
 
-async function translateToEnglish(text: string): Promise<string> {
+export async function translateToEnglish(text: string): Promise<string> {
   if (!text || !text.trim()) return '';
   try {
     const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=mn&tl=en&dt=t&q=${encodeURIComponent(text)}`;

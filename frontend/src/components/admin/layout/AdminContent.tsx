@@ -21,6 +21,8 @@ interface AdminContentProps {
   [key: string]: any;
 }
 
+import { useTranslation } from 'react-i18next';
+
 const AdminContent: React.FC<AdminContentProps> = ({
   activeTab,
   user,
@@ -30,6 +32,7 @@ const AdminContent: React.FC<AdminContentProps> = ({
   systemUsers,
   ...rest
 }) => {
+  const { t } = useTranslation();
   const menuItems = rest.menuItems || [];
 
   return (
@@ -42,7 +45,7 @@ const AdminContent: React.FC<AdminContentProps> = ({
     >
       <div className="mb-4">
         <h2 className="text-xl font-black uppercase tracking-tight mb-2">
-          {menuItems.find((m: any) => m.id === activeTab)?.label || (activeTab === 'settings' ? 'Профайл' : '')}
+          {menuItems.find((m: any) => m.id === activeTab)?.label || (activeTab === 'settings' ? t('admin.settings') : '')}
         </h2>
         <div className="h-0.5 w-full bg-black/5" />
       </div>
@@ -50,7 +53,7 @@ const AdminContent: React.FC<AdminContentProps> = ({
       <div className="min-h-[70vh]">
         {activeTab === 'dashboard' && <DashboardTab teamMembers={teamMembers} user={user} logs={logs} setActiveTab={rest.setActiveTab} openAddModal={rest.openAddModal} />}
         
-        {activeTab === 'website' && user.role === 'admin' && (
+        {activeTab === 'website' && (user.role === 'admin' || user.role === 'client' || user.role === 'staff') && (
           <WebsiteTab 
             siteSettings={siteSettings} setSiteSettings={rest.setSiteSettings} 
             isSettingsSaving={rest.isSettingsSaving} handleSaveSettings={rest.handleSaveSettings} 
@@ -61,7 +64,7 @@ const AdminContent: React.FC<AdminContentProps> = ({
           />
         )}
 
-        {activeTab === 'users' && user.role === 'admin' && (
+        {activeTab === 'users' && (user.role === 'admin' || user.role === 'client' || user.role === 'staff') && (
           <TeamTab 
             teamSearch={rest.teamSearch} setTeamSearch={rest.setTeamSearch} openAddModal={rest.openAddModal} 
             filteredTeamMembers={rest.filteredTeamMembers} 

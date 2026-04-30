@@ -2,7 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import { API_URL } from '../../services/api';
 import { TeamMember } from '../../types/admin';
-
+import { useTeamFileUpload } from './useTeamFileUpload';
+import { useTeamTranslation } from './useTeamTranslation';
 
 export const useAdminTeam = (user: any, logAction: Function, openConfirm: (t: string, d: string, o: () => void) => void) => {
   const [formData, setFormData] = useState({
@@ -14,21 +15,20 @@ export const useAdminTeam = (user: any, logAction: Function, openConfirm: (t: st
   const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
 
   const [imageInputMode, setImageInputMode] = useState<'url' | 'file'>('url');
-
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingMemberId, setEditingMemberId] = useState<string | null>(null);
-
   const [teamSearch, setTeamSearch] = useState('');
-
-
-
   const [selectedTeamMembers, setSelectedTeamMembers] = useState<string[]>([]);
-  const [isTranslating, setIsTranslating] = useState(false);
+
+  // Sub-hooks
+  const { handleFileUpload } = useTeamFileUpload(setFormData);
+  const { isTranslating, handleAutoTranslate } = useTeamTranslation(formData, setFormData);
 
   const fetchTeamMembers = async () => {
     try {
-      const endpoint = user?.role === 'client' ? `${API_URL}/client/${user.id}/team` : `${API_URL}/team`;
+      const isScoped = user?.role === 'client' || user?.role === 'staff';
+      const endpoint = isScoped ? `${API_URL}/client/${user.id}/team` : `${API_URL}/team`;
       const res = await fetch(endpoint);
       const data = await res.json();
       setTeamMembers(data);
@@ -97,7 +97,12 @@ export const useAdminTeam = (user: any, logAction: Function, openConfirm: (t: st
       `Та сонгосон ${selectedTeamMembers.length} гишүүнийг устгахдаа итгэлтэй байна уу? Мэдээлэл сэргээх боломжгүй.`,
       async () => {
         try {
-          const res = await fetch(`${API_URL}/team/bulk-delete`, {
+          const isScoped = user?.role === 'client' || user?.role === 'staff';
+          const endpoint = isScoped 
+            ? `${API_URL}/client/${user.id}/team/bulk-delete` 
+            : `${API_URL}/team/bulk-delete`;
+
+          const res = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ ids: selectedTeamMembers })
@@ -119,8 +124,10 @@ export const useAdminTeam = (user: any, logAction: Function, openConfirm: (t: st
     setIsSubmitting(true);
     try {
       const isUpdate = !!editingMemberId;
+      const isScoped = user?.role === 'client' || user?.role === 'staff';
+      
       let url = isUpdate ? `${API_URL}/team/${editingMemberId}` : `${API_URL}/team`;
-      if (user?.role === 'client') {
+      if (isScoped) {
         url = isUpdate 
           ? `${API_URL}/client/${user.id}/team/${editingMemberId}` 
           : `${API_URL}/client/${user.id}/team`;
@@ -158,77 +165,6 @@ export const useAdminTeam = (user: any, logAction: Function, openConfirm: (t: st
       setSubmitStatus({ type: 'error', message: err.message });
     } finally {
       setIsSubmitting(false);
-    }
-  };
-
-
-
-  const handleAutoTranslate = async () => {
-    setIsTranslating(true);
-    const fieldsToTranslate = {
-      name_en: formData.name || null,
-      position_en: formData.position || null,
-      aboutMe_en: formData.aboutMe || null,
-      experience_en: formData.experience || null,
-      education_en: formData.education || null,
-      projects_en: formData.projects || null,
-      achievements_en: formData.achievements || null
-    };
-
-    const payload: Record<string, string> = {};
-    Object.entries(fieldsToTranslate).forEach(([key, val]) => {
-      if (val) payload[key] = val;
-    });
-
-    if (Object.keys(payload).length === 0) {
-      toast.info('Орчуулах мэдээлэл алга байна');
-      setIsTranslating(false);
-      return;
-    }
-
-    try {
-      const res = await fetch(`${API_URL}/translate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ texts: payload })
-      });
-      if (!res.ok) throw new Error('Орчуулахад алдаа гарлаа');
-      const data = await res.json();
-      setFormData((prev) => ({ ...prev, ...data }));
-      toast.success('Мэдээлэл амжилттай орчуулагдлаа (Google Translate)');
-    } catch (err) {
-      toast.error('Орчуулахад алдаа гарлаа');
-    } finally {
-      setIsTranslating(false);
-    }
-  };
-
-
-
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (!file.type.startsWith('image/')) { toast.error('Зөвхөн зураг файл сонгоно уу.'); return; }
-      if (file.size > 5 * 1024 * 1024) { toast.error('Зурагны хэмжээ 5MB-с ихгүй байх ёстой.'); return; }
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-          const maxSize = 2048;
-          let { width, height } = img;
-          if (width > height) { if (width > maxSize) { height = (height * maxSize) / width; width = maxSize; } }
-          else { if (height > maxSize) { width = (width * maxSize) / height; height = maxSize; } }
-          canvas.width = width; canvas.height = height;
-          ctx?.drawImage(img, 0, 0, width, height);
-          const compressedDataUrl = canvas.toDataURL('image/jpeg', 1.0);
-          setFormData((prev) => ({ ...prev, image: compressedDataUrl }));
-          toast.success('Зураг амжилттай upload хийгдлээ!');
-        };
-        img.src = event.target?.result as string;
-      };
-      reader.readAsDataURL(file);
     }
   };
 

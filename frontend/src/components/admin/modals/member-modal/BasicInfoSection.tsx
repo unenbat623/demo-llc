@@ -7,9 +7,9 @@ interface BasicInfoSectionProps {
   formData: any;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   setFormData: (updater: (prev: any) => any) => void;
+  activeLang: 'mn' | 'en';
 }
 
-// Popular skill suggestions
 const SKILL_SUGGESTIONS = [
   'React', 'TypeScript', 'JavaScript', 'Node.js', 'Python', 'Vue', 'Next.js',
   'MongoDB', 'PostgreSQL', 'MySQL', 'Redis', 'Docker', 'AWS', 'Figma',
@@ -18,7 +18,7 @@ const SKILL_SUGGESTIONS = [
   'GitHub', 'Kubernetes', 'Linux', 'PHP', 'Unity', 'Blender'
 ];
 
-const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ formData, handleInputChange, setFormData }) => {
+const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ formData, handleInputChange, setFormData, activeLang }) => {
   const [skillInput, setSkillInput] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -67,17 +67,27 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ formData, handleInp
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
-        <Field label="Нэр">
-          <input type="text" name="name" value={formData.name} onChange={handleInputChange} required placeholder="Бат-Эрдэнэ Дорж" className={inputClass} />
+        <Field label={activeLang === 'mn' ? "Нэр" : "Name (EN)"}>
+          <input 
+            type="text" 
+            name={activeLang === 'mn' ? "name" : "name_en"} 
+            value={activeLang === 'mn' ? formData.name : formData.name_en} 
+            onChange={handleInputChange} 
+            required={activeLang === 'mn'} 
+            placeholder={activeLang === 'mn' ? "Бат-Эрдэнэ Дорж" : (formData.name || "Bat-Erdene Dorj")} 
+            className={inputClass} 
+          />
         </Field>
-        <Field label="Name (EN)">
-          <input type="text" name="name_en" value={formData.name_en} onChange={handleInputChange} placeholder="Bat-Erdene Dorj" className={inputClass} />
-        </Field>
-        <Field label="Албан тушаал">
-          <input type="text" name="position" value={formData.position} onChange={handleInputChange} required placeholder="Ахлах инженер" className={inputClass} />
-        </Field>
-        <Field label="Position (EN)">
-          <input type="text" name="position_en" value={formData.position_en} onChange={handleInputChange} placeholder="Senior Engineer" className={inputClass} />
+        <Field label={activeLang === 'mn' ? "Албан тушаал" : "Position (EN)"}>
+          <input 
+            type="text" 
+            name={activeLang === 'mn' ? "position" : "position_en"} 
+            value={activeLang === 'mn' ? formData.position : formData.position_en} 
+            onChange={handleInputChange} 
+            required={activeLang === 'mn'} 
+            placeholder={activeLang === 'mn' ? "Ахлах инженер" : (formData.position || "Senior Engineer")} 
+            className={inputClass} 
+          />
         </Field>
         <Field label="И-мэйл">
           <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="name@company.mn" className={inputClass} />
@@ -86,7 +96,6 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ formData, handleInp
           <input type="text" name="linkedin" value={formData.linkedin} onChange={handleInputChange} placeholder="https://linkedin.com/in/..." className={inputClass} />
         </Field>
 
-        {/* Skills - Tag input */}
         <Field label="Ур чадварууд" hint="Enter эсвэл таслал дарж нэмэх" full>
           <div
             className="min-h-[44px] flex flex-wrap gap-2 p-2 border border-black/10 focus-within:border-black transition-all duration-200 rounded-sm cursor-text bg-white"
@@ -137,7 +146,6 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ formData, handleInp
                 placeholder={currentSkills.length === 0 ? "React, Python, Figma ..." : ''}
                 className="w-full bg-transparent text-xs font-medium focus:outline-none py-1 px-1 placeholder:text-gray-300"
               />
-              {/* Suggestions dropdown */}
               {showSuggestions && filteredSuggestions.length > 0 && (
                 <div className="absolute top-full left-0 mt-1 z-50 bg-white border border-black/10 shadow-xl rounded-sm max-h-48 overflow-y-auto w-56">
                   {filteredSuggestions.slice(0, 10).map((suggestion) => {

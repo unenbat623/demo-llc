@@ -36,6 +36,11 @@ const sections = [
   { id: 'footer',   label: 'Footer',           sub: 'Copyright текст',          icon: Anchor,    num: '08' },
 ];
 
+import NavbarSection from './website/NavbarSection';
+import HeroExtraSection from './website/HeroExtraSection';
+import AboutExtraSection from './website/AboutExtraSection';
+import FooterExtraSection from './website/FooterExtraSection';
+
 const WebsiteTab: React.FC<WebsiteTabProps> = ({
   siteSettings,
   setSiteSettings,
@@ -50,36 +55,13 @@ const WebsiteTab: React.FC<WebsiteTabProps> = ({
   const [openSection, setOpenSection] = useState<string | null>('navbar');
 
   const updateField = (field: keyof SiteSettings, value: string) => {
-    setSiteSettings({ ...siteSettings, [field]: value });
+    setSiteSettings(prev => ({ ...prev, [field]: value }));
   };
 
   const sharedProps = { siteSettings, activeLang, updateField };
 
   const renderContent = (id: string) => {
-    if (id === 'navbar') return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <div>
-          <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
-            {activeLang === 'mn' ? 'Вэбсайт нэр' : 'Site Title'}
-          </label>
-          <input
-            type="text"
-            value={activeLang === 'mn' ? siteSettings.siteTitle : siteSettings.siteTitle_en}
-            onChange={e => updateField(activeLang === 'mn' ? 'siteTitle' : 'siteTitle_en', e.target.value)}
-            className="w-full bg-gray-50 border border-black/10 px-4 py-3 text-sm focus:outline-none focus:border-black rounded-sm"
-          />
-        </div>
-        <div>
-          <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Navbar Лого текст</label>
-          <input
-            type="text"
-            value={siteSettings.navbarLogo}
-            onChange={e => updateField('navbarLogo', e.target.value)}
-            className="w-full bg-gray-50 border border-black/10 px-4 py-3 text-sm focus:outline-none focus:border-black rounded-sm"
-          />
-        </div>
-      </div>
-    );
+    if (id === 'navbar') return <NavbarSection {...sharedProps} />;
 
     if (id === 'hero') return (
       <div className="space-y-6">
@@ -89,93 +71,25 @@ const WebsiteTab: React.FC<WebsiteTabProps> = ({
           imgInputMode={imgInputMode} setImgInputMode={setImgInputMode}
           handleFileUpload={handleFileUpload}
         />
-        <div className="border-t border-black/5 pt-6">
-          <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-4">Hero нэмэлт мэдээлэл</p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Badge текст</label>
-              <input type="text" value={siteSettings.heroBadge || ''} onChange={e => updateField('heroBadge', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="Tech Solutions" />
-            </div>
-            <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Stat 1 (250+ / Projects)</label>
-              <div className="flex gap-2">
-                <input type="text" value={siteSettings.heroStat1Value || ''} onChange={e => updateField('heroStat1Value', e.target.value)} className="w-20 bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="250+" />
-                <input type="text" value={siteSettings.heroStat1Label || ''} onChange={e => updateField('heroStat1Label', e.target.value)} className="flex-1 bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="Projects" />
-              </div>
-            </div>
-            <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Stat 2 (15+ / Awards)</label>
-              <div className="flex gap-2">
-                <input type="text" value={siteSettings.heroStat2Value || ''} onChange={e => updateField('heroStat2Value', e.target.value)} className="w-20 bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="15+" />
-                <input type="text" value={siteSettings.heroStat2Label || ''} onChange={e => updateField('heroStat2Label', e.target.value)} className="flex-1 bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="Awards" />
-              </div>
-            </div>
-            <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Байгуулагдсан он</label>
-              <input type="text" value={siteSettings.heroEstablished || ''} onChange={e => updateField('heroEstablished', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="MMXXIV" />
-            </div>
-            <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Tagline текст</label>
-              <input type="text" value={siteSettings.heroTagline || ''} onChange={e => updateField('heroTagline', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="Digital_Engine_01" />
-            </div>
-          </div>
-        </div>
+        <HeroExtraSection siteSettings={siteSettings} updateField={updateField} />
       </div>
     );
 
     if (id === 'about') return (
       <div className="space-y-6">
         <AboutSection {...sharedProps} />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-black/5 pt-6">
-          <div>
-            <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Badge текст ("Компанийн тухай")</label>
-            <input type="text" value={siteSettings.aboutBadge || ''} onChange={e => updateField('aboutBadge', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="Компанийн тухай" />
-          </div>
-          <div>
-            <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Tagline текст ("Innovation First")</label>
-            <input type="text" value={siteSettings.aboutTagline || ''} onChange={e => updateField('aboutTagline', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="Innovation First" />
-          </div>
-        </div>
+        <AboutExtraSection siteSettings={siteSettings} updateField={updateField} />
       </div>
     );
+
     if (id === 'stats')   return <StatsEditor {...sharedProps} />;
     if (id === 'vision')  return <VisionMissionSection {...sharedProps} />;
     if (id === 'contact') return <ContactSocialSection {...sharedProps} />;
-    if (id === 'colors')  return <ColorSection siteSettings={siteSettings} updateField={updateField} />;
+    if (id === 'colors')  return <ColorSection siteSettings={siteSettings} updateField={updateField} handleSaveSettings={handleSaveSettings} />;
     if (id === 'footer')  return (
       <div className="space-y-6">
         <FooterSection {...sharedProps} />
-        <div className="border-t border-black/5 pt-6">
-          <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-4">Footer CTA текст</p>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{activeLang === 'mn' ? 'Гарчиг' : 'Heading'}</label>
-              <input type="text" value={activeLang === 'mn' ? (siteSettings.footerCta || '') : (siteSettings.footerCta_en || '')} onChange={e => updateField(activeLang === 'mn' ? 'footerCta' : 'footerCta_en', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="Хамтдаа ажиллах бэлэн үү?" />
-            </div>
-            <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{activeLang === 'mn' ? 'Дэд текст' : 'Subtext'}</label>
-              <textarea rows={2} value={activeLang === 'mn' ? (siteSettings.footerCtaSub || '') : (siteSettings.footerCtaSub_en || '')} onChange={e => updateField(activeLang === 'mn' ? 'footerCtaSub' : 'footerCtaSub_en', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm resize-none" />
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-black/5 pt-6">
-          <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-4">Манай Баг секц</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Badge текст ("Expert Minds")</label>
-              <input type="text" value={siteSettings.teamBadge || ''} onChange={e => updateField('teamBadge', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="Expert Minds" />
-            </div>
-            <div>
-              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{activeLang === 'mn' ? 'Гарчиг' : 'Title'}</label>
-              <input type="text" value={activeLang === 'mn' ? (siteSettings.teamTitle || '') : (siteSettings.teamTitle_en || '')} onChange={e => updateField(activeLang === 'mn' ? 'teamTitle' : 'teamTitle_en', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="Манай баг" />
-            </div>
-            <div className="md:col-span-2">
-              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{activeLang === 'mn' ? 'Тайлбар' : 'Description'}</label>
-              <input type="text" value={activeLang === 'mn' ? (siteSettings.teamDescription || '') : (siteSettings.teamDescription_en || '')} onChange={e => updateField(activeLang === 'mn' ? 'teamDescription' : 'teamDescription_en', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" />
-            </div>
-          </div>
-        </div>
+        <FooterExtraSection {...sharedProps} />
       </div>
     );
     return null;

@@ -80,8 +80,10 @@
     "title": "Admin Panel",
     "logout": "Logout",
     "dashboard": "Dashboard",
-    "users": "Users",
-    "settings": "Settings",
+    "teamMembers": "Team Members",
+    "systemUsers": "System Users",
+    "website": "Website",
+    "myWebsite": "My Website",
     "logs": "Logs",
     "welcome": "Welcome"
   },
@@ -97,5 +99,10 @@
     "delete": "Delete",
     "edit": "Edit",
     "back": "Back"
+  },
+  "roles": {
+    "admin": "Administrator",
+    "client": "Client Access",
+    "staff": "Staff Access"
   }
 }
