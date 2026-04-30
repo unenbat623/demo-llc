@@ -45,7 +45,7 @@ export default function About() {
   ] : [];
 
   return (
-    <section id="about" className="py-20 bg-white overflow-hidden relative">
+    <section id="about" className="py-20 overflow-hidden relative" style={{ backgroundColor: 'var(--color-secondary, #fff)' }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Top Section */}
         <div className="grid lg:grid-cols-12 gap-12 items-start mb-16">
@@ -57,17 +57,17 @@ export default function About() {
               transition={{ duration: 0.8 }}
             >
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Компанийн тухай</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">{settings?.aboutBadge || 'Компанийн тухай'}</span>
                 <div className="w-8 h-px bg-black/10" />
               </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-black uppercase tracking-tight leading-tight mb-8">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight leading-tight mb-8" style={{ color: 'var(--color-primary, #000)' }}>
                 {t_site('aboutTitle')}
               </h2>
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-black rounded-sm flex items-center justify-center text-white">
+                <div className="w-12 h-12 rounded-sm flex items-center justify-center" style={{ backgroundColor: 'var(--color-primary, #000)', color: 'var(--color-secondary, #fff)' }}>
                   <Rocket size={24} />
                 </div>
-                <div className="text-[10px] font-black uppercase tracking-[0.2em] text-black">Innovation First</div>
+                <div className="text-[10px] font-black uppercase tracking-[0.2em] text-black">{settings?.aboutTagline || 'Innovation First'}</div>
               </div>
             </motion.div>
           </div>

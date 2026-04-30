@@ -34,7 +34,7 @@ export const getSkillIcon = (skill: string) => {
   if (s.includes('mysql')) return 'https://cdn.simpleicons.org/mysql/4479A1';
   if (s.includes('postgre')) return 'https://cdn.simpleicons.org/postgresql/4169E1';
   if (s.includes('mongo')) return 'https://cdn.simpleicons.org/mongodb/47A248';
-  if (s.includes('aws')) return 'https://cdn.simpleicons.org/amazonaws/232F3E';
+  if (s.includes('aws')) return 'https://cdn.simpleicons.org/amazonwebservices/232F3E';
   if (s.includes('c++') || s.includes('cpp')) return 'https://cdn.simpleicons.org/cplusplus/00599C';
   if (s.includes('react')) return 'https://cdn.simpleicons.org/react/61DAFB';
   if (s.includes('typescript') || s.includes('ts')) return 'https://cdn.simpleicons.org/typescript/3178C6';

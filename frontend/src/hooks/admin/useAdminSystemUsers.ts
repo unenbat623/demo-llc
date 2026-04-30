@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { API_URL } from '../../services/api';
 import { SystemUser } from '../../types/admin';
 
-export const useAdminSystemUsers = (user: any, logAction: Function) => {
+export const useAdminSystemUsers = (user: any, logAction: Function, openConfirm: (t: string, d: string, o: () => void) => void) => {
   const [systemUsers, setSystemUsers] = useState<SystemUser[]>([]);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [userFormData, setUserFormData] = useState({ username: '', password: '', role: 'staff' });
@@ -29,7 +29,12 @@ export const useAdminSystemUsers = (user: any, logAction: Function) => {
       const url = isUpdate ? `${API_URL}/users/${editingUserId}` : `${API_URL}/users`;
       const method = isUpdate ? 'PUT' : 'POST';
 
-      const payload: any = { username: userFormData.username, role: userFormData.role };
+      const payload: any = { 
+        username: userFormData.username, 
+        role: userFormData.role,
+        roleName: userFormData.roleName,
+        permissions: userFormData.permissions
+      };
       if (userFormData.password) payload.password = userFormData.password;
 
       const res = await fetch(url, {
@@ -55,16 +60,20 @@ export const useAdminSystemUsers = (user: any, logAction: Function) => {
     }
   };
 
-  const handleDeleteSystemUser = async (id: string, username: string) => {
-    if (!window.confirm(`Та ${username} хэрэглэгчийг устгахдаа итгэлтэй байна уу?`)) return;
-    try {
-      const res = await fetch(`${API_URL}/users/${id}`, { method: 'DELETE' });
-      if (!res.ok) throw new Error('Устгахад алдаа гарлаа');
-      await logAction('DELETE', `Системийн хэрэглэгч устгалаа: ${username}`, 'Admin');
-      fetchSystemUsers();
-    } catch (err) {
-      console.error(err);
-    }
+  const handleDeleteSystemUser = async (id: string) => {
+    const targetUser = systemUsers.find(u => u._id === id);
+    if (!targetUser) return;
+    
+    openConfirm('Хэрэглэгч устгах уу?', `Та "${targetUser.username}" хэрэглэгчийн хандалтыг бүр мөсөн устгахдаа итгэлтэй байна уу?`, async () => {
+      try {
+        const res = await fetch(`${API_URL}/users/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Устгахад алдаа гарлаа');
+        await logAction('DELETE', `Системийн хэрэглэгч устгалаа: ${targetUser.username}`, 'Admin');
+        fetchSystemUsers();
+      } catch (err) {
+        console.error(err);
+      }
+    });
   };
 
   return {

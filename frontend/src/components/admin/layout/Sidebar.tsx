@@ -64,6 +64,18 @@ const Sidebar: React.FC<SidebarProps> = ({
           </button>
         ))}
 
+        {user?.role === 'client' && (
+          <a
+            href={`/site/${user.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full group flex items-center gap-4 px-4 py-3 rounded-sm transition-all duration-300 text-gray-500 hover:text-white hover:bg-white/5 mt-2"
+          >
+            <ChevronRight size={16} className="text-white animate-pulse" />
+            <span className="text-[9px] font-black uppercase tracking-[0.2em]">Миний вэбсайт</span>
+          </a>
+        )}
+
         <div className="pt-6">
           <p className="text-[8px] font-black uppercase tracking-[0.3em] text-gray-600 mb-4 ml-2">Account</p>
           <button
@@ -90,7 +102,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-[10px] font-black uppercase tracking-wider truncate">{user?.username}</p>
-            <p className="text-[7px] font-black uppercase tracking-[0.3em] text-gray-500">{user?.role}</p>
+            <p className="text-[7px] font-black uppercase tracking-[0.3em] text-gray-500">{user?.roleName || user?.role}</p>
           </div>
         </div>
 

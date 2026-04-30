@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { navigateTo } from './Login';
 import { LayoutDashboard, Users, Menu } from 'lucide-react';
@@ -16,25 +16,41 @@ import AdminContent from '../components/admin/layout/AdminContent';
 // Modals
 import MemberModal from '../components/admin/modals/MemberModal';
 import UserModal from '../components/admin/modals/UserModal';
-import DeleteConfirmModal from '../components/admin/modals/DeleteConfirmModal';
+import ConfirmModal from '../components/admin/modals/ConfirmModal';
 import TeamBulkImport from '../components/admin/modals/TeamBulkImport';
 
 export default function Admin() {
   const { user, logout } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
-
-  const adminData = useAdminData(user, activeTab);
-
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
+  const [confirmModal, setConfirmModal] = useState({
+    isOpen: false,
+    title: '',
+    description: '',
+    onConfirm: null as (() => void) | null,
+  });
+
+  const openConfirm = (title: string, description: string, onConfirm: () => void) => {
+    setConfirmModal({ isOpen: true, title, description, onConfirm });
+  };
+
+  const adminData = useAdminData(user, activeTab, openConfirm);
+
   const menuItems = [
-    { id: 'dashboard', label: 'Ерөнхий', icon: LayoutDashboard, roles: ['admin', 'staff'] },
-    { id: 'users', label: 'Багийн гишүүд', icon: Users, roles: ['admin'] },
-    { id: 'system_users', label: 'Систем хэрэглэгчид', icon: Users, roles: ['admin', 'staff'] },
-    { id: 'website', label: 'Вэбсайт', icon: Menu, roles: ['admin'] },
-    { id: 'logs', label: 'Лог', icon: Menu, roles: ['admin'] },
-  ].filter(item => item.roles.includes(user?.role));
+    { id: 'dashboard', label: 'Ерөнхий', icon: LayoutDashboard },
+    { id: 'users', label: 'Багийн гишүүд', icon: Users },
+    { id: 'system_users', label: 'Систем хэрэглэгчид', icon: Users },
+    { id: 'website', label: 'Вэбсайт', icon: Menu },
+    { id: 'logs', label: 'Лог', icon: Menu },
+  ].filter(item => {
+    if (user?.role === 'admin') return true;
+    if (user?.role === 'client') {
+      return ['dashboard', 'users', 'website'].includes(item.id);
+    }
+    return user?.permissions?.includes(item.id) || user?.permissions?.includes('all');
+  });
 
   const handleLogout = () => {
     logout();
@@ -48,7 +64,7 @@ export default function Admin() {
       <SidebarOverlay isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
 
       <motion.aside
-        className={`fixed inset-y-0 left-0 z-50 w-72 bg-black transform transition-transform duration-300 lg:translate-x-0 lg:static lg:block ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`fixed inset-y-0 left-0 z-50 w-72 bg-black transform transition-transform duration-300 lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen lg:block ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         <Sidebar 
           user={user} activeTab={activeTab} setActiveTab={setActiveTab} 
@@ -64,6 +80,7 @@ export default function Admin() {
             <AdminContent 
               {...adminData} 
               activeTab={activeTab} 
+              setActiveTab={setActiveTab}
               user={user} 
               menuItems={menuItems} 
               openImportModal={() => setIsImportModalOpen(true)}
@@ -87,8 +104,9 @@ export default function Admin() {
               onClose={() => setIsImportModalOpen(false)} 
               onImportDone={() => adminData.fetchTeamMembers()} 
             />
-            <DeleteConfirmModal 
-              deleteConfirm={adminData.deleteConfirm} setDeleteConfirm={adminData.setDeleteConfirm} handleDeleteMember={adminData.handleDeleteMember} 
+            <ConfirmModal 
+              state={confirmModal} 
+              onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))} 
             />
           </div>
         </div>

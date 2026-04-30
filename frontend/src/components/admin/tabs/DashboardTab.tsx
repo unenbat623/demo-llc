@@ -6,9 +6,11 @@ interface DashboardTabProps {
   teamMembers: any[];
   user: any;
   logs: any[];
+  setActiveTab: (tab: string) => void;
+  openAddModal: () => void;
 }
 
-const DashboardTab: React.FC<DashboardTabProps> = ({ teamMembers, user, logs }) => {
+const DashboardTab: React.FC<DashboardTabProps> = ({ teamMembers, user, logs, setActiveTab, openAddModal }) => {
   return (
     <div className="space-y-6">
       {/* Welcome Bar */}
@@ -97,10 +99,29 @@ const DashboardTab: React.FC<DashboardTabProps> = ({ teamMembers, user, logs }) 
           <div className="bg-gray-50 p-4 border border-black/5 rounded-sm">
             <h4 className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-3">Хурдан холбоос</h4>
             <div className="grid grid-cols-1 gap-2">
-              <button className="w-full py-2 px-3 bg-white border border-black/5 hover:border-black transition-all rounded-sm text-[9px] font-black uppercase tracking-widest text-left">
+              <button 
+                onClick={() => {
+                  if (user.permissions?.includes('users') || user.permissions?.includes('all') || user.role === 'admin') {
+                    setActiveTab('users');
+                    openAddModal();
+                  } else {
+                    alert('Танд багийн гишүүн нэмэх эрх байхгүй байна.');
+                  }
+                }}
+                className="w-full py-2 px-3 bg-white border border-black/5 hover:border-black transition-all rounded-sm text-[9px] font-black uppercase tracking-widest text-left"
+              >
                 Шинэ гишүүн нэмэх
               </button>
-              <button className="w-full py-2 px-3 bg-white border border-black/5 hover:border-black transition-all rounded-sm text-[9px] font-black uppercase tracking-widest text-left">
+              <button 
+                onClick={() => {
+                  if (user.permissions?.includes('website') || user.permissions?.includes('all') || user.role === 'admin') {
+                    setActiveTab('website');
+                  } else {
+                    alert('Танд вэбсайт засах эрх байхгүй байна.');
+                  }
+                }}
+                className="w-full py-2 px-3 bg-white border border-black/5 hover:border-black transition-all rounded-sm text-[9px] font-black uppercase tracking-widest text-left"
+              >
                 Вэбсайт засах
               </button>
             </div>

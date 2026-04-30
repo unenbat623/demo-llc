@@ -52,10 +52,32 @@ export interface SiteSettings {
   ctaText_en: string;
   heroBgUrl: string;
   heroImageUrl: string;
+  heroBadge?: string;
+  heroStat1Value?: string;
+  heroStat1Label?: string;
+  heroStat2Value?: string;
+  heroStat2Label?: string;
+  heroEstablished?: string;
+  heroTagline?: string;
   aboutTitle: string;
   aboutTitle_en: string;
   aboutDescription: string;
   aboutDescription_en: string;
+  aboutBadge?: string;
+  aboutTagline?: string;
+
+  // Team Section
+  teamBadge?: string;
+  teamTitle?: string;
+  teamTitle_en?: string;
+  teamDescription?: string;
+  teamDescription_en?: string;
+
+  // Footer CTA
+  footerCta?: string;
+  footerCta_en?: string;
+  footerCtaSub?: string;
+  footerCtaSub_en?: string;
   
   // Stats
   stats1Value: string;
@@ -103,4 +125,10 @@ export interface SiteSettings {
   twitter: string;
   linkedin: string;
   instagram: string;
+
+  // Colors
+  primaryColor?: string;
+  secondaryColor?: string;
+  accentColor?: string;
+  textColor?: string;
 }

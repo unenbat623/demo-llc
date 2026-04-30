@@ -15,11 +15,6 @@ const AboutSection: React.FC<AboutSectionProps> = ({
 }) => {
   return (
     <div className="space-y-8">
-      <div className="flex items-center gap-3">
-        <div className="w-8 h-8 bg-black text-white flex items-center justify-center text-xs font-black">02</div>
-        <h4 className="text-xs font-black uppercase tracking-widest text-black/40">Бидний тухай хэсэг</h4>
-        <div className="flex-1 h-px bg-black/5" />
-      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Field label={activeLang === 'mn' ? "Гарчиг" : "About Title"}>

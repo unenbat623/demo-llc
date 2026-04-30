@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -9,6 +9,8 @@ import Admin from './pages/Admin';
 import { AuthProvider } from './context/AuthContext';
 import { SettingsProvider } from './context/SettingsContext';
 
+import GeneratedSite from './pages/GeneratedSite';
+
 function Router() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
@@ -18,7 +20,6 @@ function Router() {
     };
 
     window.addEventListener('popstate', onLocationChange);
-    // Add custom event listener for programmatic navigation
     window.addEventListener('navigate', onLocationChange);
 
     return () => {
@@ -33,6 +34,10 @@ function Router() {
 
   if (currentPath === '/admin') {
     return <Admin />;
+  }
+
+  if (currentPath.startsWith('/site/')) {
+    return <GeneratedSite />;
   }
 
   // Main page

@@ -14,7 +14,7 @@ export const getSkillIcon = (skillName: string): string | null => {
   if (s.includes('firebase')) return 'https://cdn.simpleicons.org/firebase/FFCA28';
 
   // Cloud & DevOps
-  if (s.includes('aws')) return 'https://cdn.simpleicons.org/amazonaws/232F3E';
+  if (s.includes('aws')) return 'https://cdn.simpleicons.org/amazonwebservices/232F3E';
   if (s.includes('docker')) return 'https://cdn.simpleicons.org/docker/2496ED';
   if (s.includes('kubernetes') || s.includes('k8s')) return 'https://cdn.simpleicons.org/kubernetes/326CE5';
   if (s.includes('vercel')) return 'https://cdn.simpleicons.org/vercel/000000';

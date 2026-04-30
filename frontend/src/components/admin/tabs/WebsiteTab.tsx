@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Save, Globe } from 'lucide-react';
+import { Save, Globe, Monitor, ChevronDown, Layout, FileText, BarChart3, Target, Phone, Palette, Anchor } from 'lucide-react';
 import { SiteSettings } from '../../../types/admin';
 
 // Sub-sections
@@ -10,6 +10,7 @@ import StatsEditor from './website/StatsEditor';
 import VisionMissionSection from './website/VisionMissionSection';
 import ContactSocialSection from './website/ContactSocialSection';
 import FooterSection from './website/FooterSection';
+import ColorSection from './website/ColorSection';
 
 interface WebsiteTabProps {
   siteSettings: SiteSettings;
@@ -24,19 +25,29 @@ interface WebsiteTabProps {
   handleFileUpload: (e: React.ChangeEvent<HTMLInputElement>, field: 'heroBgUrl' | 'heroImageUrl') => void;
 }
 
+const sections = [
+  { id: 'navbar',   label: 'Navbar',           sub: 'Лого, сайтын нэр',         icon: Layout,    num: '01' },
+  { id: 'hero',     label: 'Hero',             sub: 'Гарчиг, дэвсгэр, зураг',  icon: Monitor,   num: '02' },
+  { id: 'about',    label: 'Бидний тухай',     sub: 'Тайлбар текст',            icon: FileText,  num: '03' },
+  { id: 'stats',    label: 'Статистик',        sub: '4 тоон үзүүлэлт',          icon: BarChart3, num: '04' },
+  { id: 'vision',   label: 'Алсын Харааа & Зорилго', sub: 'Vision & Mission',    icon: Target,    num: '05' },
+  { id: 'contact',  label: 'Холбоо барих',     sub: 'И-мэйл, утас, хаяг',      icon: Phone,     num: '06' },
+  { id: 'colors',   label: 'Өнгөний тохиргоо','sub': 'Сайтын өнгө схем',        icon: Palette,   num: '07' },
+  { id: 'footer',   label: 'Footer',           sub: 'Copyright текст',          icon: Anchor,    num: '08' },
+];
+
 const WebsiteTab: React.FC<WebsiteTabProps> = ({
   siteSettings,
   setSiteSettings,
   isSettingsSaving,
   handleSaveSettings,
   settingsStatus,
-  bgInputMode,
-  setBgInputMode,
-  imgInputMode,
-  setImgInputMode,
+  bgInputMode, setBgInputMode,
+  imgInputMode, setImgInputMode,
   handleFileUpload
 }) => {
   const [activeLang, setActiveLang] = useState<'mn' | 'en'>('mn');
+  const [openSection, setOpenSection] = useState<string | null>('navbar');
 
   const updateField = (field: keyof SiteSettings, value: string) => {
     setSiteSettings({ ...siteSettings, [field]: value });
@@ -44,57 +55,185 @@ const WebsiteTab: React.FC<WebsiteTabProps> = ({
 
   const sharedProps = { siteSettings, activeLang, updateField };
 
-  return (
-    <form onSubmit={handleSaveSettings} className="bg-white p-8 border border-black/10 hover:border-black transition-colors duration-300">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-10 gap-6">
+  const renderContent = (id: string) => {
+    if (id === 'navbar') return (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
-          <h3 className="text-xl font-black uppercase tracking-tighter flex items-center gap-3">
-            <Globe className="text-black" />
-            Вэбсайт тохиргоо
-          </h3>
-          <p className="text-gray-500 text-sm mt-1">Вэбсайтын ерөнхий мэдээлэл, агуулгыг эндээс удирдана.</p>
+          <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+            {activeLang === 'mn' ? 'Вэбсайт нэр' : 'Site Title'}
+          </label>
+          <input
+            type="text"
+            value={activeLang === 'mn' ? siteSettings.siteTitle : siteSettings.siteTitle_en}
+            onChange={e => updateField(activeLang === 'mn' ? 'siteTitle' : 'siteTitle_en', e.target.value)}
+            className="w-full bg-gray-50 border border-black/10 px-4 py-3 text-sm focus:outline-none focus:border-black rounded-sm"
+          />
         </div>
-        
-        <div className="flex items-center gap-4 w-full sm:w-auto">
-          <div className="flex bg-gray-100 p-1 rounded-sm">
+        <div>
+          <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Navbar Лого текст</label>
+          <input
+            type="text"
+            value={siteSettings.navbarLogo}
+            onChange={e => updateField('navbarLogo', e.target.value)}
+            className="w-full bg-gray-50 border border-black/10 px-4 py-3 text-sm focus:outline-none focus:border-black rounded-sm"
+          />
+        </div>
+      </div>
+    );
+
+    if (id === 'hero') return (
+      <div className="space-y-6">
+        <IdentitySection
+          {...sharedProps}
+          bgInputMode={bgInputMode} setBgInputMode={setBgInputMode}
+          imgInputMode={imgInputMode} setImgInputMode={setImgInputMode}
+          handleFileUpload={handleFileUpload}
+        />
+        <div className="border-t border-black/5 pt-6">
+          <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-4">Hero нэмэлт мэдээлэл</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Badge текст</label>
+              <input type="text" value={siteSettings.heroBadge || ''} onChange={e => updateField('heroBadge', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="Tech Solutions" />
+            </div>
+            <div>
+              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Stat 1 (250+ / Projects)</label>
+              <div className="flex gap-2">
+                <input type="text" value={siteSettings.heroStat1Value || ''} onChange={e => updateField('heroStat1Value', e.target.value)} className="w-20 bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="250+" />
+                <input type="text" value={siteSettings.heroStat1Label || ''} onChange={e => updateField('heroStat1Label', e.target.value)} className="flex-1 bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="Projects" />
+              </div>
+            </div>
+            <div>
+              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Stat 2 (15+ / Awards)</label>
+              <div className="flex gap-2">
+                <input type="text" value={siteSettings.heroStat2Value || ''} onChange={e => updateField('heroStat2Value', e.target.value)} className="w-20 bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="15+" />
+                <input type="text" value={siteSettings.heroStat2Label || ''} onChange={e => updateField('heroStat2Label', e.target.value)} className="flex-1 bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="Awards" />
+              </div>
+            </div>
+            <div>
+              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Байгуулагдсан он</label>
+              <input type="text" value={siteSettings.heroEstablished || ''} onChange={e => updateField('heroEstablished', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="MMXXIV" />
+            </div>
+            <div>
+              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Tagline текст</label>
+              <input type="text" value={siteSettings.heroTagline || ''} onChange={e => updateField('heroTagline', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="Digital_Engine_01" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+
+    if (id === 'about') return (
+      <div className="space-y-6">
+        <AboutSection {...sharedProps} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-black/5 pt-6">
+          <div>
+            <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Badge текст ("Компанийн тухай")</label>
+            <input type="text" value={siteSettings.aboutBadge || ''} onChange={e => updateField('aboutBadge', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="Компанийн тухай" />
+          </div>
+          <div>
+            <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Tagline текст ("Innovation First")</label>
+            <input type="text" value={siteSettings.aboutTagline || ''} onChange={e => updateField('aboutTagline', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="Innovation First" />
+          </div>
+        </div>
+      </div>
+    );
+    if (id === 'stats')   return <StatsEditor {...sharedProps} />;
+    if (id === 'vision')  return <VisionMissionSection {...sharedProps} />;
+    if (id === 'contact') return <ContactSocialSection {...sharedProps} />;
+    if (id === 'colors')  return <ColorSection siteSettings={siteSettings} updateField={updateField} />;
+    if (id === 'footer')  return (
+      <div className="space-y-6">
+        <FooterSection {...sharedProps} />
+        <div className="border-t border-black/5 pt-6">
+          <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-4">Footer CTA текст</p>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{activeLang === 'mn' ? 'Гарчиг' : 'Heading'}</label>
+              <input type="text" value={activeLang === 'mn' ? (siteSettings.footerCta || '') : (siteSettings.footerCta_en || '')} onChange={e => updateField(activeLang === 'mn' ? 'footerCta' : 'footerCta_en', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="Хамтдаа ажиллах бэлэн үү?" />
+            </div>
+            <div>
+              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{activeLang === 'mn' ? 'Дэд текст' : 'Subtext'}</label>
+              <textarea rows={2} value={activeLang === 'mn' ? (siteSettings.footerCtaSub || '') : (siteSettings.footerCtaSub_en || '')} onChange={e => updateField(activeLang === 'mn' ? 'footerCtaSub' : 'footerCtaSub_en', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm resize-none" />
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t border-black/5 pt-6">
+          <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-4">Манай Баг секц</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Badge текст ("Expert Minds")</label>
+              <input type="text" value={siteSettings.teamBadge || ''} onChange={e => updateField('teamBadge', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="Expert Minds" />
+            </div>
+            <div>
+              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{activeLang === 'mn' ? 'Гарчиг' : 'Title'}</label>
+              <input type="text" value={activeLang === 'mn' ? (siteSettings.teamTitle || '') : (siteSettings.teamTitle_en || '')} onChange={e => updateField(activeLang === 'mn' ? 'teamTitle' : 'teamTitle_en', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" placeholder="Манай баг" />
+            </div>
+            <div className="md:col-span-2">
+              <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{activeLang === 'mn' ? 'Тайлбар' : 'Description'}</label>
+              <input type="text" value={activeLang === 'mn' ? (siteSettings.teamDescription || '') : (siteSettings.teamDescription_en || '')} onChange={e => updateField(activeLang === 'mn' ? 'teamDescription' : 'teamDescription_en', e.target.value)} className="w-full bg-gray-50 border border-black/10 px-3 py-2.5 text-sm focus:outline-none focus:border-black rounded-sm" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+    return null;
+  };
+
+  return (
+    <form onSubmit={handleSaveSettings} className="space-y-0">
+      {/* Header */}
+      <div className="bg-black text-white px-8 py-6 rounded-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-6">
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 border border-white/20 flex items-center justify-center">
+            <Globe size={18} />
+          </div>
+          <div>
+            <h3 className="text-base font-black uppercase tracking-tighter">Вэбсайт тохиргоо</h3>
+            <p className="text-gray-500 text-[10px] font-bold uppercase tracking-widest mt-0.5">Navbar → Hero → About → ... → Footer</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3 w-full sm:w-auto">
+          {/* Language toggle */}
+          <div className="flex bg-white/10 p-0.5 rounded-sm">
             {(['mn', 'en'] as const).map(lang => (
               <button
                 key={lang}
                 type="button"
                 onClick={() => setActiveLang(lang)}
-                className={`px-4 py-1.5 text-[10px] font-black uppercase tracking-widest transition-all ${activeLang === lang ? 'bg-white shadow-sm text-black' : 'text-gray-400 hover:text-gray-600'}`}
+                className={`px-4 py-1.5 text-[10px] font-black uppercase tracking-widest transition-all rounded-sm ${activeLang === lang ? 'bg-white text-black' : 'text-gray-400 hover:text-white'}`}
               >
                 {lang.toUpperCase()}
               </button>
             ))}
           </div>
-          
+
           <button
             type="submit"
             disabled={isSettingsSaving}
-            className="group relative overflow-hidden bg-black rounded-sm text-white px-8 py-3 flex-1 sm:flex-none transition-all duration-500"
+            className="group relative overflow-hidden bg-white text-black px-6 py-2.5 rounded-sm text-[10px] font-black uppercase tracking-[0.2em] hover:bg-gray-100 transition-colors flex items-center gap-2 flex-1 sm:flex-none justify-center"
           >
-            <div className="absolute inset-0 bg-gray-800 transition-transform duration-500 ease-[0.16,1,0.3,1] -translate-x-full group-hover:translate-x-0" />
-            <span className="relative text-xs font-black uppercase tracking-[0.2em] flex items-center justify-center gap-2">
-              {isSettingsSaving ? (
-                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              ) : (
-                <Save size={16} />
-              )}
-              {isSettingsSaving ? 'Хадгалж байна' : 'Хадгалах'}
-            </span>
+            {isSettingsSaving ? (
+              <span className="w-3.5 h-3.5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+            ) : (
+              <Save size={13} />
+            )}
+            {isSettingsSaving ? 'Хадгалж байна...' : 'Хадгалах'}
           </button>
         </div>
       </div>
 
-      <AnimatePresence mode="wait">
+      {/* Status */}
+      <AnimatePresence>
         {settingsStatus.message && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className={`mb-8 p-4 text-[11px] font-bold rounded-sm border flex items-center gap-3 uppercase tracking-wider ${
-              settingsStatus.type === 'success' ? 'bg-green-50 text-green-700 border-green-100' : 'bg-red-50 text-red-700 border-red-100'
+            exit={{ opacity: 0, y: -8 }}
+            className={`mb-4 px-5 py-3 text-[11px] font-bold rounded-sm flex items-center gap-3 uppercase tracking-wider ${
+              settingsStatus.type === 'success' ? 'bg-green-50 text-green-700 border border-green-100' : 'bg-red-50 text-red-700 border border-red-100'
             }`}
           >
             <div className={`w-2 h-2 rounded-full ${settingsStatus.type === 'success' ? 'bg-green-500' : 'bg-red-500'}`} />
@@ -103,23 +242,81 @@ const WebsiteTab: React.FC<WebsiteTabProps> = ({
         )}
       </AnimatePresence>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-        <div className="lg:col-span-8 space-y-12">
-          <IdentitySection 
-            {...sharedProps} 
-            bgInputMode={bgInputMode} setBgInputMode={setBgInputMode}
-            imgInputMode={imgInputMode} setImgInputMode={setImgInputMode}
-            handleFileUpload={handleFileUpload}
-          />
-          <AboutSection {...sharedProps} />
-          <StatsEditor {...sharedProps} />
-          <VisionMissionSection {...sharedProps} />
-        </div>
+      {/* Accordion Sections */}
+      <div className="border border-black/10 rounded-sm overflow-hidden divide-y divide-black/5">
+        {sections.map((section, idx) => {
+          const isOpen = openSection === section.id;
+          const Icon = section.icon;
+          return (
+            <div key={section.id}>
+              {/* Section Header */}
+              <button
+                type="button"
+                onClick={() => setOpenSection(isOpen ? null : section.id)}
+                className={`w-full flex items-center justify-between px-6 py-4 text-left transition-colors duration-200 ${
+                  isOpen ? 'bg-black text-white' : 'bg-white hover:bg-gray-50 text-black'
+                }`}
+              >
+                <div className="flex items-center gap-4">
+                  <span className={`text-[9px] font-black tracking-[0.3em] tabular-nums ${isOpen ? 'text-white/40' : 'text-gray-300'}`}>
+                    {section.num}
+                  </span>
+                  <div className={`w-8 h-8 rounded-sm flex items-center justify-center flex-shrink-0 ${isOpen ? 'bg-white/10' : 'bg-gray-50'}`}>
+                    <Icon size={15} className={isOpen ? 'text-white' : 'text-gray-500'} />
+                  </div>
+                  <div>
+                    <p className={`text-xs font-black uppercase tracking-widest ${isOpen ? 'text-white' : 'text-black'}`}>
+                      {section.label}
+                    </p>
+                    <p className={`text-[9px] font-bold uppercase tracking-widest mt-0.5 ${isOpen ? 'text-white/40' : 'text-gray-400'}`}>
+                      {section.sub}
+                    </p>
+                  </div>
+                </div>
+                <motion.div
+                  animate={{ rotate: isOpen ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ChevronDown size={16} className={isOpen ? 'text-white/60' : 'text-gray-400'} />
+                </motion.div>
+              </button>
 
-        <div className="lg:col-span-4 space-y-12">
-          <ContactSocialSection {...sharedProps} />
-          <FooterSection {...sharedProps} />
-        </div>
+              {/* Section Body */}
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.div
+                    key={`body-${section.id}`}
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ overflow: 'hidden' }}
+                  >
+                    <div className="px-6 py-6 bg-white border-t border-black/5">
+                      {renderContent(section.id)}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Bottom save */}
+      <div className="pt-6 flex justify-end">
+        <button
+          type="submit"
+          disabled={isSettingsSaving}
+          className="group relative overflow-hidden bg-black text-white px-10 py-3.5 rounded-sm text-[10px] font-black uppercase tracking-[0.2em] hover:bg-gray-900 transition-colors flex items-center gap-2"
+        >
+          {isSettingsSaving ? (
+            <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+          ) : (
+            <Save size={13} />
+          )}
+          {isSettingsSaving ? 'Хадгалж байна...' : 'Хадгалах'}
+        </button>
       </div>
     </form>
   );

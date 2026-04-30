@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, FileSpreadsheet, Check, AlertCircle } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { API_URL } from '../../../services/api';
+import BulkImportInstructions from './bulk-import/BulkImportInstructions';
+import BulkImportPreview from './bulk-import/BulkImportPreview';
 
 interface TeamBulkImportProps {
   isOpen: boolean;
@@ -58,6 +60,12 @@ const TeamBulkImport: React.FC<TeamBulkImportProps> = ({ isOpen, onClose, onImpo
     }
   };
 
+  const safeClose = () => {
+    if (!isUploading && !isParsing) {
+      onClose();
+    }
+  };
+
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isOpen) return;
@@ -65,7 +73,7 @@ const TeamBulkImport: React.FC<TeamBulkImportProps> = ({ isOpen, onClose, onImpo
         handleImport();
       }
       if (e.key === 'Escape') {
-        onClose();
+        safeClose();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -78,7 +86,7 @@ const TeamBulkImport: React.FC<TeamBulkImportProps> = ({ isOpen, onClose, onImpo
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
-          onClick={onClose}
+          onClick={safeClose}
         >
           <motion.div
             initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }}
@@ -90,7 +98,11 @@ const TeamBulkImport: React.FC<TeamBulkImportProps> = ({ isOpen, onClose, onImpo
                 <FileSpreadsheet className="text-green-600" size={20} />
                 <h3 className="text-sm font-black uppercase tracking-tight">Excel Dynamic Import</h3>
               </div>
-              <button onClick={onClose} className="p-1.5 hover:bg-gray-200 rounded-full transition-colors">
+              <button 
+                onClick={safeClose} 
+                disabled={isUploading}
+                className="p-1.5 hover:bg-gray-200 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 <X size={18} />
               </button>
             </div>
@@ -112,73 +124,21 @@ const TeamBulkImport: React.FC<TeamBulkImportProps> = ({ isOpen, onClose, onImpo
                     </div>
                   </div>
                 ) : (
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Урьдчилсан харагдац ({preview.length} мөр)</p>
-                      <button type="button" onClick={() => setPreview([])} className="text-[9px] font-black uppercase text-red-500 hover:underline">Файл солих</button>
-                    </div>
-                    <div className="max-h-60 overflow-y-auto overflow-x-auto border border-black/5 rounded-sm">
-                      <table className="w-full text-left text-[10px] border-collapse">
-                        <thead className="bg-gray-50 sticky top-0 z-10">
-                          <tr className="border-b border-black/5">
-                            <th className="p-2 font-black uppercase tracking-wider">Нэр</th>
-                            <th className="p-2 font-black uppercase tracking-wider">Албан тушаал</th>
-                            <th className="p-2 font-black uppercase tracking-wider">Ур чадвар / Бусад</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {preview.map((item, i) => (
-                            <tr key={i} className="border-b border-gray-50 hover:bg-gray-50/50">
-                              <td className="p-2 font-bold uppercase truncate max-w-[150px]">{item.name}</td>
-                              <td className="p-2 text-gray-600 truncate max-w-[150px]">{item.position}</td>
-                              <td className="p-2 text-gray-400">
-                                <div className="flex flex-wrap gap-1">
-                                  {item.email && <span className="bg-gray-100 px-1 rounded-sm">Email</span>}
-                                  {item.skills && <span className="bg-blue-50 text-blue-600 px-1 rounded-sm">Skills</span>}
-                                  {item.experience && <span className="bg-green-50 text-green-600 px-1 rounded-sm">Exp</span>}
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
+                  <BulkImportPreview preview={preview} setPreview={setPreview} isUploading={isUploading} />
                 )}
 
-                <div className="bg-gray-50 p-4 border border-black/5 rounded-sm space-y-3">
-                  <div className="flex gap-2 items-center text-black">
-                    <AlertCircle size={14} />
-                    <p className="text-[10px] font-black uppercase tracking-widest">Excel-ийн бүтэц ба Санамж</p>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">Зөвшөөрөгдөх нэрс (Headers):</p>
-                      <div className="flex flex-wrap gap-1">
-                        {['Нэр', 'Албан тушаал', 'Имэйл', 'Ур чадвар', 'Туршлага', 'Боловсрол', 'Төслүүд', 'Амжилт'].map(h => (
-                          <span key={h} className="text-[8px] bg-white border border-black/5 px-1.5 py-0.5 rounded-sm font-bold">{h}</span>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">English Headers:</p>
-                      <div className="flex flex-wrap gap-1">
-                        {['name', 'position', 'email', 'skills', 'experience', 'education', 'projects', 'achievements'].map(h => (
-                          <span key={h} className="text-[8px] bg-white border border-black/5 px-1.5 py-0.5 rounded-sm font-mono">{h}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="pt-2 border-t border-black/5 text-[9px] text-gray-400 italic">
-                    * skills, education, projects, achievements талбаруудыг таслалаар (,) зааглаж бичнэ үү.
-                  </div>
-                </div>
+                <BulkImportInstructions />
               </div>
 
               <div className="p-4 bg-gray-50 border-t flex gap-3">
-                <button type="button" onClick={onClose} className="px-6 py-2 text-[9px] font-black uppercase tracking-widest text-gray-400 hover:text-black transition-colors">Цуцлах</button>
+                <button 
+                  type="button" 
+                  onClick={safeClose} 
+                  disabled={isUploading}
+                  className="px-6 py-2 text-[9px] font-black uppercase tracking-widest text-gray-400 hover:text-black transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  Цуцлах
+                </button>
                 <button
                   type="submit" disabled={!preview.length || isUploading || isParsing}
                   className="flex-1 bg-black text-white px-6 py-3 rounded-sm text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-gray-800 disabled:opacity-50 transition-all"
@@ -188,7 +148,7 @@ const TeamBulkImport: React.FC<TeamBulkImportProps> = ({ isOpen, onClose, onImpo
                   ) : (
                     <Check size={14} />
                   )}
-                  {isUploading ? 'Импортлож байна...' : `${preview.length} гишүүн хадгалах`}
+                  {isUploading ? 'Google Translate орчуулж, хадгалж байна...' : `${preview.length} гишүүн хадгалах`}
                 </button>
               </div>
             </form>

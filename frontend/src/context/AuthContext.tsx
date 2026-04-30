@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { loginUser, LoginResponse } from '../services/api';
 
-export type UserRole = 'admin' | 'staff';
+export type UserRole = 'admin' | 'staff' | 'client';
 
 interface User {
   username: string;
   role: UserRole;
+  roleName?: string;
+  permissions?: string[];
   id: string;
 }
 
@@ -40,10 +42,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     setError(null);
     try {
-      const response: LoginResponse = await loginUser(username, password);
+      const response: any = await loginUser(username, password);
       const userData: User = {
         username: response.user.username,
         role: response.user.role,
+        roleName: response.user.roleName,
+        permissions: response.user.permissions,
         id: response.user.id,
       };
       setUser(userData);

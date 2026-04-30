@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { API_URL } from '../../services/api';
 import { AdminLog } from '../../types/admin';
 
-export const useAdminLogs = (user: any, activeTab: string) => {
+export const useAdminLogs = (user: any, activeTab: string, openConfirm: (t: string, d: string, o: () => void) => void) => {
   const [logs, setLogs] = useState<AdminLog[]>([]);
   const [logFilter, setLogFilter] = useState('');
 
@@ -24,7 +24,7 @@ export const useAdminLogs = (user: any, activeTab: string) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action,
-          user: user.username,
+          username: user.username,
           description,
           position,
         }),
@@ -36,23 +36,25 @@ export const useAdminLogs = (user: any, activeTab: string) => {
   };
 
   const handleClearLogs = async () => {
-    if (!window.confirm('Бүх логийг устгах уу?')) return;
-    try {
-      await fetch(`${API_URL}/logs`, { method: 'DELETE' });
-      fetchLogs();
-    } catch (err) {
-      console.error(err);
-    }
+    openConfirm('Бүх логийг устгах уу?', 'Энэ үйлдлийг буцаах боломжгүй бөгөөд бүх түүх устах болно.', async () => {
+      try {
+        await fetch(`${API_URL}/logs`, { method: 'DELETE' });
+        fetchLogs();
+      } catch (err) {
+        console.error(err);
+      }
+    });
   };
 
   const handleDeleteLog = async (id: string) => {
-    if (!window.confirm('Энэ логийг устгах уу?')) return;
-    try {
-      await fetch(`${API_URL}/logs/${id}`, { method: 'DELETE' });
-      fetchLogs();
-    } catch (err) {
-      console.error(err);
-    }
+    openConfirm('Энэ логийг устгах уу?', 'Сонгосон логийн мэдээллийг сэргээх боломжгүй болно.', async () => {
+      try {
+        await fetch(`${API_URL}/logs/${id}`, { method: 'DELETE' });
+        fetchLogs();
+      } catch (err) {
+        console.error(err);
+      }
+    });
   };
 
   const chartData = useMemo(() => {

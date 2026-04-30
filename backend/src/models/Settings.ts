@@ -15,12 +15,34 @@ const SettingsSchema = new mongoose.Schema({
   ctaText_en: { type: String, default: 'Work With Us' },
   heroBgUrl: { type: String, default: 'https://cdn.pixabay.com/video/2021/04/12/70850-536961444_large.mp4' },
   heroImageUrl: { type: String, default: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200' },
+  heroBadge: { type: String, default: 'Tech Solutions' },
+  heroStat1Value: { type: String, default: '250+' },
+  heroStat1Label: { type: String, default: 'Projects' },
+  heroStat2Value: { type: String, default: '15+' },
+  heroStat2Label: { type: String, default: 'Awards' },
+  heroEstablished: { type: String, default: 'MMXXIV' },
+  heroTagline: { type: String, default: 'Digital_Engine_01' },
 
   // About
   aboutTitle: { type: String, default: 'Бидний тухай' },
   aboutTitle_en: { type: String, default: 'About Us' },
   aboutDescription: { type: String, default: 'Бид 20 гаруй жилийн туршлагатай хамт олон бөгөөд Монголын технологийн салбарт тэргүүлэгч байхыг зорьдог.' },
   aboutDescription_en: { type: String, default: 'We are a team with over 20 years of experience, aiming to lead Mongolia\'s technology sector.' },
+  aboutBadge: { type: String, default: 'Компанийн тухай' },
+  aboutTagline: { type: String, default: 'Innovation First' },
+
+  // Team Section
+  teamBadge: { type: String, default: 'Expert Minds' },
+  teamTitle: { type: String, default: 'Манай баг' },
+  teamTitle_en: { type: String, default: 'Our Team' },
+  teamDescription: { type: String, default: 'Мэдлэг, туршлага, хүсэл тэмүүлэлтэй мэргэжилтнүүдийн баг.' },
+  teamDescription_en: { type: String, default: 'A team of passionate experts with knowledge and experience.' },
+
+  // Footer CTA
+  footerCta: { type: String, default: 'Хамтдаа ажиллах бэлэн үү?' },
+  footerCta_en: { type: String, default: 'Ready to work together?' },
+  footerCtaSub: { type: String, default: 'Таны бизнесийн өсөлтийг технологийн тусламжтайгаар хамтдаа хэрэгжүүлцгээе.' },
+  footerCtaSub_en: { type: String, default: 'Let\'s implement your business growth together with the help of technology.' },
 
   // Stats
   stats1Value: { type: String, default: '2022' },
@@ -73,6 +95,12 @@ const SettingsSchema = new mongoose.Schema({
   // Footer
   footerText: { type: String, default: '© 2024 Таван Богд Технологи ХХК. Бүх эрх хуулиар хамгаалагдсан.' },
   footerText_en: { type: String, default: '© 2024 Tavan Bogd Technology LLC. All rights reserved.' },
+
+  // Colors
+  primaryColor: { type: String, default: '#000000' },
+  secondaryColor: { type: String, default: '#ffffff' },
+  accentColor: { type: String, default: '#f8f8f8' },
+  textColor: { type: String, default: '#1a1a1a' },
 
   updatedAt: { type: Date, default: Date.now }
 });

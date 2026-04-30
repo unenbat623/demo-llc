@@ -7,16 +7,16 @@ export default function Footer() {
   const { settings, t_site } = useSettings();
   
   return (
-    <footer className="bg-black text-white pt-20 pb-10 overflow-hidden relative">
+    <footer className="text-white pt-20 pb-10 overflow-hidden relative" style={{ backgroundColor: 'var(--color-primary, #000)' }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
         <div className="grid lg:grid-cols-12 gap-12 mb-16">
           {/* Left Column */}
           <div className="lg:col-span-7">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight leading-tight mb-8 italic">
-              {t('footer.ready')}
+              {i18n.language === 'en' ? (settings?.footerCta_en || settings?.footerCta || t('footer.ready')) : (settings?.footerCta || t('footer.ready'))}
             </h2>
             <p className="text-base text-gray-400 mb-12 max-w-xl font-medium leading-relaxed tracking-tight">
-              {t('footer.buildTogether')}
+              {i18n.language === 'en' ? (settings?.footerCtaSub_en || settings?.footerCtaSub || t('footer.buildTogether')) : (settings?.footerCtaSub || t('footer.buildTogether'))}
             </p>
           </div>
 

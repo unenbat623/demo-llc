@@ -1,4 +1,4 @@
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5005/api';
 
 export interface TeamMember {
   _id?: string;
@@ -46,10 +46,62 @@ export interface LoginResponse {
   message: string;
   user: {
     username: string;
-    role: 'admin' | 'staff';
+    role: 'admin' | 'staff' | 'client';
+    roleName?: string;
+    permissions?: string[];
     id: string;
   };
 }
+
+export const fetchClientSite = async (userId: string) => {
+  const response = await fetch(`${API_URL}/client/${userId}`);
+  if (!response.ok) throw new Error('Failed to fetch client site');
+  return response.json();
+};
+
+export const updateClientSiteSettings = async (userId: string, settings: any) => {
+  const response = await fetch(`${API_URL}/client/${userId}/settings`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(settings),
+  });
+  if (!response.ok) throw new Error('Failed to update settings');
+  return response.json();
+};
+
+export const fetchClientTeam = async (userId: string): Promise<TeamMember[]> => {
+  const response = await fetch(`${API_URL}/client/${userId}/team`);
+  if (!response.ok) throw new Error('Failed to fetch team');
+  return response.json();
+};
+
+export const addClientTeamMember = async (userId: string, member: any) => {
+  const response = await fetch(`${API_URL}/client/${userId}/team`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(member),
+  });
+  if (!response.ok) throw new Error('Failed to add team member');
+  return response.json();
+};
+
+export const updateClientTeamMember = async (userId: string, memberId: string, member: any) => {
+  const response = await fetch(`${API_URL}/client/${userId}/team/${memberId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(member),
+  });
+  if (!response.ok) throw new Error('Failed to update team member');
+  return response.json();
+};
+
+export const deleteClientTeamMember = async (userId: string, memberId: string) => {
+  const response = await fetch(`${API_URL}/client/${userId}/team/${memberId}`, {
+    method: 'DELETE',
+  });
+  if (!response.ok) throw new Error('Failed to delete team member');
+  return response.json();
+};
 
 export const loginUser = async (username: string, password: string): Promise<LoginResponse> => {
   const response = await fetch(`${API_URL}/auth/login`, {

@@ -115,32 +115,66 @@ const UserModal: React.FC<UserModalProps> = ({
                     />
                   </Field>
 
-                  {user.role === 'admin' && (
-                    <Field label="Хандалтын түвшин (Role)" icon={<Shield size={14} className="text-gray-400" />}>
-                      <div className="grid grid-cols-2 gap-4">
-                        <button
-                          type="button"
-                          onClick={() => setUserFormData({ ...userFormData, role: 'staff' })}
-                          className={`flex items-center justify-center gap-3 py-4 border rounded-sm transition-all duration-300 ${
-                            userFormData.role === 'staff' ? 'border-black bg-black text-white shadow-lg' : 'border-black/5 bg-gray-50 text-gray-400 hover:border-black/20'
-                          }`}
-                        >
-                          <Users size={16} />
-                          <span className="text-[10px] font-black uppercase tracking-widest">Staff</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setUserFormData({ ...userFormData, role: 'admin' })}
-                          className={`flex items-center justify-center gap-3 py-4 border rounded-sm transition-all duration-300 ${
-                            userFormData.role === 'admin' ? 'border-black bg-black text-white shadow-lg' : 'border-black/5 bg-gray-50 text-gray-400 hover:border-black/20'
-                          }`}
-                        >
-                          <Shield size={16} />
-                          <span className="text-[10px] font-black uppercase tracking-widest">Admin</span>
-                        </button>
-                      </div>
-                    </Field>
-                  )}
+                  <Field label="Эрхийн төрөл (Role Type)" icon={<Shield size={14} className="text-gray-400" />}>
+                    <div className="flex gap-4 mt-2">
+                      {[
+                        { id: 'admin', label: 'Админ' },
+                        { id: 'client', label: 'Харилцагч (Client)' }
+                      ].map(type => (
+                        <label key={type.id} className={`flex-1 flex items-center justify-center gap-3 p-3 border rounded-sm cursor-pointer transition-all ${userFormData.role === type.id ? 'bg-black text-white border-black' : 'bg-gray-50 text-gray-400 border-black/5 hover:border-black/20'}`}>
+                          <input
+                            type="radio"
+                            name="role"
+                            className="hidden"
+                            checked={userFormData.role === type.id}
+                            onChange={() => setUserFormData({ ...userFormData, role: type.id })}
+                          />
+                          <span className="text-[9px] font-black uppercase tracking-widest">{type.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </Field>
+
+                  <Field label="Эрхийн нэр (Role Name)" icon={<Shield size={14} className="text-gray-400" />}>
+                    <input
+                      type="text"
+                      value={userFormData.roleName || ''}
+                      onChange={e => setUserFormData({ ...userFormData, roleName: e.target.value })}
+                      placeholder="Жишээ: Manager, HR, Editor..."
+                      className={`${inputClass} !bg-gray-50/50 focus:!bg-white transition-colors`}
+                    />
+                  </Field>
+
+                  <Field label="Хандах эрхүүд (Permissions)" icon={<Shield size={14} className="text-gray-400" />}>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+                      {[
+                        { id: 'dashboard', label: 'Ерөнхий (Dashboard)' },
+                        { id: 'users', label: 'Багийн гишүүд' },
+                        { id: 'system_users', label: 'Систем хэрэглэгчид' },
+                        { id: 'website', label: 'Вэбсайт тохиргоо' },
+                        { id: 'logs', label: 'Системийн лог' },
+                      ].map(perm => (
+                        <label key={perm.id} className="flex items-center gap-3 p-3 border border-black/5 bg-gray-50 rounded-sm cursor-pointer hover:border-black/20 transition-colors">
+                          <input
+                            type="checkbox"
+                            checked={userFormData.permissions?.includes(perm.id) || false}
+                            onChange={(e) => {
+                              const checked = e.target.checked;
+                              const currentPerms = userFormData.permissions || [];
+                              setUserFormData({
+                                ...userFormData,
+                                permissions: checked 
+                                  ? [...currentPerms, perm.id]
+                                  : currentPerms.filter((p: string) => p !== perm.id)
+                              });
+                            }}
+                            className="w-4 h-4 accent-black"
+                          />
+                          <span className="text-[11px] font-bold uppercase tracking-wider text-gray-700">{perm.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </Field>
                 </div>
 
                 <div className="pt-4">

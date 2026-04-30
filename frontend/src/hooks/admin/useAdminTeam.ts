@@ -4,7 +4,7 @@ import { API_URL } from '../../services/api';
 import { TeamMember } from '../../types/admin';
 
 
-export const useAdminTeam = (logAction: Function) => {
+export const useAdminTeam = (user: any, logAction: Function, openConfirm: (t: string, d: string, o: () => void) => void) => {
   const [formData, setFormData] = useState({
     name: '', name_en: '', position: '', position_en: '', image: '', email: '', linkedin: '',
     skills: '', aboutMe: '', aboutMe_en: '', experience: '', experience_en: '',
@@ -21,16 +21,15 @@ export const useAdminTeam = (logAction: Function) => {
 
   const [teamSearch, setTeamSearch] = useState('');
 
-  const [deleteConfirm, setDeleteConfirm] = useState<{ isOpen: boolean; memberId: string | null; memberName: string }>({
-    isOpen: false, memberId: null, memberName: ''
-  });
+
 
   const [selectedTeamMembers, setSelectedTeamMembers] = useState<string[]>([]);
   const [isTranslating, setIsTranslating] = useState(false);
 
   const fetchTeamMembers = async () => {
     try {
-      const res = await fetch(`${API_URL}/team`);
+      const endpoint = user?.role === 'client' ? `${API_URL}/client/${user.id}/team` : `${API_URL}/team`;
+      const res = await fetch(endpoint);
       const data = await res.json();
       setTeamMembers(data);
     } catch (err) {
@@ -69,44 +68,50 @@ export const useAdminTeam = (logAction: Function) => {
   };
 
   const confirmDelete = (member: TeamMember) => {
-    setDeleteConfirm({ isOpen: true, memberId: member._id, memberName: member.name });
-  };
-
-  const handleDeleteMember = async () => {
-    if (!deleteConfirm.memberId) return;
-    try {
-      const id = deleteConfirm.memberId;
-      const member = teamMembers.find((m) => m._id === id);
-      const res = await fetch(`${API_URL}/team/${id}`, { method: 'DELETE' });
-      if (!res.ok) throw new Error('Устгахад алдаа гарлаа');
-      if (member) await logAction('DELETE', `Гишүүнийг устгалаа: ${member.name}`, member.position);
-      fetchTeamMembers();
-      setDeleteConfirm({ isOpen: false, memberId: null, memberName: '' });
-      setSelectedTeamMembers((prev) => prev.filter((selectedId) => selectedId !== id));
-      toast.success('Амжилттай устгалаа');
-    } catch (err: any) {
-      toast.error(err.message);
-    }
+    openConfirm(
+      'Устгахдаа итгэлтэй байна уу?',
+      `"${member.name}"-ийг устгаснаар мэдээллийг сэргээх боломжгүй болно.`,
+      async () => {
+        try {
+          const endpoint = user?.role === 'client' 
+            ? `${API_URL}/client/${user.id}/team/${member._id}` 
+            : `${API_URL}/team/${member._id}`;
+          const res = await fetch(endpoint, { method: 'DELETE' });
+          if (!res.ok) throw new Error('Устгахад алдаа гарлаа');
+          await logAction('DELETE', `Гишүүнийг устгалаа: ${member.name}`, member.position);
+          fetchTeamMembers();
+          setSelectedTeamMembers((prev) => prev.filter((selectedId) => selectedId !== member._id));
+          toast.success('Амжилттай устлаа');
+        } catch (err: any) {
+          toast.error(err.message);
+        }
+      }
+    );
   };
 
   const handleBulkDeleteTeamMembers = async () => {
     if (selectedTeamMembers.length === 0) return;
-    if (!window.confirm(`Та сонгосон ${selectedTeamMembers.length} гишүүнийг устгахдаа итгэлтэй байна уу?`)) return;
-
-    try {
-      const res = await fetch(`${API_URL}/team/bulk-delete`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ids: selectedTeamMembers })
-      });
-      if (!res.ok) throw new Error('Бөөнөөр устгахад алдаа гарлаа');
-      await logAction('DELETE', `Олон гишүүн устгалаа (${selectedTeamMembers.length})`, 'Admin');
-      fetchTeamMembers();
-      setSelectedTeamMembers([]);
-      toast.success(`${selectedTeamMembers.length} гишүүнийг амжилттай устгалаа`);
-    } catch (err: any) {
-      toast.error(err.message);
-    }
+    
+    openConfirm(
+      'Бөөнөөр устгах уу?',
+      `Та сонгосон ${selectedTeamMembers.length} гишүүнийг устгахдаа итгэлтэй байна уу? Мэдээлэл сэргээх боломжгүй.`,
+      async () => {
+        try {
+          const res = await fetch(`${API_URL}/team/bulk-delete`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ids: selectedTeamMembers })
+          });
+          if (!res.ok) throw new Error('Бөөнөөр устгахад алдаа гарлаа');
+          await logAction('DELETE', `Олон гишүүн устгалаа (${selectedTeamMembers.length})`, 'Admin');
+          fetchTeamMembers();
+          setSelectedTeamMembers([]);
+          toast.success(`${selectedTeamMembers.length} гишүүнийг амжилттай устгалаа`);
+        } catch (err: any) {
+          toast.error(err.message);
+        }
+      }
+    );
   };
 
   const handleSaveMember = async (e: React.FormEvent) => {
@@ -114,7 +119,12 @@ export const useAdminTeam = (logAction: Function) => {
     setIsSubmitting(true);
     try {
       const isUpdate = !!editingMemberId;
-      const url = isUpdate ? `${API_URL}/team/${editingMemberId}` : `${API_URL}/team`;
+      let url = isUpdate ? `${API_URL}/team/${editingMemberId}` : `${API_URL}/team`;
+      if (user?.role === 'client') {
+        url = isUpdate 
+          ? `${API_URL}/client/${user.id}/team/${editingMemberId}` 
+          : `${API_URL}/client/${user.id}/team`;
+      }
       const method = isUpdate ? 'PUT' : 'POST';
 
       const payload = {
@@ -156,13 +166,13 @@ export const useAdminTeam = (logAction: Function) => {
   const handleAutoTranslate = async () => {
     setIsTranslating(true);
     const fieldsToTranslate = {
-      name_en: formData.name && !formData.name_en ? formData.name : null,
-      position_en: formData.position && !formData.position_en ? formData.position : null,
-      aboutMe_en: formData.aboutMe && !formData.aboutMe_en ? formData.aboutMe : null,
-      experience_en: formData.experience && !formData.experience_en ? formData.experience : null,
-      education_en: formData.education && !formData.education_en ? formData.education : null,
-      projects_en: formData.projects && !formData.projects_en ? formData.projects : null,
-      achievements_en: formData.achievements && !formData.achievements_en ? formData.achievements : null
+      name_en: formData.name || null,
+      position_en: formData.position || null,
+      aboutMe_en: formData.aboutMe || null,
+      experience_en: formData.experience || null,
+      education_en: formData.education || null,
+      projects_en: formData.projects || null,
+      achievements_en: formData.achievements || null
     };
 
     const payload: Record<string, string> = {};
@@ -185,7 +195,7 @@ export const useAdminTeam = (logAction: Function) => {
       if (!res.ok) throw new Error('Орчуулахад алдаа гарлаа');
       const data = await res.json();
       setFormData((prev) => ({ ...prev, ...data }));
-      toast.success('Мэдээлэл амжилттай орчуулагдлаа (OpenAI)');
+      toast.success('Мэдээлэл амжилттай орчуулагдлаа (Google Translate)');
     } catch (err) {
       toast.error('Орчуулахад алдаа гарлаа');
     } finally {
@@ -233,9 +243,9 @@ export const useAdminTeam = (logAction: Function) => {
     teamMembers, formData, setFormData, isSubmitting, submitStatus, imageInputMode, setImageInputMode,
     isModalOpen, setIsModalOpen, editingMemberId,
     teamSearch, setTeamSearch,
-    deleteConfirm, setDeleteConfirm, selectedTeamMembers, setSelectedTeamMembers,
+    selectedTeamMembers, setSelectedTeamMembers,
     isTranslating, fetchTeamMembers, handleInputChange, openAddModal, openEditModal, confirmDelete,
-    handleDeleteMember, handleBulkDeleteTeamMembers, handleSaveMember,
+    handleBulkDeleteTeamMembers, handleSaveMember,
     handleAutoTranslate, handleFileUpload, filteredTeamMembers
   };
 };

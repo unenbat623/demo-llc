@@ -48,7 +48,7 @@ const AdminContent: React.FC<AdminContentProps> = ({
       </div>
 
       <div className="min-h-[70vh]">
-        {activeTab === 'dashboard' && <DashboardTab teamMembers={teamMembers} user={user} logs={logs} />}
+        {activeTab === 'dashboard' && <DashboardTab teamMembers={teamMembers} user={user} logs={logs} setActiveTab={rest.setActiveTab} openAddModal={rest.openAddModal} />}
         
         {activeTab === 'website' && user.role === 'admin' && (
           <WebsiteTab 

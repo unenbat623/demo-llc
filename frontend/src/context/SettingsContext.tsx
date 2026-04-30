@@ -11,7 +11,7 @@ interface SettingsContextType {
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
-export function SettingsProvider({ children }: { children: ReactNode }) {
+export function SettingsProvider({ children, overrideSettings }: { children: ReactNode, overrideSettings?: SiteSettings | null }) {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { i18n } = useTranslation();
@@ -29,8 +29,23 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    fetchSettings();
-  }, []);
+    if (overrideSettings) {
+      setSettings(overrideSettings);
+      setIsLoading(false);
+    } else {
+      fetchSettings();
+    }
+  }, [overrideSettings]);
+
+  useEffect(() => {
+    if (settings) {
+      const root = document.documentElement;
+      root.style.setProperty('--color-primary', settings.primaryColor || '#000000');
+      root.style.setProperty('--color-secondary', settings.secondaryColor || '#ffffff');
+      root.style.setProperty('--color-accent', settings.accentColor || '#f8f8f8');
+      root.style.setProperty('--color-text-main', settings.textColor || '#1a1a1a');
+    }
+  }, [settings]);
 
   const t_site = (key: keyof SiteSettings): string => {
     if (!settings) return '';

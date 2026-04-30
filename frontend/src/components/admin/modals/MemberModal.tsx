@@ -85,7 +85,7 @@ const MemberModal: React.FC<MemberModalProps> = ({
                   className={`flex items-center gap-2 px-4 py-2 border border-black/10 text-[10px] font-black uppercase tracking-[0.2em] transition-all rounded-sm ${isTranslating ? 'opacity-50 cursor-not-allowed' : 'hover:bg-black hover:text-white'}`}
                 >
                   {isTranslating ? <div className="w-3 h-3 border-2 border-black/20 border-t-black rounded-full animate-spin" /> : <Sparkles size={12} />}
-                  {isTranslating ? 'Орчуулж байна...' : 'Auto Translate'}
+                  {isTranslating ? 'Орчуулж байна...' : 'Google Translate'}
                 </button>
                 <button onClick={() => setIsModalOpen(false)} className="w-9 h-9 flex items-center justify-center border border-black/15 hover:border-black hover:bg-black hover:text-white transition-all group rounded-sm">
                   <X size={16} className="group-hover:rotate-90 transition-transform" />

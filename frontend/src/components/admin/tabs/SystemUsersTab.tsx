@@ -26,11 +26,11 @@ const SystemUsersTab: React.FC<SystemUsersTabProps> = ({
           <Shield size={16} />
           <h3 className="text-xs font-black uppercase tracking-widest">Систем хэрэглэгчид</h3>
         </div>
-        {user.role === 'admin' && (
+        {(user.permissions?.includes('system_users') || user.permissions?.includes('all') || user.role === 'admin') && (
           <button
             onClick={() => {
               setEditingUserId(null);
-              setUserFormData({ username: '', password: '', role: 'staff' });
+              setUserFormData({ username: '', password: '', roleName: 'Шинэ ажилтан', permissions: ['dashboard'] });
               setIsUserModalOpen(true);
             }}
             className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-sm text-[10px] font-black uppercase tracking-widest hover:bg-gray-800 transition-colors"
@@ -56,18 +56,18 @@ const SystemUsersTab: React.FC<SystemUsersTabProps> = ({
               <div>
                 <p className="text-[11px] font-black uppercase tracking-tight">{u.username}</p>
                 <div className="flex items-center gap-1 mt-0.5">
-                  <ShieldCheck size={10} className={u.role === 'admin' ? 'text-blue-500' : 'text-gray-400'} />
-                  <span className="text-[9px] font-bold uppercase text-gray-400">{u.role}</span>
+                  <ShieldCheck size={10} className={u.permissions?.includes('all') ? 'text-blue-500' : 'text-gray-400'} />
+                  <span className="text-[9px] font-bold uppercase text-gray-400">{u.roleName || 'Admin'}</span>
                 </div>
               </div>
             </div>
             
-            {user.role === 'admin' && u.username !== user.username && (
+            {(user.permissions?.includes('system_users') || user.permissions?.includes('all') || user.role === 'admin') && u.username !== user.username && (
               <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button
                   onClick={() => {
                     setEditingUserId(u._id);
-                    setUserFormData({ username: u.username, password: '', role: u.role });
+                    setUserFormData({ username: u.username, password: '', roleName: u.roleName, permissions: u.permissions || [] });
                     setIsUserModalOpen(true);
                   }}
                   className="p-1.5 text-gray-400 hover:text-black transition-colors"

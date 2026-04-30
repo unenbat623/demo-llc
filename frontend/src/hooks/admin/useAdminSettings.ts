@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { API_URL } from '../../services/api';
 import { SiteSettings } from '../../types/admin';
 
-export const useAdminSettings = (logAction: Function) => {
+export const useAdminSettings = (user: any, logAction: Function) => {
   const [siteSettings, setSiteSettings] = useState<SiteSettings>({
     siteTitle: '', siteTitle_en: '', navbarLogo: '', 
     heroTitle: '', heroTitle_en: '', heroDescription: '', heroDescription_en: '',
@@ -37,9 +37,16 @@ export const useAdminSettings = (logAction: Function) => {
 
   const fetchSettings = async () => {
     try {
-      const res = await fetch(`${API_URL}/settings`);
+      const endpoint = user?.role === 'client' ? `${API_URL}/client/${user.id}` : `${API_URL}/settings`;
+      const res = await fetch(endpoint);
       const data = await res.json();
-      setSiteSettings(data);
+      
+      if (user?.role === 'client') {
+        // Client data comes in a wrapper { settings: { ... } }
+        setSiteSettings(data.settings || {});
+      } else {
+        setSiteSettings(data);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -49,8 +56,10 @@ export const useAdminSettings = (logAction: Function) => {
     e.preventDefault();
     setIsSettingsSaving(true);
     try {
-      const res = await fetch(`${API_URL}/settings`, {
-        method: 'POST',
+      const endpoint = user?.role === 'client' ? `${API_URL}/client/${user.id}/settings` : `${API_URL}/settings`;
+      const method = user?.role === 'client' ? 'PUT' : 'POST';
+      const res = await fetch(endpoint, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(siteSettings)
       });

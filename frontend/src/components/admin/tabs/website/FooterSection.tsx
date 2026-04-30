@@ -14,12 +14,7 @@ const FooterSection: React.FC<FooterSectionProps> = ({
   updateField,
 }) => {
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <div className="w-8 h-8 bg-black text-white flex items-center justify-center text-xs font-black">05</div>
-        <h4 className="text-xs font-black uppercase tracking-widest text-black/40">Footer</h4>
-      </div>
-
+    <div className="space-y-4">
       <Field label={activeLang === 'mn' ? "Copyright текст" : "Copyright Text"}>
         <input
           type="text"

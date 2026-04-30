@@ -15,15 +15,10 @@ const ContactSocialSection: React.FC<ContactSocialSectionProps> = ({
   updateField,
 }) => {
   return (
-    <div className="lg:col-span-4 space-y-12">
+    <div className="space-y-8">
       {/* Contact Info */}
-      <div className="space-y-6">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-black text-white flex items-center justify-center text-xs font-black">03</div>
-          <h4 className="text-xs font-black uppercase tracking-widest text-black/40">Холбоо барих</h4>
-        </div>
+      <div className="space-y-4">
 
-        <div className="space-y-4">
           <Field label="И-мэйл хаяг" icon={<Mail size={14} className="text-gray-400" />}>
             <input
               type="email"
@@ -49,14 +44,10 @@ const ContactSocialSection: React.FC<ContactSocialSectionProps> = ({
             />
           </Field>
         </div>
-      </div>
 
       {/* Social Media Links */}
-      <div className="space-y-6">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-black text-white flex items-center justify-center text-xs font-black">04</div>
-          <h4 className="text-xs font-black uppercase tracking-widest text-black/40">Сошиал сувгууд</h4>
-        </div>
+      <div className="space-y-4">
+        <h5 className="text-[10px] font-black uppercase tracking-widest text-gray-400">Сошиал сувгууд</h5>
 
         <div className="space-y-4">
           {[

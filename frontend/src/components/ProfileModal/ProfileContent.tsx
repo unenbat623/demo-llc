@@ -128,7 +128,7 @@ export default function ProfileContent({ member }: ProfileContentProps) {
                                     whileHover={{ scale: 1.1 }}
                                     className="w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center flex-shrink-0 shadow-sm transition-all duration-300 hover:border-black"
                                 >
-                                    <item.icon size={10} className="sm:size-12 text-gray-500 hover:text-black transition-colors" />
+                                    <item.icon className="size-3.5 sm:size-4 text-gray-500 hover:text-black transition-colors" />
                                 </motion.div>
                             </div>
 

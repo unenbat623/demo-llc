@@ -28,7 +28,7 @@ export default function Hero() {
   };
 
   return (
-    <section id="hero" className="relative min-h-screen flex flex-col justify-center bg-black overflow-hidden pt-20">
+    <section id="hero" className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-20" style={{ backgroundColor: 'var(--color-primary, #000)' }}>
       {/* Background Media */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black z-10 opacity-60" />
@@ -72,11 +72,11 @@ export default function Hero() {
             className="lg:col-span-7"
           >
             <motion.div variants={itemVariants} className="flex items-center gap-4 mb-8">
-              <span className="px-3 py-1 bg-white text-black text-[10px] font-black uppercase tracking-[0.4em] rounded-sm">
+              <span className="px-3 py-1 text-[10px] font-black uppercase tracking-[0.4em] rounded-sm" style={{ backgroundColor: 'var(--color-secondary, #fff)', color: 'var(--color-primary, #000)' }}>
                 {t_site('siteTitle')}
               </span>
-              <div className="h-px w-12 bg-white/30" />
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/50">Tech Solutions</span>
+              <div className="h-px w-12" style={{ backgroundColor: 'var(--color-secondary, #fff)', opacity: 0.3 }} />
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/50">{settings?.heroBadge || 'Tech Solutions'}</span>
             </motion.div>
 
             <motion.h1
@@ -94,9 +94,9 @@ export default function Hero() {
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
-              <a href="#team" className="group relative overflow-hidden px-10 py-6 bg-white text-black rounded-sm w-full sm:w-auto text-center" >
-                <div className="absolute inset-0 bg-black translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.16, 1, 0.3, 1]" />
-                <div className="relative flex items-center justify-center gap-4 group-hover:text-white transition-colors duration-500">
+              <a href="#team" className="group relative overflow-hidden px-10 py-6 rounded-sm w-full sm:w-auto text-center" style={{ backgroundColor: 'var(--color-secondary, #fff)', color: 'var(--color-primary, #000)' }}>
+                <div className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.16,1,0.3,1]" style={{ backgroundColor: 'var(--color-accent, #f8f8f8)' }} />
+                <div className="relative flex items-center justify-center gap-4 transition-colors duration-500">
                   <span className="text-xs font-black uppercase tracking-[0.3em]">{t_site('ctaText')}</span>
                   <ArrowDownRight className="w-5 h-5 group-hover:rotate-45 transition-transform duration-500" />
                 </div>
@@ -104,13 +104,13 @@ export default function Hero() {
 
               <div className="flex items-center gap-8 px-4">
                 <div className="flex flex-col">
-                  <span className="text-white font-black text-xl leading-none">250+</span>
-                  <span className="text-[9px] font-black uppercase tracking-widest text-white/40 mt-1">Projects</span>
+                  <span className="text-white font-black text-xl leading-none">{settings?.heroStat1Value || '250+'}</span>
+                  <span className="text-[9px] font-black uppercase tracking-widest text-white/40 mt-1">{settings?.heroStat1Label || 'Projects'}</span>
                 </div>
                 <div className="w-px h-8 bg-white/10" />
                 <div className="flex flex-col">
-                  <span className="text-white font-black text-xl leading-none">15+</span>
-                  <span className="text-[9px] font-black uppercase tracking-widest text-white/40 mt-1">Awards</span>
+                  <span className="text-white font-black text-xl leading-none">{settings?.heroStat2Value || '15+'}</span>
+                  <span className="text-[9px] font-black uppercase tracking-widest text-white/40 mt-1">{settings?.heroStat2Label || 'Awards'}</span>
                 </div>
               </div>
             </motion.div>
@@ -144,7 +144,7 @@ export default function Hero() {
                   <div className="flex justify-between items-end">
                     <div className="space-y-1">
                       <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40">Established</p>
-                      <p className="text-2xl font-black text-white tracking-tighter italic">MMXXIV</p>
+                      <p className="text-2xl font-black text-white tracking-tighter italic">{settings?.heroEstablished || 'MMXXIV'}</p>
                     </div>
                     <div className="text-right">
                       <div className="flex gap-4 text-white/20 mb-2">
@@ -152,7 +152,7 @@ export default function Hero() {
                         <Shield size={14} />
                         <Zap size={14} />
                       </div>
-                      <p className="text-[9px] font-mono text-white/30 uppercase tracking-widest">Digital_Engine_01</p>
+                      <p className="text-[9px] font-mono text-white/30 uppercase tracking-widest">{settings?.heroTagline || 'Digital_Engine_01'}</p>
                     </div>
                   </div>
                 </div>

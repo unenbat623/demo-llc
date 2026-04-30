@@ -26,30 +26,6 @@ const IdentitySection: React.FC<IdentitySectionProps> = ({
 }) => {
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <div className="w-8 h-8 bg-black text-white flex items-center justify-center text-xs font-black">01</div>
-        <h4 className="text-xs font-black uppercase tracking-widest text-black/40">Нүүр хуудас & Ерөнхий</h4>
-        <div className="flex-1 h-px bg-black/5" />
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Field label={activeLang === 'mn' ? "Вэбсайт нэр" : "Site Title"}>
-          <input
-            type="text"
-            value={activeLang === 'mn' ? siteSettings.siteTitle : siteSettings.siteTitle_en}
-            onChange={e => updateField(activeLang === 'mn' ? 'siteTitle' : 'siteTitle_en', e.target.value)}
-            className={inputClass}
-          />
-        </Field>
-        <Field label="Navbar Лого текст">
-          <input
-            type="text"
-            value={siteSettings.navbarLogo}
-            onChange={e => updateField('navbarLogo', e.target.value)}
-            className={inputClass}
-          />
-        </Field>
-      </div>
 
       <Field label={activeLang === 'mn' ? "Hero Гарчиг" : "Hero Title"}>
         <input
