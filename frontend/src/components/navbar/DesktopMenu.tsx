@@ -2,13 +2,16 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from '../LanguageSwitcher';
+import { useSettings } from '../../context/SettingsContext';
+import { SiteSettings } from '../../types/admin';
 
 interface DesktopMenuProps {
   scrolled: boolean;
   navLinks: { name: string; href: string }[];
+  t_site: (key: keyof SiteSettings) => string;
 }
 
-const DesktopMenu: React.FC<DesktopMenuProps> = ({ scrolled, navLinks }) => {
+const DesktopMenu: React.FC<DesktopMenuProps> = ({ scrolled, navLinks, t_site }) => {
   const { t } = useTranslation();
 
   return (
@@ -46,7 +49,9 @@ const DesktopMenu: React.FC<DesktopMenuProps> = ({ scrolled, navLinks }) => {
         >
           <div className={`absolute inset-0 transition-transform duration-500 ease-[0.16, 1, 0.3, 1] -translate-x-full group-hover:translate-x-0 ${scrolled ? 'bg-white' : 'bg-black'
             }`} />
-          <span className="relative text-[10px] font-black uppercase tracking-[0.3em] whitespace-nowrap">{t('nav.team')}</span>
+          <span className="relative text-[10px] font-black uppercase tracking-[0.3em] whitespace-nowrap">
+            {t_site('navTeam') || t('nav.team')}
+          </span>
         </motion.a>
       </div>
     </div>

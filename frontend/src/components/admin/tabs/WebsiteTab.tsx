@@ -12,6 +12,7 @@ import ContactSocialSection from './website/ContactSocialSection';
 import FooterSection from './website/FooterSection';
 import ColorSection from './website/ColorSection';
 import NavbarSection from './website/NavbarSection';
+import NavbarExtraSection from './website/NavbarExtraSection';
 import HeroExtraSection from './website/HeroExtraSection';
 import AboutExtraSection from './website/AboutExtraSection';
 import FooterExtraSection from './website/FooterExtraSection';
@@ -34,14 +35,14 @@ interface WebsiteTabProps {
 }
 
 const sections = [
-  { id: 'navbar',   label: 'Navbar',           sub: 'Лого, сайтын нэр',         icon: Layout,    num: '01' },
-  { id: 'hero',     label: 'Hero',             sub: 'Гарчиг, дэвсгэр, зураг',  icon: Monitor,   num: '02' },
-  { id: 'about',    label: 'Бидний тухай',     sub: 'Тайлбар текст',            icon: FileText,  num: '03' },
-  { id: 'stats',    label: 'Статистик',        sub: '4 тоон үзүүлэлт',          icon: BarChart3, num: '04' },
-  { id: 'vision',   label: 'Алсын Харааа & Зорилго', sub: 'Vision & Mission',    icon: Target,    num: '05' },
-  { id: 'contact',  label: 'Холбоо барих',     sub: 'И-мэйл, утас, хаяг',      icon: Phone,     num: '06' },
-  { id: 'colors',   label: 'Өнгөний тохиргоо', sub: 'Сайтын өнгө схем',        icon: Palette,   num: '07' },
-  { id: 'footer',   label: 'Footer',           sub: 'Copyright текст',          icon: Anchor,    num: '08' },
+  { id: 'navbar', label: 'Navbar', sub: 'Лого, сайтын нэр', icon: Layout, num: '01' },
+  { id: 'hero', label: 'Hero', sub: 'Гарчиг, дэвсгэр, зураг', icon: Monitor, num: '02' },
+  { id: 'about', label: 'Бидний тухай', sub: 'Тайлбар текст', icon: FileText, num: '03' },
+  { id: 'stats', label: 'Статистик', sub: '4 тоон үзүүлэлт', icon: BarChart3, num: '04' },
+  { id: 'vision', label: 'Алсын Харааа & Зорилго', sub: 'Vision & Mission', icon: Target, num: '05' },
+  { id: 'contact', label: 'Холбоо барих', sub: 'И-мэйл, утас, хаяг', icon: Phone, num: '06' },
+  { id: 'colors', label: 'Өнгөний тохиргоо', sub: 'Сайтын өнгө схем', icon: Palette, num: '07' },
+  { id: 'footer', label: 'Footer', sub: 'Copyright текст', icon: Anchor, num: '08' },
 ];
 
 const WebsiteTab: React.FC<WebsiteTabProps> = ({
@@ -65,7 +66,12 @@ const WebsiteTab: React.FC<WebsiteTabProps> = ({
 
   const renderSectionContent = (id: string) => {
     switch (id) {
-      case 'navbar': return <NavbarSection {...sharedProps} />;
+      case 'navbar': return (
+        <div className="space-y-6">
+          <NavbarSection {...sharedProps} />
+          <NavbarExtraSection siteSettings={siteSettings} activeLang={activeLang} updateField={updateField} />
+        </div>
+      );
       case 'hero': return (
         <div className="space-y-6">
           <IdentitySection
@@ -83,11 +89,11 @@ const WebsiteTab: React.FC<WebsiteTabProps> = ({
           <AboutExtraSection siteSettings={siteSettings} updateField={updateField} />
         </div>
       );
-      case 'stats':   return <StatsEditor {...sharedProps} />;
-      case 'vision':  return <VisionMissionSection {...sharedProps} />;
+      case 'stats': return <StatsEditor {...sharedProps} />;
+      case 'vision': return <VisionMissionSection {...sharedProps} />;
       case 'contact': return <ContactSocialSection {...sharedProps} />;
-      case 'colors':  return <ColorSection siteSettings={siteSettings} updateField={updateField} handleSaveSettings={handleSaveSettings} />;
-      case 'footer':  return (
+      case 'colors': return <ColorSection siteSettings={siteSettings} updateField={updateField} handleSaveSettings={handleSaveSettings} />;
+      case 'footer': return (
         <div className="space-y-6">
           <FooterSection {...sharedProps} />
           <FooterExtraSection {...sharedProps} />
@@ -111,9 +117,8 @@ const WebsiteTab: React.FC<WebsiteTabProps> = ({
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            className={`mb-4 px-5 py-3 text-[11px] font-bold rounded-sm flex items-center gap-3 uppercase tracking-wider ${
-              settingsStatus.type === 'success' ? 'bg-green-50 text-green-700 border border-green-100' : 'bg-red-50 text-red-700 border border-red-100'
-            }`}
+            className={`mb-4 px-5 py-3 text-[11px] font-bold rounded-sm flex items-center gap-3 uppercase tracking-wider ${settingsStatus.type === 'success' ? 'bg-green-50 text-green-700 border border-green-100' : 'bg-red-50 text-red-700 border border-red-100'
+              }`}
           >
             <div className={`w-2 h-2 rounded-full ${settingsStatus.type === 'success' ? 'bg-green-500' : 'bg-red-500'}`} />
             {settingsStatus.message}

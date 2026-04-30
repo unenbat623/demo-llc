@@ -103,7 +103,9 @@
     "all": "Бүгд",
     "create": "Үүсгэх",
     "addUser": "Хэрэглэгч нэмэх",
-    "settings": "Тохиргоо"
+    "settings": "Тохиргоо",
+    "mainMenu": "Үндсэн цэс",
+    "account": "Хэрэглэгч"
   },
   "common": {
     "language": "Хэл",

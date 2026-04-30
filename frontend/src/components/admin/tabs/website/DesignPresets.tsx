@@ -97,20 +97,19 @@ const DesignPresets: React.FC<DesignPresetsProps> = ({ currentSettings, onApply 
           </div>
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {presets.map((preset) => {
-          const isActive = currentSettings.primaryColor === preset.colors.primaryColor && 
-                           currentSettings.secondaryColor === preset.colors.secondaryColor;
-          
+          const isActive = currentSettings.primaryColor === preset.colors.primaryColor &&
+            currentSettings.secondaryColor === preset.colors.secondaryColor;
+
           return (
             <button
               key={preset.id}
               type="button"
               onClick={() => onApply(preset.colors)}
-              className={`group relative text-left p-6 border rounded-sm transition-all duration-500 overflow-hidden ${
-                isActive ? 'border-black bg-black text-white shadow-2xl scale-[1.02]' : 'border-black/5 bg-white hover:border-black/40 text-black'
-              }`}
+              className={`group relative text-left p-6 border rounded-sm transition-all duration-500 overflow-hidden ${isActive ? 'border-black bg-black text-white shadow-2xl scale-[1.02]' : 'border-black/5 bg-white hover:border-black/40 text-black'
+                }`}
             >
               <div className="flex items-center justify-between mb-6">
                 <span className={`text-[11px] font-black uppercase tracking-[0.2em] ${isActive ? 'text-white' : 'text-black'}`}>
@@ -122,24 +121,24 @@ const DesignPresets: React.FC<DesignPresetsProps> = ({ currentSettings, onApply 
                   </motion.div>
                 )}
               </div>
-              
+
               <div className="flex gap-1.5 mb-6">
                 {preset.preview.map((color, idx) => (
-                  <div 
-                    key={idx} 
-                    className="flex-1 h-12 rounded-sm border border-black/5 shadow-inner" 
-                    style={{ backgroundColor: color }} 
+                  <div
+                    key={idx}
+                    className="flex-1 h-12 rounded-sm border border-black/5 shadow-inner"
+                    style={{ backgroundColor: color }}
                   />
                 ))}
               </div>
-              
+
               <div className="space-y-1">
                 <p className={`text-[10px] font-bold uppercase tracking-widest ${isActive ? 'text-white/60' : 'text-gray-400'}`}>
                   {preset.description}
                 </p>
                 <div className={`h-0.5 w-8 transition-all duration-500 ${isActive ? 'bg-white w-full opacity-20' : 'bg-black/10 group-hover:w-full group-hover:bg-black/20'}`} />
               </div>
-              
+
               {!isActive && (
                 <div className="absolute inset-0 bg-black/95 text-white opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center gap-2">
                   <Layout size={20} className="mb-1" />

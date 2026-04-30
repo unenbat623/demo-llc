@@ -18,29 +18,29 @@ export default function About() {
   };
 
   const stats = settings ? [
-    { 
-      value: settings.stats1Value, 
+    {
+      value: settings.stats1Value,
       label: i18n.language === 'en' ? settings.stats1Label_en : settings.stats1Label,
       detail: i18n.language === 'en' ? settings.stats1Detail_en : settings.stats1Detail,
-      icon: getStatIcon(0) 
+      icon: getStatIcon(0)
     },
-    { 
-      value: settings.stats2Value, 
+    {
+      value: settings.stats2Value,
       label: i18n.language === 'en' ? settings.stats2Label_en : settings.stats2Label,
       detail: i18n.language === 'en' ? settings.stats2Detail_en : settings.stats2Detail,
-      icon: getStatIcon(1) 
+      icon: getStatIcon(1)
     },
-    { 
-      value: settings.stats3Value, 
+    {
+      value: settings.stats3Value,
       label: i18n.language === 'en' ? settings.stats3Label_en : settings.stats3Label,
       detail: i18n.language === 'en' ? settings.stats3Detail_en : settings.stats3Detail,
-      icon: getStatIcon(2) 
+      icon: getStatIcon(2)
     },
-    { 
-      value: settings.stats4Value, 
+    {
+      value: settings.stats4Value,
       label: i18n.language === 'en' ? settings.stats4Label_en : settings.stats4Label,
       detail: i18n.language === 'en' ? settings.stats4Detail_en : settings.stats4Detail,
-      icon: getStatIcon(3) 
+      icon: getStatIcon(3)
     },
   ] : [];
 

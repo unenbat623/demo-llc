@@ -17,10 +17,10 @@ const ColorSection: React.FC<ColorSectionProps> = ({ siteSettings, updateField, 
     Object.entries(preset).forEach(([field, value]) => {
       updateField(field as keyof SiteSettings, value as string);
     });
-    
+
 
     const newSettings = { ...siteSettings, ...preset };
-    
+
 
     handleSaveSettings(undefined, newSettings);
   };

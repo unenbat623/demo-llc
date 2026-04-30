@@ -78,26 +78,26 @@ export interface SiteSettings {
   footerCta_en?: string;
   footerCtaSub?: string;
   footerCtaSub_en?: string;
-  
+
 
   stats1Value: string;
   stats1Label: string;
   stats1Label_en: string;
   stats1Detail: string;
   stats1Detail_en: string;
-  
+
   stats2Value: string;
   stats2Label: string;
   stats2Label_en: string;
   stats2Detail: string;
   stats2Detail_en: string;
-  
+
   stats3Value: string;
   stats3Label: string;
   stats3Label_en: string;
   stats3Detail: string;
   stats3Detail_en: string;
-  
+
   stats4Value: string;
   stats4Label: string;
   stats4Label_en: string;
@@ -109,7 +109,7 @@ export interface SiteSettings {
   visionTitle_en: string;
   visionText: string;
   visionText_en: string;
-  
+
   missionTitle: string;
   missionTitle_en: string;
   missionText: string;
@@ -125,6 +125,10 @@ export interface SiteSettings {
   twitter: string;
   linkedin: string;
   instagram: string;
+  navAbout?: string;
+  navAbout_en?: string;
+  navTeam?: string;
+  navTeam_en?: string;
 
 
   primaryColor?: string;

@@ -42,7 +42,7 @@ export default function Team({ overrideMembers }: { overrideMembers?: TeamMember
   const [visibleCount, setVisibleCount] = useState(8);
 
   const visibleMembers = members.slice(0, visibleCount);
-  
+
   const handleLoadMore = () => {
     setVisibleCount(prev => prev + 8);
   };
@@ -116,7 +116,7 @@ export default function Team({ overrideMembers }: { overrideMembers?: TeamMember
                 );
               })}
             </div>
-            
+
             {visibleCount < members.length && (
               <div className="mt-12 flex justify-center">
                 <button

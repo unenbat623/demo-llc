@@ -33,7 +33,7 @@ export default function Hero() {
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black z-10 opacity-60" />
         <div className="absolute inset-0 bg-black/40 z-10" />
-        
+
         {settings?.heroBgUrl?.includes('mp4') || settings?.heroBgUrl?.includes('data:video') ? (
           <video
             autoPlay
@@ -46,15 +46,15 @@ export default function Hero() {
             <source src={settings?.heroBgUrl} type="video/mp4" />
           </video>
         ) : (
-          <img 
-            src={settings?.heroBgUrl || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=2000"} 
+          <img
+            src={settings?.heroBgUrl || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=2000"}
             className="w-full h-full object-cover grayscale opacity-30 scale-105"
             alt="Background"
           />
         )}
 
         {/* Grid Texture */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.15] z-20 pointer-events-none"
           style={{
             backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)',
@@ -133,7 +133,7 @@ export default function Hero() {
                   className="w-full h-full object-cover grayscale brightness-90 group-hover:scale-110 group-hover:rotate-1 transition-transform duration-[2000ms]"
                   referrerPolicy="no-referrer"
                 />
-                
+
                 {/* Overlay Elements */}
                 <div className="absolute top-8 left-8 z-20 flex flex-col gap-2">
                   <div className="w-2 h-2 bg-white rounded-full animate-pulse" />

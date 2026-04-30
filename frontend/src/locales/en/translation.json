@@ -103,7 +103,9 @@
     "all": "All",
     "create": "Create",
     "addUser": "Add User",
-    "settings": "Settings"
+    "settings": "Settings",
+    "mainMenu": "Main Menu",
+    "account": "Account"
   },
   "common": {
     "language": "Language",

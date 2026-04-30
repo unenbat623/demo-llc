@@ -56,13 +56,69 @@ export const useAdminSettings = (user: any, logAction: Function) => {
   const handleSaveSettings = async (e?: React.FormEvent, overrideSettings?: SiteSettings) => {
     if (e) e.preventDefault();
     setIsSettingsSaving(true);
+
+    const currentSettings = overrideSettings || siteSettings;
+    const finalSettings = { ...currentSettings };
+
     try {
+      // Auto-translate logic for empty English fields
+      const translationMap: { mn: keyof SiteSettings, en: keyof SiteSettings }[] = [
+        { mn: 'siteTitle', en: 'siteTitle_en' },
+        { mn: 'heroTitle', en: 'heroTitle_en' },
+        { mn: 'heroDescription', en: 'heroDescription_en' },
+        { mn: 'ctaText', en: 'ctaText_en' },
+        { mn: 'aboutTitle', en: 'aboutTitle_en' },
+        { mn: 'aboutDescription', en: 'aboutDescription_en' },
+        { mn: 'footerText', en: 'footerText_en' },
+        { mn: 'visionTitle', en: 'visionTitle_en' },
+        { mn: 'visionText', en: 'visionText_en' },
+        { mn: 'missionTitle', en: 'missionTitle_en' },
+        { mn: 'missionText', en: 'missionText_en' },
+        { mn: 'address', en: 'address_en' },
+        { mn: 'footerCta', en: 'footerCta_en' },
+        { mn: 'footerCtaSub', en: 'footerCtaSub_en' },
+        { mn: 'teamTitle', en: 'teamTitle_en' },
+        { mn: 'teamDescription', en: 'teamDescription_en' },
+        { mn: 'navAbout', en: 'navAbout_en' },
+        { mn: 'navTeam', en: 'navTeam_en' },
+      ];
+
+      // Add stats
+      for (let i = 1; i <= 4; i++) {
+        translationMap.push({ mn: `stats${i}Label` as any, en: `stats${i}Label_en` as any });
+        translationMap.push({ mn: `stats${i}Detail` as any, en: `stats${i}Detail_en` as any });
+      }
+
+      let hasTranslated = false;
+      for (const pair of translationMap) {
+        const mnVal = currentSettings[pair.mn] as string;
+        const enVal = currentSettings[pair.en] as string;
+
+        if (mnVal && !enVal) {
+          try {
+            const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(mnVal)}&langpair=mn|en`);
+            const data = await res.json();
+            if (data.responseData?.translatedText) {
+              (finalSettings as any)[pair.en] = data.responseData.translatedText;
+              hasTranslated = true;
+            }
+          } catch (err) {
+            console.error(`Translation failed for ${String(pair.mn)}:`, err);
+          }
+        }
+      }
+
+      if (hasTranslated) {
+        setSiteSettings(finalSettings);
+        toast.info('Зарим талбаруудыг автоматаар Англи хэл рүү хөрвүүллээ');
+      }
+
       const endpoint = user?.role === 'client' ? `${API_URL}/client/${user.id}/settings` : `${API_URL}/settings`;
       const method = user?.role === 'client' ? 'PUT' : 'POST';
       const res = await fetch(endpoint, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(overrideSettings || siteSettings)
+        body: JSON.stringify(finalSettings)
       });
       if (!res.ok) throw new Error('Хадгалахад алдаа гарлаа');
       await logAction('UPDATE', 'Вэбсайтын тохиргоог шинэчиллээ', 'System');

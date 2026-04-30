@@ -51,7 +51,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Navigation */}
       <nav className="flex-1 space-y-1 relative z-10">
-        <p className="text-[8px] font-black uppercase tracking-[0.3em] text-gray-600 mb-4 ml-2">Main Menu</p>
+        <p className="text-[8px] font-black uppercase tracking-[0.3em] text-gray-600 mb-4 ml-2">{t('admin.mainMenu')}</p>
         {menuItems.map((item) => (
           <button
             key={item.id}
@@ -82,7 +82,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         )}
 
         <div className="pt-8 space-y-1">
-          <p className="text-[8px] font-black uppercase tracking-[0.3em] text-gray-600 mb-4 ml-2">Account</p>
+          <p className="text-[8px] font-black uppercase tracking-[0.3em] text-gray-600 mb-4 ml-2">{t('admin.account')}</p>
           <button
             onClick={() => {
               setActiveTab('settings');

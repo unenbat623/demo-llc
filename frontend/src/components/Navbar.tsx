@@ -20,7 +20,7 @@ export default function Navbar() {
   }, []);
 
   const { settings, t_site } = useSettings();
-  
+
   useEffect(() => {
     if (settings) {
       document.title = t_site('siteTitle');
@@ -33,7 +33,7 @@ export default function Navbar() {
   }, [isOpen]);
 
   const navLinks = [
-    { name: t('nav.about'), href: '#about' },
+    { name: t_site('navAbout') || t('nav.about'), href: '#about' },
   ];
 
   return (
@@ -49,7 +49,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex justify-between items-center h-full">
           <NavLogo isOpen={isOpen} scrolled={scrolled} setIsOpen={setIsOpen} />
-          <DesktopMenu scrolled={scrolled} navLinks={navLinks} />
+          <DesktopMenu scrolled={scrolled} navLinks={navLinks} t_site={t_site} />
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center relative z-[70] ml-4">
