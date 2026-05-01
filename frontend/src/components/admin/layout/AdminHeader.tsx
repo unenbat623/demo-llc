@@ -5,13 +5,22 @@ import LanguageSwitcher from '../../LanguageSwitcher';
 interface AdminHeaderProps {
   isSidebarOpen: boolean;
   setIsSidebarOpen: (isOpen: boolean) => void;
+  handleLogout: () => void;
 }
 
-const AdminHeader: React.FC<AdminHeaderProps> = ({ isSidebarOpen, setIsSidebarOpen }) => {
+const AdminHeader: React.FC<AdminHeaderProps> = ({ isSidebarOpen, setIsSidebarOpen, handleLogout }) => {
   return (
     <header className="lg:hidden bg-white/90 backdrop-blur-xl border-b border-black/5 p-5 flex items-center justify-between sticky top-0 z-40">
       <div className="flex items-center gap-4">
-        <a href="/" title="Вэбсайт руу буцах" className="flex items-center gap-4 group">
+        <a 
+          href="/" 
+          title="Вэбсайт руу буцах" 
+          className="flex items-center gap-4 group"
+          onClick={(e) => {
+            e.preventDefault();
+            handleLogout();
+          }}
+        >
           <div className="w-10 h-10 bg-black flex items-center justify-center transform rotate-45 group-active:scale-95 transition-transform">
             <div className="-rotate-45">
               <Shield size={20} className="text-white" />
