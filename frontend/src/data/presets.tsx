@@ -28,7 +28,7 @@ export const presets: Preset[] = [
     badge: 'Default',
     primaryColor: '#0a0a0a',
     secondaryColor: '#ffffff',
-    accentColor: '#1a1a1a',
+    accentColor: '#f8f8f8f8',
     textColor: '#ffffff',
     template: 'split-hero',
     navbarLayout: 'logo-left',
@@ -48,7 +48,7 @@ export const presets: Preset[] = [
         </div>
         <div className="flex flex-1 gap-2 mt-1">
           <div className="flex-1 flex flex-col justify-center">
-            <div className="text-[9px] font-black text-white uppercase leading-tight tracking-tight">ТОМ<br/>ГАРЧИГ</div>
+            <div className="text-[9px] font-black text-white uppercase leading-tight tracking-tight">ТОМ<br />ГАРЧИГ</div>
             <div className="text-[5px] text-white/40 mt-1 uppercase tracking-wide">Тайлбар</div>
             <div className="mt-2 bg-white text-black text-[5px] font-black uppercase px-2 py-0.5 inline-block w-fit">CTA</div>
           </div>
@@ -86,7 +86,7 @@ export const presets: Preset[] = [
           <div className="bg-black px-2 py-0.5 text-[5px] font-black text-white uppercase tracking-wider">CTA</div>
         </div>
         <div className="flex-1 flex flex-col items-center justify-center text-center px-2">
-          <div className="text-[10px] font-black text-black uppercase leading-tight tracking-tight mb-1">CENTERED<br/>HEADLINE</div>
+          <div className="text-[10px] font-black text-black uppercase leading-tight tracking-tight mb-1">CENTERED<br />HEADLINE</div>
           <div className="text-[5px] text-black/40 uppercase tracking-wide mb-2">Subtext</div>
           <div className="bg-black px-3 py-1 text-[5px] font-black text-white uppercase tracking-wider">CTA BUTTON</div>
         </div>
@@ -119,7 +119,7 @@ export const presets: Preset[] = [
           <div className="text-[5px] text-white/40 uppercase tracking-widest">NAV · NAV</div>
         </div>
         <div className="flex-1 flex flex-col justify-start pt-1">
-          <div className="text-[12px] font-black text-white italic uppercase leading-none tracking-tight mb-2">EDITORIAL<br/>BOLD<br/>DESIGN</div>
+          <div className="text-[12px] font-black text-white italic uppercase leading-none tracking-tight mb-2">EDITORIAL<br />BOLD<br />DESIGN</div>
           <div className="flex items-center gap-1">
             <div className="bg-[#d4af37]/20 border border-[#d4af37]/30 px-1.5 py-0.5 text-[4px] text-[#d4af37] uppercase tracking-widest">250+ PROJECTS</div>
             <div className="bg-[#d4af37]/20 border border-[#d4af37]/30 px-1.5 py-0.5 text-[4px] text-[#d4af37] uppercase tracking-widest">15+ AWARDS</div>
@@ -154,9 +154,9 @@ export const presets: Preset[] = [
           <div className="bg-[#d4af37] px-2 py-0.5 text-[5px] font-black text-black rounded-full uppercase tracking-wider">CTA</div>
         </div>
         <div className="flex-1 flex flex-col justify-center">
-          <div className="text-[9px] font-black text-white uppercase leading-tight mb-3">DARK<br/>PREMIUM</div>
+          <div className="text-[9px] font-black text-white uppercase leading-tight mb-3">DARK<br />PREMIUM</div>
           <div className="grid grid-cols-2 gap-1">
-            {['SVC 01','SVC 02','SVC 03','SVC 04'].map(s => (
+            {['SVC 01', 'SVC 02', 'SVC 03', 'SVC 04'].map(s => (
               <div key={s} className="bg-white/5 border border-white/5 px-1 py-1">
                 <div className="text-[4px] text-white/30 uppercase tracking-widest">{s}</div>
               </div>
@@ -192,9 +192,9 @@ export const presets: Preset[] = [
           <div className="bg-[#2563eb] px-2 py-0.5 text-[5px] font-black text-white rounded uppercase tracking-wider">CTA</div>
         </div>
         <div className="flex-1 flex flex-col justify-center">
-          <div className="text-[9px] font-black text-[#0f172a] uppercase leading-tight mb-3">CORPORATE<br/>HEADLINE</div>
+          <div className="text-[9px] font-black text-[#0f172a] uppercase leading-tight mb-3">CORPORATE<br />HEADLINE</div>
           <div className="flex gap-1 border-t border-black/10 pt-2">
-            {['TEAM','PROJECTS','PARTNERS','EST.'].map(s => (
+            {['TEAM', 'PROJECTS', 'PARTNERS', 'EST.'].map(s => (
               <div key={s} className="flex-1 text-center border-r border-black/5 last:border-0">
                 <div className="text-[4px] text-black/30 uppercase tracking-widest">{s}</div>
               </div>
@@ -231,7 +231,7 @@ export const presets: Preset[] = [
           <div className="bg-[#38bdf8] px-2 py-0.5 text-[5px] font-black text-black rounded-full uppercase tracking-wider">CTA</div>
         </div>
         <div className="flex-1 flex flex-col justify-center">
-          <div className="text-[9px] font-black text-white uppercase leading-tight mb-3">GRADIENT<br/>MODERN</div>
+          <div className="text-[9px] font-black text-white uppercase leading-tight mb-3">GRADIENT<br />MODERN</div>
           <div className="flex gap-1.5">
             <div className="flex-1 bg-white/10 border border-white/10 p-1.5 text-center rounded-sm">
               <div className="text-[7px] font-black text-white">250+</div>

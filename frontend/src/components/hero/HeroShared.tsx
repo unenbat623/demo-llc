@@ -26,16 +26,16 @@ export const BackgroundMedia: React.FC<{ settings: SiteSettings | null; opacity?
   </div>
 );
 
-export const Stats: React.FC<{ settings: SiteSettings | null; className?: string }> = ({ settings, className = "" }) => (
+export const Stats: React.FC<{ settings: SiteSettings | null; t_site: (key: any) => string; className?: string }> = ({ settings, t_site, className = "" }) => (
   <div className={`flex items-center gap-8 ${className}`}>
     <div className="flex flex-col">
       <span className="font-black text-2xl leading-none">{settings?.heroStat1Value || '250+'}</span>
-      <span className="text-[9px] font-black uppercase tracking-widest opacity-40 mt-1">{settings?.heroStat1Label || 'Projects'}</span>
+      <span className="text-[9px] font-black uppercase tracking-widest opacity-40 mt-1">{t_site('heroStat1Label') || 'Projects'}</span>
     </div>
     <div className="w-px h-8 bg-current opacity-10" />
     <div className="flex flex-col">
       <span className="font-black text-2xl leading-none">{settings?.heroStat2Value || '15+'}</span>
-      <span className="text-[9px] font-black uppercase tracking-widest opacity-40 mt-1">{settings?.heroStat2Label || 'Awards'}</span>
+      <span className="text-[9px] font-black uppercase tracking-widest opacity-40 mt-1">{t_site('heroStat2Label') || 'Awards'}</span>
     </div>
   </div>
 );

@@ -36,9 +36,10 @@ export const uploadToCloudinary = async (fileSource: string, folder: string = 'p
       resource_type: 'auto'
     });
     return result.secure_url;
-  } catch (error) {
-    console.error('Cloudinary direct upload error:', error);
-    return null;
+  } catch (error: any) {
+    console.error('Cloudinary direct upload error:', error?.message || error);
+    // If upload fails, return the original source as fallback instead of null
+    return fileSource;
   }
 };
 

@@ -36,13 +36,13 @@ export const HeroSplit: React.FC<HeroProps> = ({ settings, t_site }) => (
           <div className="h-px w-12 bg-current opacity-30" />
           <span className="text-[10px] font-black uppercase tracking-[0.3em] opacity-50">{settings?.heroBadge || 'Tech Solutions'}</span>
         </motion.div>
-        <motion.h1 variants={itemVariants} className="text-5xl lg:text-7xl font-black leading-[0.9] tracking-tighter uppercase mb-8 italic">{t_site('heroTitle')}</motion.h1>
+        <motion.h1 variants={itemVariants} className="text-4xl md:text-5xl lg:text-7xl font-black leading-[0.9] tracking-tighter uppercase mb-8 italic">{t_site('heroTitle')}</motion.h1>
         <motion.p variants={itemVariants} className="max-w-xl text-lg opacity-60 mb-10 leading-relaxed font-medium">{t_site('heroDescription')}</motion.p>
         <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-8 items-start sm:items-center">
           <a href="#team" className="group relative overflow-hidden px-10 py-5 bg-white text-black font-black uppercase tracking-widest text-xs flex items-center gap-4 transition-transform hover:scale-105 active:scale-95">
             {t_site('ctaText')} <ArrowDownRight size={18} className="group-hover:rotate-45 transition-transform" />
           </a>
-          <Stats settings={settings} />
+          <Stats settings={settings} t_site={t_site} />
         </motion.div>
       </motion.div>
       <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1.2, delay: 0.4 }} className="lg:col-span-5 hidden lg:block">

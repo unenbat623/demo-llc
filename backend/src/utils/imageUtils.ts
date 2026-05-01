@@ -8,7 +8,7 @@ export async function processImage(image: string | undefined, folder: string = '
   if (!image) return image;
 
   const isExternalUrl = typeof image === 'string' && image.startsWith('http') && !image.includes('cloudinary.com');
-  const isBase64 = typeof image === 'string' && image.startsWith('data:image');
+  const isBase64 = typeof image === 'string' && (image.startsWith('data:image') || image.startsWith('data:video'));
 
   if (isExternalUrl || isBase64) {
     try {
