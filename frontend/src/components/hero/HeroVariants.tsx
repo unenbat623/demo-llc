@@ -28,32 +28,29 @@ const itemVariants = {
 
 // --- CENTERED MINIMAL ---
 export const HeroCentered: React.FC<HeroProps> = ({ settings, t_site }) => (
-  <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center text-center overflow-hidden bg-white px-6">
-    <BackgroundMedia settings={settings} opacity={0.03} />
-    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#00000003_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
+  <section id="hero" className="relative min-h-screen flex flex-col items-center justify-center text-center overflow-hidden bg-[#fafafa] px-6">
+    <BackgroundMedia settings={settings} opacity={0.02} />
+    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#00000002_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none" />
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="relative z-30 max-w-5xl w-full">
-       <motion.div variants={itemVariants} className="mb-10">
-          <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-12 h-[1px] bg-black/10" />
-            <span className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.6em] text-black/40 block">{t_site('heroBadge') || 'Minimalist Future'}</span>
-            <div className="w-12 h-[1px] bg-black/10" />
-          </div>
-          <div className="w-10 h-10 mx-auto border border-black/20 rotate-45 flex items-center justify-center group hover:border-black transition-colors duration-700">
-             <div className="w-1.5 h-1.5 bg-black group-hover:scale-150 transition-transform duration-700" />
+       <motion.div variants={itemVariants} className="mb-8">
+          <div className="inline-flex items-center gap-3 mb-5">
+            <div className="w-10 h-[1px] bg-black/5" />
+            <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.5em] text-black/30 block">{t_site('heroBadge') || 'Minimalist Future'}</span>
+            <div className="w-10 h-[1px] bg-black/5" />
           </div>
        </motion.div>
-       <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl lg:text-7xl font-black text-black leading-[1.1] tracking-tighter uppercase mb-8 selection:bg-black selection:text-white">
+       <motion.h1 variants={itemVariants} className="text-3xl md:text-5xl lg:text-6xl font-black text-black/90 leading-[1.2] tracking-tighter uppercase mb-6 selection:bg-black selection:text-white">
           {t_site('heroTitle')}
        </motion.h1>
-       <motion.p variants={itemVariants} className="max-w-2xl mx-auto text-sm md:text-lg text-black/60 mb-12 font-medium leading-relaxed italic">
+       <motion.p variants={itemVariants} className="max-w-xl mx-auto text-xs md:text-base text-black/40 mb-10 font-medium leading-relaxed italic">
           {t_site('heroDescription')}
        </motion.p>
-       <motion.div variants={itemVariants} className="flex flex-col items-center gap-10">
-          <a href="#team" className="group relative px-12 py-5 bg-black text-white font-black uppercase tracking-[0.2em] text-[10px] border border-black hover:bg-transparent hover:text-black transition-all duration-500 overflow-hidden">
+       <motion.div variants={itemVariants} className="flex flex-col items-center gap-8">
+          <a href="#team" className="group relative px-10 py-4 bg-black text-white font-bold uppercase tracking-[0.2em] text-[9px] border border-black hover:bg-transparent hover:text-black transition-all duration-500 overflow-hidden">
             <span className="relative z-10">{t_site('ctaText')}</span>
             <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
           </a>
-          <Stats settings={settings} t_site={t_site} className="text-black scale-90" />
+          <Stats settings={settings} t_site={t_site} className="text-black scale-[0.8] opacity-40" />
        </motion.div>
     </motion.div>
   </section>
@@ -94,46 +91,45 @@ export const HeroEditorial: React.FC<HeroProps> = ({ settings, t_site }) => (
 
 // --- DARK PREMIUM ---
 export const HeroDark: React.FC<HeroProps> = ({ settings, t_site }) => (
-  <section id="hero" className="relative min-h-screen bg-[#050505] flex items-center overflow-hidden px-6 lg:px-12 pt-20">
+  <section id="hero" className="relative min-h-screen bg-[#080808] flex items-center overflow-hidden px-6 lg:px-12 pt-20">
     <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#d4af37]/10 blur-[150px] rounded-full" />
+       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#d4af37]/5 blur-[150px] rounded-full" />
        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/5 blur-[150px] rounded-full" />
     </div>
-    <BackgroundMedia settings={settings} opacity={0.15} />
-    <div className="relative z-30 max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+    <BackgroundMedia settings={settings} opacity={0.1} />
+    <div className="relative z-30 max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
        <motion.div variants={containerVariants} initial="hidden" animate="visible">
-          <motion.div variants={itemVariants} className="flex items-center gap-4 mb-10">
-             <div className="h-[1px] w-12 bg-gradient-to-r from-[#d4af37] to-transparent" />
-             <span className="text-[11px] font-black uppercase tracking-[0.6em] text-[#d4af37]">{t_site('heroBadge') || 'Luxury Tier'}</span>
+          <motion.div variants={itemVariants} className="flex items-center gap-4 mb-8">
+             <div className="h-[1px] w-10 bg-gradient-to-r from-[#d4af37]/40 to-transparent" />
+             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#d4af37]/60">{t_site('heroBadge') || 'Luxury Tier'}</span>
           </motion.div>
-          <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-[1.1] tracking-tight uppercase mb-8">
+          <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl lg:text-7xl font-black text-white/90 leading-[1.1] tracking-tight uppercase mb-8">
              {t_site('heroTitle')}
           </motion.h1>
-          <motion.p variants={itemVariants} className="max-w-xl text-sm md:text-base text-white/50 mb-10 font-medium leading-relaxed border-l-2 border-[#d4af37]/20 pl-6">{t_site('heroDescription')}</motion.p>
-          <motion.div variants={itemVariants} className="flex flex-wrap gap-10 items-center">
-             <a href="#team" className="group relative px-12 py-6 bg-[#d4af37] text-black font-black uppercase tracking-[0.2em] text-[10px] rounded-none hover:bg-white transition-all duration-500 shadow-[0_20px_50px_rgba(212,175,55,0.2)]">
+          <motion.p variants={itemVariants} className="max-w-xl text-xs md:text-sm text-white/30 mb-10 font-medium leading-relaxed border-l border-[#d4af37]/10 pl-5">{t_site('heroDescription')}</motion.p>
+          <motion.div variants={itemVariants} className="flex flex-wrap gap-8 items-center">
+             <a href="#team" className="group relative px-10 py-5 bg-[#d4af37]/90 text-black font-bold uppercase tracking-[0.2em] text-[9px] rounded-none hover:bg-white transition-all duration-500">
                 <span className="relative z-10">{t_site('ctaText')}</span>
              </a>
-             <div className="flex gap-12 items-center bg-white/5 backdrop-blur-md p-6 border border-white/10">
+             <div className="flex gap-10 items-center bg-white/[0.02] backdrop-blur-md p-5 border border-white/5">
                 <div className="text-left">
-                   <p className="text-3xl font-black text-white leading-none mb-2">{settings?.heroStat1Value || '250+'}</p>
-                   <p className="text-[9px] font-black uppercase tracking-widest text-[#d4af37] opacity-80">{t_site('heroStat1Label') || 'Projects'}</p>
+                   <p className="text-2xl font-black text-white/80 leading-none mb-1">{settings?.heroStat1Value || '250+'}</p>
+                   <p className="text-[8px] font-bold uppercase tracking-widest text-[#d4af37]/40">{t_site('heroStat1Label') || 'Projects'}</p>
                 </div>
-                <div className="w-[1px] h-10 bg-white/10" />
+                <div className="w-[px] h-8 bg-white/5" />
                 <div className="text-left">
-                   <p className="text-3xl font-black text-white leading-none mb-2">{settings?.heroStat2Value || '15+'}</p>
-                   <p className="text-[9px] font-black uppercase tracking-widest text-[#d4af37] opacity-80">{t_site('heroStat2Label') || 'Awards'}</p>
+                   <p className="text-2xl font-black text-white/80 leading-none mb-1">{settings?.heroStat2Value || '15+'}</p>
+                   <p className="text-[8px] font-bold uppercase tracking-widest text-[#d4af37]/40">{t_site('heroStat2Label') || 'Awards'}</p>
                 </div>
              </div>
           </motion.div>
        </motion.div>
-       <motion.div initial={{ opacity: 0, scale: 0.8, rotate: 5 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }} className="hidden lg:block relative">
-          <div className="relative p-2 bg-gradient-to-br from-[#d4af37]/30 via-transparent to-white/5 rounded-none overflow-hidden">
-             <div className="aspect-[3/4] overflow-hidden grayscale contrast-125 brightness-75 hover:grayscale-0 hover:brightness-100 transition-all duration-1000">
-                <img src={settings?.heroImageUrl || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200"} className="w-full h-full object-cover scale-110" alt="Premium" />
+       <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }} className="hidden lg:block relative">
+          <div className="relative p-1 bg-gradient-to-br from-[#d4af37]/10 to-transparent rounded-none overflow-hidden">
+             <div className="aspect-[3/4] overflow-hidden grayscale brightness-[0.6] hover:grayscale-0 hover:brightness-100 transition-all duration-1000">
+                <img src={settings?.heroImageUrl || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1200"} className="w-full h-full object-cover scale-105" alt="Premium" />
              </div>
           </div>
-          <div className="absolute -top-12 -right-12 w-48 h-48 border-t-2 border-r-2 border-[#d4af37]/20 pointer-events-none" />
        </motion.div>
     </div>
   </section>

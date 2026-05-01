@@ -61,7 +61,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             }}
             className={`w-full group flex items-center gap-4 px-4 py-3 rounded-sm transition-all duration-300 ${activeTab === item.id
               ? 'bg-white text-black shadow-lg'
-              : 'text-gray-500 hover:text-white hover:bg-white/5'
+              : 'text-white/50 hover:text-white hover:bg-white/5'
               }`}
           >
             <item.icon size={16} />
