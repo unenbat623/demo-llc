@@ -43,6 +43,16 @@ app.use('/api/settings', settingsRoutes);
 app.use('/api/translate', translateRoutes);
 app.use('/api/client', clientRoutes);
 
+// Root route to prevent "Cannot GET /"
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', message: 'Tavan Bogd Tech API is running' });
+});
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', uptime: process.uptime() });
+});
+
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.error('❌ Global Error Handler:', err);
   if (err instanceof Error && (err as any).code === 'LIMIT_FILE_SIZE') {
