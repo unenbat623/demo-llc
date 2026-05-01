@@ -34,7 +34,6 @@ mongoose.connect(MONGODB_URI)
   .then(() => console.log('✅ Connected to MongoDB'))
   .catch(err => console.error('❌ MongoDB connection error:', err));
 
-// ── Routes ────────────────────────────────────────────────────
 app.use('/api/team', teamRoutes);
 app.use('/api/logs', logRoutes);
 app.use('/api/auth', authRoutes);
@@ -43,12 +42,10 @@ app.use('/api/settings', settingsRoutes);
 app.use('/api/translate', translateRoutes);
 app.use('/api/client', clientRoutes);
 
-// Root route to prevent "Cannot GET /"
 app.get('/', (req, res) => {
   res.json({ status: 'ok', message: 'Tavan Bogd Tech API is running' });
 });
 
-// Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', uptime: process.uptime() });
 });

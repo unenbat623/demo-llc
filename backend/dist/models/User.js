@@ -33,16 +33,15 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserRole = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-var UserRole;
-(function (UserRole) {
-    UserRole["ADMIN"] = "admin";
-    UserRole["STAFF"] = "staff";
-})(UserRole || (exports.UserRole = UserRole = {}));
 const UserSchema = new mongoose_1.Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    role: { type: String, enum: Object.values(UserRole), default: UserRole.STAFF }
+    role: { type: String, enum: ['admin', 'staff', 'client'], default: 'admin' },
+    roleName: { type: String, default: 'Admin' },
+    permissions: {
+        type: [String],
+        default: ['dashboard', 'website', 'team', 'system', 'logs']
+    }
 }, { timestamps: true });
 exports.default = mongoose_1.default.model('User', UserSchema);

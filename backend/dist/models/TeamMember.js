@@ -36,14 +36,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const TeamMemberSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
+    name_en: { type: String },
     position: { type: String, required: true },
+    position_en: { type: String },
     image: { type: String, required: true },
     experience: { type: String },
+    experience_en: { type: String },
     aboutMe: { type: String },
+    aboutMe_en: { type: String },
     skills: [{ type: String }],
     projects: [{ type: String }],
+    projects_en: [{ type: String }],
     education: [{ type: String }],
+    education_en: [{ type: String }],
     achievements: [{ type: String }],
+    achievements_en: [{ type: String }],
     social: {
         linkedin: { type: String, default: '#' },
         email: { type: String }
