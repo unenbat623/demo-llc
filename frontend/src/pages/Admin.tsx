@@ -62,12 +62,17 @@ export default function Admin() {
   };
 
   useEffect(() => {
-    if (!user) {
+    // Check if there's a user in localStorage to avoid flicker
+    const storedUser = localStorage.getItem('user');
+    if (!user && !storedUser) {
       navigateTo('/login');
     }
   }, [user]);
 
-  if (!user) return null;
+  if (!user) {
+    // Show a minimal dark loader or return null to prevent white screen
+    return <div className="min-h-screen bg-[#050505]" />;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex font-sans selection:bg-black selection:text-white">
