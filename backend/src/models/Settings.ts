@@ -102,6 +102,15 @@ const SettingsSchema = new mongoose.Schema({
   accentColor: { type: String, default: '#f8f8f8' },
   textColor: { type: String, default: '#1a1a1a' },
 
+  // Design System
+  template: { type: String, default: 'split-hero' },
+  navbarLayout: { type: String, default: 'logo-left' },
+  navbarStyle: { type: String, default: 'classic' },
+  heroLayout: { type: String, default: 'image-right' },
+  heroStyle: { type: String, default: 'split' },
+  buttonStyle: { type: String, default: 'sharp' },
+  fontStyle: { type: String, default: 'display' },
+
   updatedAt: { type: Date, default: Date.now }
 });
 

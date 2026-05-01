@@ -18,6 +18,7 @@ import AboutExtraSection from './website/AboutExtraSection';
 import FooterExtraSection from './website/FooterExtraSection';
 
 
+import DesignPresets from './website/DesignPresets';
 import WebsiteTabHeader from './website/WebsiteTabHeader';
 import WebsiteAccordionItem from './website/WebsiteAccordionItem';
 
@@ -137,6 +138,18 @@ const WebsiteTab: React.FC<WebsiteTabProps> = ({
             {renderSectionContent(section.id)}
           </WebsiteAccordionItem>
         ))}
+      </div>
+
+      {/* Premium Design Presets — bottom of settings */}
+      <div className="mt-8">
+        <DesignPresets
+          currentSettings={siteSettings}
+          onApply={(preset) => {
+            const merged = { ...siteSettings, ...preset };
+            setSiteSettings(merged);
+            handleSaveSettings(undefined as any, merged);
+          }}
+        />
       </div>
 
       <div className="pt-6 flex justify-end">

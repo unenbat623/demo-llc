@@ -31,7 +31,8 @@ export const useTeamFileUpload = (setFormData: React.Dispatch<React.SetStateActi
       });
 
       if (!response.ok) {
-        throw new Error('Upload failed');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Зураг хуулахад алдаа гарлаа.');
       }
 
       const data = await response.json();

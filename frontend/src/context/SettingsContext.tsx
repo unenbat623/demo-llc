@@ -44,6 +44,14 @@ export function SettingsProvider({ children, overrideSettings }: { children: Rea
       root.style.setProperty('--color-secondary', settings.secondaryColor || '#ffffff');
       root.style.setProperty('--color-accent', settings.accentColor || '#f8f8f8');
       root.style.setProperty('--color-text-main', settings.textColor || '#1a1a1a');
+      // Structural template attributes
+      root.setAttribute('data-template', settings.template || 'split-hero');
+      root.setAttribute('data-navbar', settings.navbarStyle || 'classic');
+      root.setAttribute('data-navbar-layout', settings.navbarLayout || 'logo-left');
+      root.setAttribute('data-hero', settings.heroStyle || 'split');
+      root.setAttribute('data-hero-layout', settings.heroLayout || 'image-right');
+      root.setAttribute('data-button', settings.buttonStyle || 'sharp');
+      root.setAttribute('data-font', settings.fontStyle || 'display');
     }
   }, [settings]);
 

@@ -1,41 +1,11 @@
-import { Router, Request, Response } from 'express';
-import Log from '../models/Log';
+import { Router } from 'express';
+import * as logController from '../controllers/logController';
 
 const router = Router();
 
-router.get('/', async (req: Request, res: Response) => {
-  try {
-    res.json(await Log.find().sort({ createdAt: -1 }));
-  } catch (err: any) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-router.post('/', async (req: Request, res: Response) => {
-  try {
-    res.status(201).json(await new Log(req.body).save());
-  } catch (err: any) {
-    res.status(400).json({ message: err.message });
-  }
-});
-
-router.delete('/', async (req: Request, res: Response) => {
-  try {
-    await Log.deleteMany({});
-    res.json({ message: 'All logs deleted successfully' });
-  } catch (err: any) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-router.delete('/:id', async (req: Request, res: Response) => {
-  try {
-    const deleted = await Log.findByIdAndDelete(req.params.id);
-    if (!deleted) return res.status(404).json({ message: 'Log not found' });
-    res.json({ message: 'Log deleted successfully' });
-  } catch (err: any) {
-    res.status(500).json({ message: err.message });
-  }
-});
+router.get('/', logController.getLogs);
+router.post('/', logController.createLog);
+router.delete('/', logController.clearLogs);
+router.delete('/:id', logController.deleteLog);
 
 export default router;

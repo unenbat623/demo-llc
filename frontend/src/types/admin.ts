@@ -135,4 +135,13 @@ export interface SiteSettings {
   secondaryColor?: string;
   accentColor?: string;
   textColor?: string;
+
+  // Design System — structural template identity
+  template?: string;
+  navbarLayout?: 'logo-left' | 'logo-right' | 'logo-center';
+  navbarStyle?: 'classic' | 'floating' | 'bordered' | 'inverted';
+  heroLayout?: 'image-right' | 'image-left' | 'centered' | 'fullscreen';
+  heroStyle?: 'split' | 'centered' | 'editorial' | 'overlay';
+  buttonStyle?: 'sharp' | 'rounded' | 'pill' | 'underline';
+  fontStyle?: 'sans' | 'display' | 'mono' | 'serif';
 }

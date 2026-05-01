@@ -35,3 +35,178 @@ html {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #333;
 }
+
+/* ═══════════════════════════════════════════════════════
+   DESIGN TEMPLATE SYSTEM — CSS-only structural overrides
+   Applied via data-template="..." on <html> by SettingsContext
+   ═══════════════════════════════════════════════════════ */
+
+/* ── 1. SPLIT HERO (default — dark, sharp, brutalist) ── */
+[data-template="split-hero"] nav {
+  /* default styles already apply */
+}
+[data-template="split-hero"] #hero {
+  background-color: var(--color-primary, #000);
+}
+[data-template="split-hero"] button,
+[data-template="split-hero"] a.cta-btn {
+  border-radius: 0 !important;
+}
+
+/* ── 2. CENTERED MINIMAL (white, clean, centered text) ── */
+[data-template="centered-minimal"] nav {
+  border-bottom: 2px solid rgba(0,0,0,0.12) !important;
+}
+[data-template="centered-minimal"] #hero .lg\:col-span-7 {
+  grid-column: span 12 !important;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+[data-template="centered-minimal"] #hero .lg\:col-span-5 {
+  display: none !important;
+}
+[data-template="centered-minimal"] #hero h1 {
+  font-size: clamp(3rem, 8vw, 7rem) !important;
+  letter-spacing: -0.04em !important;
+}
+[data-template="centered-minimal"] #hero {
+  background-color: var(--color-primary, #fff) !important;
+  background-image: none !important;
+}
+[data-template="centered-minimal"] #hero img,
+[data-template="centered-minimal"] #hero video {
+  opacity: 0.06 !important;
+}
+[data-template="centered-minimal"] button,
+[data-template="centered-minimal"] a.cta-btn {
+  border-radius: 0 !important;
+}
+[data-template="centered-minimal"] body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── 3. EDITORIAL BOLD (black, italic, asymmetric, gold) ── */
+[data-template="editorial-bold"] nav {
+  background-color: var(--color-primary, #000) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+}
+[data-template="editorial-bold"] #hero h1 {
+  font-style: italic !important;
+  font-size: clamp(3.5rem, 9vw, 8rem) !important;
+  line-height: 0.88 !important;
+  letter-spacing: -0.05em !important;
+}
+[data-template="editorial-bold"] #hero {
+  background-color: var(--color-primary, #000) !important;
+}
+[data-template="editorial-bold"] #hero img,
+[data-template="editorial-bold"] #hero video {
+  opacity: 0.15 !important;
+  filter: grayscale(100%) !important;
+}
+[data-template="editorial-bold"] .cta-btn,
+[data-template="editorial-bold"] a[href="#team"] {
+  background: transparent !important;
+  color: #fff !important;
+  border-bottom: 2px solid #fff !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  border-radius: 0 !important;
+}
+
+/* ── 4. DARK PREMIUM (deepest black, gold accents, pill btns) ── */
+[data-template="dark-premium"] nav {
+  background-color: #050505 !important;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15) !important;
+}
+[data-template="dark-premium"] #hero {
+  background-color: var(--color-primary, #050505) !important;
+  background-image: radial-gradient(ellipse at 60% 50%, rgba(212,175,55,0.08) 0%, transparent 60%) !important;
+}
+[data-template="dark-premium"] #hero img,
+[data-template="dark-premium"] #hero video {
+  opacity: 0.2 !important;
+}
+[data-template="dark-premium"] #hero h1 {
+  font-size: clamp(3rem, 7vw, 6.5rem) !important;
+  letter-spacing: -0.03em !important;
+}
+[data-template="dark-premium"] button,
+[data-template="dark-premium"] a.cta-btn,
+[data-template="dark-premium"] a[href="#team"] {
+  border-radius: 9999px !important;
+}
+[data-template="dark-premium"] #about {
+  background-color: var(--color-accent, #111) !important;
+}
+
+/* ── 5. LIGHT CORPORATE (white, bordered nav, rounded btns, blue) ── */
+[data-template="light-corporate"] nav {
+  background-color: #ffffff !important;
+  border-bottom: 1.5px solid rgba(0,0,0,0.1) !important;
+}
+[data-template="light-corporate"] #hero {
+  background-color: var(--color-primary, #fff) !important;
+}
+[data-template="light-corporate"] #hero img,
+[data-template="light-corporate"] #hero video {
+  opacity: 0.08 !important;
+}
+[data-template="light-corporate"] #hero h1 {
+  color: var(--color-text-main, #0f172a) !important;
+  font-size: clamp(2.5rem, 6vw, 5.5rem) !important;
+  letter-spacing: -0.025em !important;
+}
+[data-template="light-corporate"] #hero p {
+  color: rgba(15, 23, 42, 0.6) !important;
+}
+[data-template="light-corporate"] #hero .absolute.inset-0 {
+  opacity: 0 !important;
+}
+[data-template="light-corporate"] button,
+[data-template="light-corporate"] a.cta-btn,
+[data-template="light-corporate"] a[href="#team"] {
+  border-radius: 8px !important;
+}
+[data-template="light-corporate"] body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── 6. GRADIENT MODERN (dark-to-light gradient, glass, pill btns) ── */
+[data-template="gradient-modern"] nav {
+  background: rgba(15, 23, 42, 0.5) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.1) !important;
+}
+[data-template="gradient-modern"] #hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%) !important;
+}
+[data-template="gradient-modern"] #hero img,
+[data-template="gradient-modern"] #hero video {
+  opacity: 0.1 !important;
+  mix-blend-mode: luminosity !important;
+}
+[data-template="gradient-modern"] #hero h1 {
+  font-size: clamp(2.8rem, 7vw, 6rem) !important;
+  letter-spacing: -0.03em !important;
+  background: linear-gradient(135deg, #ffffff 0%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+[data-template="gradient-modern"] button,
+[data-template="gradient-modern"] a.cta-btn,
+[data-template="gradient-modern"] a[href="#team"] {
+  border-radius: 9999px !important;
+}
+[data-template="gradient-modern"] #about {
+  background-color: var(--color-accent, #1e293b) !important;
+}
+[data-template="gradient-modern"] #about h2,
+[data-template="gradient-modern"] #about p,
+[data-template="gradient-modern"] #about span {
+  color: #fff !important;
+}

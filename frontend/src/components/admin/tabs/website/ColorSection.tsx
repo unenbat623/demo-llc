@@ -8,7 +8,6 @@ interface ColorSectionProps {
   handleSaveSettings: (e: React.FormEvent) => void;
 }
 
-import DesignPresets from './DesignPresets';
 
 const ColorSection: React.FC<ColorSectionProps> = ({ siteSettings, updateField, handleSaveSettings }) => {
 
@@ -63,8 +62,6 @@ const ColorSection: React.FC<ColorSectionProps> = ({ siteSettings, updateField, 
 
   return (
     <div className="space-y-10">
-      <DesignPresets currentSettings={siteSettings} onApply={onApplyPreset} />
-
       <div className="bg-gray-50 p-6 border border-black/5 rounded-sm">
         <div className="flex items-center gap-3 mb-2">
           <Palette size={18} />
