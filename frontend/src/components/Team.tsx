@@ -48,19 +48,20 @@ export default function Team({ overrideMembers }: { overrideMembers?: TeamMember
   };
 
   return (
-    <section id="team" className="py-20 relative overflow-hidden" style={{ backgroundColor: 'var(--color-accent, #f8f8f8)' }}>
+    <section id="team" className="py-20 relative overflow-hidden bg-[#fafafa]">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
           <div className="max-w-xl">
-            <div className="flex items-center gap-3 mb-3">
-              <Users size={14} className="text-black" />
+            <div className="flex items-center gap-3 mb-6">
+              <Users size={16} className="text-black" />
               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-black">{settings?.teamBadge || 'Expert Minds'}</span>
+              <div className="w-12 h-px bg-black/10" />
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-black leading-tight italic">
+            <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-black leading-[1.1]">
               {i18n.language === 'en' ? (settings?.teamTitle_en || settings?.teamTitle || t('team.title')) : (settings?.teamTitle || t('team.title'))}
             </h2>
           </div>
-          <p className="text-gray-500 text-base font-medium max-w-sm leading-relaxed tracking-tight">
+          <p className="text-black/50 text-sm md:text-base font-medium max-w-sm leading-relaxed border-l-2 border-black/10 pl-5">
             {i18n.language === 'en' ? (settings?.teamDescription_en || settings?.teamDescription || t('team.description')) : (settings?.teamDescription || t('team.description'))}
           </p>
         </div>
@@ -90,7 +91,7 @@ export default function Team({ overrideMembers }: { overrideMembers?: TeamMember
                     onClick={() => setSelectedMember(member)}
                     className="group cursor-pointer"
                   >
-                    <div className="relative aspect-[3/4] bg-gray-200 overflow-hidden rounded-sm mb-4 shadow-sm">
+                    <div className="relative aspect-[3/4] bg-gray-200 overflow-hidden rounded-sm mb-4 shadow-sm border border-black/5 editorial-border group-hover:border-[#B89C50]/80 transition-colors">
                       <img
                         src={member.image}
                         alt={member.name}
@@ -121,7 +122,7 @@ export default function Team({ overrideMembers }: { overrideMembers?: TeamMember
               <div className="mt-12 flex justify-center">
                 <button
                   onClick={handleLoadMore}
-                  className="px-8 py-3 bg-white border border-black text-black hover:bg-black hover:text-white transition-colors duration-300 text-[10px] font-black uppercase tracking-[0.3em] rounded-sm"
+                  className="px-8 py-3 bg-white border border-black text-black hover:bg-black hover:text-white transition-colors duration-300 text-[10px] font-black uppercase tracking-[0.3em] rounded-sm editorial-border relative"
                 >
                   Цааш үзэх ({members.length - visibleCount})
                 </button>

@@ -87,7 +87,7 @@ export default function About() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border border-black/5 bg-gray-50/50">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border border-black/5 bg-gray-50/50 editorial-border relative">
           {stats.map((stat, index) => (
             <motion.div
               key={index}
@@ -95,7 +95,7 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="p-8 group border-b sm:border-r border-black/5 last:border-b-0 lg:last:border-r-0 hover:bg-white transition-colors duration-300"
+              className="p-8 group border-b sm:border-r border-black/5 last:border-b-0 lg:last:border-r-0 hover:bg-white transition-colors duration-300 editorial-border relative"
             >
               <div className="text-2xl font-black text-black tracking-tighter mb-2">{stat.value}</div>
               <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-black mb-1">{stat.label}</h4>
@@ -111,7 +111,7 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="p-8 border border-black/5 rounded-sm relative group"
+            className="p-8 border border-black/5 rounded-sm relative group editorial-border"
           >
             <div className="flex items-center gap-3 mb-6">
               <Target size={18} className="text-black" />
@@ -127,7 +127,7 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="p-8 border border-black/5 rounded-sm relative group"
+            className="p-8 border border-black/5 rounded-sm relative group editorial-border"
           >
             <div className="flex items-center gap-3 mb-6">
               <Compass size={18} className="text-black" />

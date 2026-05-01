@@ -19,6 +19,7 @@ export default function ProfileModal({ member, onClose }: ProfileModalProps) {
             onClick={onClose}
         >
             <motion.div
+                id="profile-modal"
                 initial={{ scale: 0.9, opacity: 0, y: 30 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 30 }}

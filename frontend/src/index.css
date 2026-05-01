@@ -51,22 +51,246 @@ html {
 [data-template="light-corporate"] nav:not(.scrolled) a,
 [data-template="centered-minimal"] nav:not(.scrolled) button,
 [data-template="light-corporate"] nav:not(.scrolled) button {
-  color: black !important;
+  color: #000 !important;
 }
 
 [data-template="centered-minimal"] nav:not(.scrolled) .border-white,
 [data-template="light-corporate"] nav:not(.scrolled) .border-white {
-  border-color: black !important;
+  border-color: #000 !important;
 }
 
 [data-template="centered-minimal"] nav:not(.scrolled) .bg-white,
 [data-template="light-corporate"] nav:not(.scrolled) .bg-white {
-  background-color: black !important;
-  color: white !important;
+  background-color: #000 !important;
 }
 
 [data-template="centered-minimal"] nav:not(.scrolled) .bg-black,
 [data-template="light-corporate"] nav:not(.scrolled) .bg-black {
-  background-color: white !important;
-  color: black !important;
+  background-color: #fff !important;
+}
+
+/* Fix CTA Button text colors specifically for light heroes */
+[data-template="centered-minimal"] nav:not(.scrolled) a.group.border-white,
+[data-template="light-corporate"] nav:not(.scrolled) a.group.border-white {
+  background-color: transparent !important;
+  color: #000 !important;
+}
+
+[data-template="centered-minimal"] nav:not(.scrolled) a.group.border-white:hover,
+[data-template="light-corporate"] nav:not(.scrolled) a.group.border-white:hover {
+  color: #fff !important;
+}
+
+[data-template="centered-minimal"] nav:not(.scrolled) a.group.border-white .bg-black,
+[data-template="light-corporate"] nav:not(.scrolled) a.group.border-white .bg-black {
+  background-color: #000 !important;
+}
+
+/* Minimal Navbar Layout Overrides for Centered Minimal */
+[data-template="centered-minimal"] nav .max-w-7xl {
+  max-width: 100%;
+}
+
+[data-template="centered-minimal"] nav .flex.justify-between {
+  justify-content: center;
+}
+
+[data-template="centered-minimal"] nav .hidden.md\:flex {
+  position: absolute;
+  right: 3rem;
+}
+
+[data-template="centered-minimal"] nav .space-x-6 a.group {
+  border-radius: 9999px !important;
+  border-color: #000 !important;
+}
+
+/* ── Centered Minimal Overrides for About & Team (Light Aesthetic) ── */
+[data-template="centered-minimal"] #about {
+  background-color: #fff !important;
+}
+
+[data-template="centered-minimal"] #team {
+  background-color: #fafafa !important;
+}
+
+[data-template="centered-minimal"] #about h2,
+[data-template="centered-minimal"] #about p,
+[data-template="centered-minimal"] #about h3,
+[data-template="centered-minimal"] #about h4,
+[data-template="centered-minimal"] #about span,
+[data-template="centered-minimal"] #about div,
+[data-template="centered-minimal"] #about svg,
+[data-template="centered-minimal"] #team h2,
+[data-template="centered-minimal"] #team p,
+[data-template="centered-minimal"] #team h3,
+[data-template="centered-minimal"] #team h4,
+[data-template="centered-minimal"] #team span,
+[data-template="centered-minimal"] #team div,
+[data-template="centered-minimal"] #team svg {
+  color: #000 !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-template="centered-minimal"] #about .bg-gray-50\/50,
+[data-template="centered-minimal"] #team .bg-gray-200 {
+  background-color: #f3f4f6 !important;
+}
+
+[data-template="centered-minimal"] #team button.bg-white {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+}
+
+[data-template="centered-minimal"] #team button.bg-white:hover {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+/* ── Editorial Bold Global Utilities ── */
+[data-template="editorial-bold"] .editorial-border {
+  border-color: rgba(184, 156, 80, 0.4) !important;
+}
+
+[data-template="editorial-bold"] .editorial-border::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  background-image:
+    linear-gradient(#B89C50, #B89C50),
+    linear-gradient(#B89C50, #B89C50),
+    linear-gradient(#B89C50, #B89C50),
+    linear-gradient(#B89C50, #B89C50);
+  background-size: 4px 4px;
+  background-repeat: no-repeat;
+  background-position: top left, top right, bottom left, bottom right;
+  opacity: 0.6;
+  z-index: 10;
+  transition: opacity 0.3s ease;
+}
+
+[data-template="editorial-bold"] .group:hover .editorial-border::before,
+[data-template="editorial-bold"] .editorial-border:hover::before {
+  opacity: 1;
+}
+
+[data-template="centered-minimal"] footer {
+  background-color: #000 !important;
+}
+
+[data-template="centered-minimal"] footer h2,
+[data-template="centered-minimal"] footer h4,
+[data-template="centered-minimal"] footer p,
+[data-template="centered-minimal"] footer a,
+[data-template="centered-minimal"] footer span,
+[data-template="centered-minimal"] footer div,
+[data-template="centered-minimal"] footer svg {
+  color: #fff !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-template="centered-minimal"] footer .hover\:bg-black:hover {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+/* ── Light Corporate Footer Overrides ── */
+[data-template="light-corporate"] footer {
+  background-color: #f8fafc !important; /* matches hero background */
+  color: #0f172a !important; /* slate-900 */
+}
+
+[data-template="light-corporate"] footer .bg-gradient-to-r {
+  --tw-gradient-via: rgba(15, 23, 42, 0.05) !important;
+}
+
+[data-template="light-corporate"] footer .border-white\/10,
+[data-template="light-corporate"] footer .border-white\/20,
+[data-template="light-corporate"] footer .border-t {
+  border-color: rgba(15, 23, 42, 0.1) !important;
+}
+
+[data-template="light-corporate"] footer h2,
+[data-template="light-corporate"] footer .text-white,
+[data-template="light-corporate"] footer .text-white\/90 {
+  color: #0f172a !important;
+}
+
+[data-template="light-corporate"] footer p.text-white\/50,
+[data-template="light-corporate"] footer .text-white\/60,
+[data-template="light-corporate"] footer a.text-white\/50 {
+  color: #475569 !important; /* slate-600 */
+}
+
+[data-template="light-corporate"] footer h4.text-white\/30,
+[data-template="light-corporate"] footer .text-white\/30,
+[data-template="light-corporate"] footer .text-white\/40 {
+  color: #94a3b8 !important; /* slate-400 */
+}
+
+[data-template="light-corporate"] footer a:hover,
+[data-template="light-corporate"] footer .group:hover .group-hover\:text-white {
+  color: #2563eb !important; /* blue-600 */
+}
+
+[data-template="light-corporate"] footer .bg-white {
+  background-color: #2563eb !important;
+}
+
+[data-template="light-corporate"] footer .hover\:bg-white:hover,
+[data-template="light-corporate"] footer .group:hover .group-hover\:bg-white {
+  background-color: rgba(37, 99, 235, 0.05) !important;
+  color: #2563eb !important;
+  border-color: rgba(37, 99, 235, 0.2) !important;
+}
+
+/* ── Full Dark Premium Global Overrides ── */
+[data-template="dark-premium"] #about,
+[data-template="dark-premium"] #team {
+  background-color: #080808 !important;
+}
+
+[data-template="dark-premium"] #about h2,
+[data-template="dark-premium"] #about p,
+[data-template="dark-premium"] #about h3,
+[data-template="dark-premium"] #about h4,
+[data-template="dark-premium"] #about span,
+[data-template="dark-premium"] #about div:not(.bg-gray-50\/50):not(.bg-white):not(.w-12),
+[data-template="dark-premium"] #about svg,
+[data-template="dark-premium"] #team h2,
+[data-template="dark-premium"] #team p,
+[data-template="dark-premium"] #team h3,
+[data-template="dark-premium"] #team h4,
+[data-template="dark-premium"] #team span,
+[data-template="dark-premium"] #team div:not(.bg-gray-200):not(.bg-white),
+[data-template="dark-premium"] #team svg {
+  color: #fff !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-template="dark-premium"] #about .bg-gray-50\/50,
+[data-template="dark-premium"] #team .bg-gray-200,
+[data-template="dark-premium"] #about .hover\:bg-white:hover {
+  background-color: #111 !important;
+}
+
+[data-template="dark-premium"] #about .w-12.bg-black {
+  background-color: #d4af37 !important;
+  color: #000 !important;
+}
+
+[data-template="dark-premium"] #team button.bg-white {
+  background-color: #080808 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+
+[data-template="dark-premium"] #team button.bg-white:hover {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+[data-template="dark-premium"] footer {
+  background-color: #000 !important;
 }
