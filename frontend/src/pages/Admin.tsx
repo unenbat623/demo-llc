@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { navigateTo } from './Login';
 import { LayoutDashboard, Users, Menu } from 'lucide-react';
@@ -50,7 +50,7 @@ export default function Admin() {
     { id: 'logs', label: t('admin.logs'), icon: Menu },
   ].filter(item => {
     if (user?.role === 'admin' || user?.permissions?.includes('all')) return true;
-    
+
 
 
     return user?.permissions?.includes(item.id);
@@ -61,6 +61,12 @@ export default function Admin() {
     navigateTo('/login');
   };
 
+  useEffect(() => {
+    if (!user) {
+      navigateTo('/login');
+    }
+  }, [user]);
+
   if (!user) return null;
 
   return (
@@ -70,9 +76,9 @@ export default function Admin() {
       <motion.aside
         className={`fixed inset-y-0 left-0 z-50 w-72 bg-black transform transition-transform duration-300 lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen lg:block ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
-        <Sidebar 
-          user={user} activeTab={activeTab} setActiveTab={setActiveTab} 
-          setIsSidebarOpen={setIsSidebarOpen} menuItems={menuItems} handleLogout={handleLogout} 
+        <Sidebar
+          user={user} activeTab={activeTab} setActiveTab={setActiveTab}
+          setIsSidebarOpen={setIsSidebarOpen} menuItems={menuItems} handleLogout={handleLogout}
         />
       </motion.aside>
 
@@ -81,37 +87,37 @@ export default function Admin() {
 
         <div className="flex-1 p-6 lg:p-12">
           <div className="max-w-5xl mx-auto">
-            <AdminContent 
-              {...adminData} 
-              activeTab={activeTab} 
+            <AdminContent
+              {...adminData}
+              activeTab={activeTab}
               setActiveTab={setActiveTab}
-              user={user} 
-              menuItems={menuItems} 
+              user={user}
+              menuItems={menuItems}
               openImportModal={() => setIsImportModalOpen(true)}
             />
 
-            <MemberModal 
-              isModalOpen={adminData.isModalOpen} setIsModalOpen={adminData.setIsModalOpen} editingMemberId={adminData.editingMemberId} 
-              handleAutoTranslate={adminData.handleAutoTranslate} isTranslating={adminData.isTranslating} submitStatus={adminData.submitStatus} 
-              handleSaveMember={adminData.handleSaveMember} formData={adminData.formData} handleInputChange={adminData.handleInputChange} 
+            <MemberModal
+              isModalOpen={adminData.isModalOpen} setIsModalOpen={adminData.setIsModalOpen} editingMemberId={adminData.editingMemberId}
+              handleAutoTranslate={adminData.handleAutoTranslate} isTranslating={adminData.isTranslating} submitStatus={adminData.submitStatus}
+              handleSaveMember={adminData.handleSaveMember} formData={adminData.formData} handleInputChange={adminData.handleInputChange}
               setFormData={adminData.setFormData}
-              imageInputMode={adminData.imageInputMode} setImageInputMode={adminData.setImageInputMode} 
-              handleFileUpload={adminData.handleFileUpload} isSubmitting={adminData.isSubmitting} 
+              imageInputMode={adminData.imageInputMode} setImageInputMode={adminData.setImageInputMode}
+              handleFileUpload={adminData.handleFileUpload} isSubmitting={adminData.isSubmitting}
             />
-            <UserModal 
-              isUserModalOpen={adminData.isUserModalOpen} setIsUserModalOpen={adminData.setIsUserModalOpen} editingUserId={adminData.editingUserId} 
-              userSubmitStatus={adminData.userSubmitStatus} handleSaveSystemUser={adminData.handleSaveSystemUser} 
-              userFormData={adminData.userFormData} setUserFormData={adminData.setUserFormData} user={user} 
+            <UserModal
+              isUserModalOpen={adminData.isUserModalOpen} setIsUserModalOpen={adminData.setIsUserModalOpen} editingUserId={adminData.editingUserId}
+              userSubmitStatus={adminData.userSubmitStatus} handleSaveSystemUser={adminData.handleSaveSystemUser}
+              userFormData={adminData.userFormData} setUserFormData={adminData.setUserFormData} user={user}
             />
-            <TeamBulkImport 
-              isOpen={isImportModalOpen} 
-              onClose={() => setIsImportModalOpen(false)} 
-              onImportDone={() => adminData.fetchTeamMembers()} 
+            <TeamBulkImport
+              isOpen={isImportModalOpen}
+              onClose={() => setIsImportModalOpen(false)}
+              onImportDone={() => adminData.fetchTeamMembers()}
               user={user}
             />
-            <ConfirmModal 
-              state={confirmModal} 
-              onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))} 
+            <ConfirmModal
+              state={confirmModal}
+              onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
             />
           </div>
         </div>
