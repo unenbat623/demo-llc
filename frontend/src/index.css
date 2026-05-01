@@ -45,3 +45,28 @@ html {
 [data-template="gradient-modern"] #about span {
   color: #fff !important;
 }
+
+/* ── Navbar Color Overrides based on Presets ── */
+[data-template="centered-minimal"] nav:not(.scrolled) a,
+[data-template="light-corporate"] nav:not(.scrolled) a,
+[data-template="centered-minimal"] nav:not(.scrolled) button,
+[data-template="light-corporate"] nav:not(.scrolled) button {
+  color: black !important;
+}
+
+[data-template="centered-minimal"] nav:not(.scrolled) .border-white,
+[data-template="light-corporate"] nav:not(.scrolled) .border-white {
+  border-color: black !important;
+}
+
+[data-template="centered-minimal"] nav:not(.scrolled) .bg-white,
+[data-template="light-corporate"] nav:not(.scrolled) .bg-white {
+  background-color: black !important;
+  color: white !important;
+}
+
+[data-template="centered-minimal"] nav:not(.scrolled) .bg-black,
+[data-template="light-corporate"] nav:not(.scrolled) .bg-black {
+  background-color: white !important;
+  color: black !important;
+}

@@ -42,18 +42,18 @@ export const HeroCentered: React.FC<HeroProps> = ({ settings, t_site }) => (
              <div className="w-1.5 h-1.5 bg-black group-hover:scale-150 transition-transform duration-700" />
           </div>
        </motion.div>
-       <motion.h1 variants={itemVariants} className="text-5xl md:text-7xl lg:text-[7rem] font-black text-black leading-[1] tracking-tighter uppercase mb-10 selection:bg-black selection:text-white">
+       <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl lg:text-7xl font-black text-black leading-[1.1] tracking-tighter uppercase mb-8 selection:bg-black selection:text-white">
           {t_site('heroTitle')}
        </motion.h1>
-       <motion.p variants={itemVariants} className="max-w-2xl mx-auto text-base md:text-xl text-black/60 mb-14 font-medium leading-relaxed italic">
+       <motion.p variants={itemVariants} className="max-w-2xl mx-auto text-sm md:text-lg text-black/60 mb-12 font-medium leading-relaxed italic">
           {t_site('heroDescription')}
        </motion.p>
-       <motion.div variants={itemVariants} className="flex flex-col items-center gap-14">
-          <a href="#team" className="group relative px-16 py-6 bg-black text-white font-black uppercase tracking-[0.2em] text-[10px] border border-black hover:bg-transparent hover:text-black transition-all duration-500 overflow-hidden">
+       <motion.div variants={itemVariants} className="flex flex-col items-center gap-10">
+          <a href="#team" className="group relative px-12 py-5 bg-black text-white font-black uppercase tracking-[0.2em] text-[10px] border border-black hover:bg-transparent hover:text-black transition-all duration-500 overflow-hidden">
             <span className="relative z-10">{t_site('ctaText')}</span>
             <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
           </a>
-          <Stats settings={settings} t_site={t_site} className="text-black" />
+          <Stats settings={settings} t_site={t_site} className="text-black scale-90" />
        </motion.div>
     </motion.div>
   </section>
@@ -70,15 +70,15 @@ export const HeroEditorial: React.FC<HeroProps> = ({ settings, t_site }) => (
              <Plus size={20} className="animate-spin-slow" />
              <span className="text-[12px] font-black uppercase tracking-[0.6em] border-b border-[#d4af37]/30 pb-1">{t_site('heroBadge') || 'Editorial Select'}</span>
           </motion.div>
-          <motion.h1 variants={itemVariants} className="text-5xl md:text-7xl lg:text-[9rem] font-black text-white leading-[0.85] tracking-[ -0.05em] uppercase italic mb-10 lg:mb-14">
+          <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-[1.1] tracking-tight uppercase italic mb-8 lg:mb-12">
              {t_site('heroTitle')}
           </motion.h1>
-          <motion.div variants={itemVariants} className="flex flex-wrap gap-10 lg:gap-16 items-center">
-             <a href="#team" className="group flex items-center gap-6 text-white font-black uppercase tracking-[0.3em] text-xs lg:text-sm">
+          <motion.div variants={itemVariants} className="flex flex-wrap gap-8 lg:gap-12 items-center">
+             <a href="#team" className="group flex items-center gap-5 text-white font-black uppercase tracking-[0.3em] text-[10px] lg:text-xs">
                 <span className="border-b-2 border-white group-hover:border-[#d4af37] group-hover:text-[#d4af37] transition-all duration-500 pb-1">{t_site('ctaText')}</span>
-                <div className="w-12 h-[1px] bg-white/30 group-hover:w-20 group-hover:bg-[#d4af37] transition-all duration-500" />
+                <div className="w-8 h-[1px] bg-white/30 group-hover:w-12 group-hover:bg-[#d4af37] transition-all duration-500" />
              </a>
-             <Stats settings={settings} t_site={t_site} className="text-white" />
+             <Stats settings={settings} t_site={t_site} className="text-white scale-90 origin-left" />
           </motion.div>
        </motion.div>
        <motion.div initial={{ opacity: 0, x: 100 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }} className="hidden lg:block relative">
@@ -106,10 +106,10 @@ export const HeroDark: React.FC<HeroProps> = ({ settings, t_site }) => (
              <div className="h-[1px] w-12 bg-gradient-to-r from-[#d4af37] to-transparent" />
              <span className="text-[11px] font-black uppercase tracking-[0.6em] text-[#d4af37]">{t_site('heroBadge') || 'Luxury Tier'}</span>
           </motion.div>
-          <motion.h1 variants={itemVariants} className="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[1.05] tracking-tight uppercase mb-10">
+          <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-[1.1] tracking-tight uppercase mb-8">
              {t_site('heroTitle')}
           </motion.h1>
-          <motion.p variants={itemVariants} className="max-w-xl text-base md:text-lg text-white/50 mb-12 font-medium leading-relaxed border-l-2 border-[#d4af37]/20 pl-8">{t_site('heroDescription')}</motion.p>
+          <motion.p variants={itemVariants} className="max-w-xl text-sm md:text-base text-white/50 mb-10 font-medium leading-relaxed border-l-2 border-[#d4af37]/20 pl-6">{t_site('heroDescription')}</motion.p>
           <motion.div variants={itemVariants} className="flex flex-wrap gap-10 items-center">
              <a href="#team" className="group relative px-12 py-6 bg-[#d4af37] text-black font-black uppercase tracking-[0.2em] text-[10px] rounded-none hover:bg-white transition-all duration-500 shadow-[0_20px_50px_rgba(212,175,55,0.2)]">
                 <span className="relative z-10">{t_site('ctaText')}</span>
@@ -150,10 +150,10 @@ export const HeroCorporate: React.FC<HeroProps> = ({ settings, t_site }) => (
              <div className="w-2 h-2 bg-blue-600 rounded-full" />
              <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] text-slate-600">{t_site('heroBadge') || 'Global Enterprise'}</span>
           </motion.div>
-          <motion.h1 variants={itemVariants} className="text-5xl md:text-6xl lg:text-[5.5rem] font-black text-slate-900 leading-[1] tracking-tight mb-10">
+          <motion.h1 variants={itemVariants} className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 leading-[1.1] tracking-tight mb-8">
              {t_site('heroTitle')}
           </motion.h1>
-          <motion.p variants={itemVariants} className="max-w-xl text-base md:text-xl text-slate-500 mb-12 leading-relaxed font-medium">
+          <motion.p variants={itemVariants} className="max-w-xl text-sm md:text-lg text-slate-500 mb-10 leading-relaxed font-medium">
              {t_site('heroDescription')}
           </motion.p>
           <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-8 items-center border-t border-slate-200 pt-12">
@@ -193,10 +193,10 @@ export const HeroGradient: React.FC<HeroProps> = ({ settings, t_site }) => (
              <span className="text-[11px] font-black uppercase tracking-[0.5em] text-white/90">{t_site('heroBadge') || 'Next Gen Tech'}</span>
           </div>
        </motion.div>
-       <motion.h1 variants={itemVariants} className="text-6xl md:text-8xl lg:text-[8rem] font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-indigo-300 leading-[0.95] tracking-tight uppercase mb-12">
+       <motion.h1 variants={itemVariants} className="text-5xl md:text-7xl lg:text-[6.5rem] font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-blue-100 to-indigo-300 leading-[1.1] tracking-tight uppercase mb-10">
           {t_site('heroTitle')}
        </motion.h1>
-       <motion.p variants={itemVariants} className="max-w-2xl mx-auto text-lg md:text-xl text-white/40 mb-16 leading-relaxed font-medium italic">
+       <motion.p variants={itemVariants} className="max-w-2xl mx-auto text-base md:text-lg text-white/40 mb-12 leading-relaxed font-medium italic">
           {t_site('heroDescription')}
        </motion.p>
        <motion.div variants={itemVariants} className="flex flex-col items-center gap-16">
