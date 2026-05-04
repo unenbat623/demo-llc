@@ -5,14 +5,32 @@ import { Tag, Hash, FileText } from 'lucide-react';
 interface AboutExtraSectionProps {
   siteSettings: SiteSettings;
   updateField: (field: keyof SiteSettings, value: string) => void;
+  activeLang: 'mn' | 'en';
 }
 
-const AboutExtraSection: React.FC<AboutExtraSectionProps> = ({ siteSettings, updateField }) => {
+const AboutExtraSection: React.FC<AboutExtraSectionProps> = ({ siteSettings, updateField, activeLang }) => {
+  const getField = (field: keyof SiteSettings) => {
+    if (activeLang === 'en') {
+      const enKey = `${String(field)}_en` as keyof SiteSettings;
+      return siteSettings[enKey] || '';
+    }
+    return siteSettings[field] || '';
+  };
+
+  const setField = (field: keyof SiteSettings, value: string) => {
+    if (activeLang === 'en') {
+      const enKey = `${String(field)}_en` as keyof SiteSettings;
+      updateField(enKey, value);
+    } else {
+      updateField(field, value);
+    }
+  };
+
   return (
     <div className="space-y-6 mt-6 pt-10 border-t border-black/5">
        <div className="flex items-center gap-2">
         <FileText size={14} className="text-black" />
-        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-black">About Нэмэлт элементүүд</h4>
+        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-black">About Нэмэлт элементүүд ({activeLang.toUpperCase()})</h4>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -22,8 +40,8 @@ const AboutExtraSection: React.FC<AboutExtraSectionProps> = ({ siteSettings, upd
           </label>
           <input 
             type="text" 
-            value={siteSettings.aboutBadge || ''} 
-            onChange={e => updateField('aboutBadge', e.target.value)} 
+            value={getField('aboutBadge')} 
+            onChange={e => setField('aboutBadge', e.target.value)} 
             className="w-full bg-white border border-black/10 px-3 py-2.5 text-sm font-bold focus:outline-none focus:border-black rounded-sm shadow-sm" 
             placeholder="Компанийн тухай" 
           />
@@ -35,8 +53,8 @@ const AboutExtraSection: React.FC<AboutExtraSectionProps> = ({ siteSettings, upd
           </label>
           <input 
             type="text" 
-            value={siteSettings.aboutTagline || ''} 
-            onChange={e => updateField('aboutTagline', e.target.value)} 
+            value={getField('aboutTagline')} 
+            onChange={e => setField('aboutTagline', e.target.value)} 
             className="w-full bg-white border border-black/10 px-3 py-2.5 text-sm font-bold focus:outline-none focus:border-black rounded-sm shadow-sm" 
             placeholder="Innovation First" 
           />

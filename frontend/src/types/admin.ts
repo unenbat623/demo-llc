@@ -53,21 +53,29 @@ export interface SiteSettings {
   heroBgUrl: string;
   heroImageUrl: string;
   heroBadge?: string;
+  heroBadge_en?: string;
   heroStat1Value?: string;
   heroStat1Label?: string;
+  heroStat1Label_en?: string;
   heroStat2Value?: string;
   heroStat2Label?: string;
+  heroStat2Label_en?: string;
   heroEstablished?: string;
+  heroEstablished_en?: string;
   heroTagline?: string;
+  heroTagline_en?: string;
   aboutTitle: string;
   aboutTitle_en: string;
   aboutDescription: string;
   aboutDescription_en: string;
   aboutBadge?: string;
+  aboutBadge_en?: string;
   aboutTagline?: string;
+  aboutTagline_en?: string;
 
 
   teamBadge?: string;
+  teamBadge_en?: string;
   teamTitle?: string;
   teamTitle_en?: string;
   teamDescription?: string;

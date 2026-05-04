@@ -34,7 +34,7 @@ export const HeroSplit: React.FC<HeroProps> = ({ settings, t_site }) => (
         <motion.div variants={itemVariants} className="flex items-center gap-4 mb-8">
           <span className="px-3 py-1 text-[10px] font-black uppercase tracking-[0.4em] rounded-sm" style={{ backgroundColor: 'var(--color-secondary, #fff)', color: 'var(--color-primary, #000)' }}>{t_site('siteTitle')}</span>
           <div className="h-px w-12 bg-current opacity-30" />
-          <span className="text-[10px] font-black uppercase tracking-[0.3em] opacity-50">{settings?.heroBadge || 'Tech Solutions'}</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.3em] opacity-50">{t_site('heroBadge' as any) || 'Tech Solutions'}</span>
         </motion.div>
         <motion.h1 variants={itemVariants} className="text-4xl md:text-5xl lg:text-7xl font-black leading-[0.9] tracking-tighter uppercase mb-8 italic">{t_site('heroTitle')}</motion.h1>
         <motion.p variants={itemVariants} className="max-w-xl text-lg opacity-60 mb-10 leading-relaxed font-medium">{t_site('heroDescription')}</motion.p>
@@ -52,7 +52,7 @@ export const HeroSplit: React.FC<HeroProps> = ({ settings, t_site }) => (
             <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">
                <div>
                   <p className="text-[8px] font-black uppercase tracking-widest opacity-40">ESTABLISHED</p>
-                  <p className="text-xl font-black italic">{settings?.heroEstablished || 'MMXXIV'}</p>
+                  <p className="text-xl font-black italic">{t_site('heroEstablished' as any) || 'MMXXIV'}</p>
                </div>
                <Zap size={20} className="opacity-20" />
             </div>

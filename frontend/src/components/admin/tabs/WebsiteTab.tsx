@@ -81,13 +81,13 @@ const WebsiteTab: React.FC<WebsiteTabProps> = ({
             imgInputMode={imgInputMode} setImgInputMode={setImgInputMode}
             handleFileUpload={handleFileUpload}
           />
-          <HeroExtraSection siteSettings={siteSettings} updateField={updateField} />
+          <HeroExtraSection siteSettings={siteSettings} updateField={updateField} activeLang={activeLang} />
         </div>
       );
       case 'about': return (
         <div className="space-y-6">
           <AboutSection {...sharedProps} />
-          <AboutExtraSection siteSettings={siteSettings} updateField={updateField} />
+          <AboutExtraSection siteSettings={siteSettings} updateField={updateField} activeLang={activeLang} />
         </div>
       );
       case 'stats': return <StatsEditor {...sharedProps} />;

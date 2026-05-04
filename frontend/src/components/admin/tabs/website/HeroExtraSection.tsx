@@ -5,14 +5,32 @@ import { Sparkles, Hash, Calendar, Tag } from 'lucide-react';
 interface HeroExtraSectionProps {
   siteSettings: SiteSettings;
   updateField: (field: keyof SiteSettings, value: string) => void;
+  activeLang: 'mn' | 'en';
 }
 
-const HeroExtraSection: React.FC<HeroExtraSectionProps> = ({ siteSettings, updateField }) => {
+const HeroExtraSection: React.FC<HeroExtraSectionProps> = ({ siteSettings, updateField, activeLang }) => {
+  const getField = (field: keyof SiteSettings) => {
+    if (activeLang === 'en') {
+      const enKey = `${String(field)}_en` as keyof SiteSettings;
+      return siteSettings[enKey] || '';
+    }
+    return siteSettings[field] || '';
+  };
+
+  const setField = (field: keyof SiteSettings, value: string) => {
+    if (activeLang === 'en') {
+      const enKey = `${String(field)}_en` as keyof SiteSettings;
+      updateField(enKey, value);
+    } else {
+      updateField(field, value);
+    }
+  };
+
   return (
     <div className="space-y-8 mt-6 pt-10 border-t border-black/5">
       <div className="flex items-center gap-2">
         <Sparkles size={14} className="text-black" />
-        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-black">Hero Нэмэлт элементүүд</h4>
+        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-black">Hero Нэмэлт элементүүд ({activeLang.toUpperCase()})</h4>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -23,8 +41,8 @@ const HeroExtraSection: React.FC<HeroExtraSectionProps> = ({ siteSettings, updat
           </label>
           <input 
             type="text" 
-            value={siteSettings.heroBadge || ''} 
-            onChange={e => updateField('heroBadge', e.target.value)} 
+            value={getField('heroBadge')} 
+            onChange={e => setField('heroBadge', e.target.value)} 
             className="w-full bg-white border border-black/10 px-3 py-2.5 text-sm font-bold focus:outline-none focus:border-black rounded-sm shadow-sm" 
             placeholder="Tech Solutions" 
           />
@@ -37,8 +55,8 @@ const HeroExtraSection: React.FC<HeroExtraSectionProps> = ({ siteSettings, updat
           </label>
           <input 
             type="text" 
-            value={siteSettings.heroEstablished || ''} 
-            onChange={e => updateField('heroEstablished', e.target.value)} 
+            value={getField('heroEstablished')} 
+            onChange={e => setField('heroEstablished', e.target.value)} 
             className="w-full bg-white border border-black/10 px-3 py-2.5 text-sm font-bold focus:outline-none focus:border-black rounded-sm shadow-sm" 
             placeholder="MMXXIV" 
           />
@@ -51,8 +69,8 @@ const HeroExtraSection: React.FC<HeroExtraSectionProps> = ({ siteSettings, updat
           </label>
           <input 
             type="text" 
-            value={siteSettings.heroTagline || ''} 
-            onChange={e => updateField('heroTagline', e.target.value)} 
+            value={getField('heroTagline')} 
+            onChange={e => setField('heroTagline', e.target.value)} 
             className="w-full bg-white border border-black/10 px-3 py-2.5 text-sm font-bold focus:outline-none focus:border-black rounded-sm shadow-sm" 
             placeholder="Digital_Engine_01" 
           />
@@ -72,8 +90,8 @@ const HeroExtraSection: React.FC<HeroExtraSectionProps> = ({ siteSettings, updat
               />
               <input 
                 type="text" 
-                value={siteSettings.heroStat1Label || ''} 
-                onChange={e => updateField('heroStat1Label', e.target.value)} 
+                value={getField('heroStat1Label')} 
+                onChange={e => setField('heroStat1Label', e.target.value)} 
                 className="flex-1 bg-white border border-black/10 px-3 py-2.5 text-sm font-bold focus:outline-none focus:border-black rounded-sm shadow-sm" 
                 placeholder="Projects" 
               />
@@ -92,8 +110,8 @@ const HeroExtraSection: React.FC<HeroExtraSectionProps> = ({ siteSettings, updat
               />
               <input 
                 type="text" 
-                value={siteSettings.heroStat2Label || ''} 
-                onChange={e => updateField('heroStat2Label', e.target.value)} 
+                value={getField('heroStat2Label')} 
+                onChange={e => setField('heroStat2Label', e.target.value)} 
                 className="flex-1 bg-white border border-black/10 px-3 py-2.5 text-sm font-bold focus:outline-none focus:border-black rounded-sm shadow-sm" 
                 placeholder="Awards" 
               />
